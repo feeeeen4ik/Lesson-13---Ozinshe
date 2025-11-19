@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DCC768692EC23A0D0055A92D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = DCC768682EC23A0D0055A92D /* SnapKit */; };
+		DCC768922EC23D970055A92D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = DCC768912EC23D970055A92D /* Alamofire */; };
+		DCC768952EC23DB50055A92D /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DCC768942EC23DB50055A92D /* SwiftyJSON */; };
+		DCC768982EC23DC60055A92D /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = DCC768972EC23DC60055A92D /* SVProgressHUD */; };
+		DCC7689B2EC23DDE0055A92D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = DCC7689A2EC23DDE0055A92D /* SDWebImage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		DCC7684F2EC239DC0055A92D /* Lesson 13 - Ozinshe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lesson 13 - Ozinshe.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -14,7 +22,7 @@
 		DCC768612EC239DD0055A92D /* Exceptions for "Lesson 13 - Ozinshe" folder in "Lesson 13 - Ozinshe" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				Apps/Info.plist,
 			);
 			target = DCC7684E2EC239DC0055A92D /* Lesson 13 - Ozinshe */;
 		};
@@ -36,6 +44,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DCC768982EC23DC60055A92D /* SVProgressHUD in Frameworks */,
+				DCC768952EC23DB50055A92D /* SwiftyJSON in Frameworks */,
+				DCC768692EC23A0D0055A92D /* SnapKit in Frameworks */,
+				DCC768922EC23D970055A92D /* Alamofire in Frameworks */,
+				DCC7689B2EC23DDE0055A92D /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +91,11 @@
 			);
 			name = "Lesson 13 - Ozinshe";
 			packageProductDependencies = (
+				DCC768682EC23A0D0055A92D /* SnapKit */,
+				DCC768912EC23D970055A92D /* Alamofire */,
+				DCC768942EC23DB50055A92D /* SwiftyJSON */,
+				DCC768972EC23DC60055A92D /* SVProgressHUD */,
+				DCC7689A2EC23DDE0055A92D /* SDWebImage */,
 			);
 			productName = "Lesson 13 - Ozinshe";
 			productReference = DCC7684F2EC239DC0055A92D /* Lesson 13 - Ozinshe.app */;
@@ -107,6 +125,13 @@
 			);
 			mainGroup = DCC768462EC239DC0055A92D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				DCC768672EC23A0D0055A92D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				DCC768902EC23D970055A92D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				DCC768932EC23DB50055A92D /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				DCC768962EC23DC60055A92D /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
+				DCC768992EC23DDE0055A92D /* XCRemoteSwiftPackageReference "SDWebImage" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DCC768502EC239DC0055A92D /* Products */;
 			projectDirPath = "";
@@ -147,12 +172,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2YV4FKPX66;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Lesson 13 - Ozinshe/Info.plist";
+				INFOPLIST_FILE = "Lesson 13 - Ozinshe/Apps/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -161,12 +186,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "felixCompany.Lesson-13---Ozinshe";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -179,12 +208,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2YV4FKPX66;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Lesson 13 - Ozinshe/Info.plist";
+				INFOPLIST_FILE = "Lesson 13 - Ozinshe/Apps/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -193,12 +222,16 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "felixCompany.Lesson-13---Ozinshe";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -345,6 +378,77 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DCC768672EC23A0D0055A92D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		DCC768902EC23D970055A92D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		DCC768932EC23DB50055A92D /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+		DCC768962EC23DC60055A92D /* XCRemoteSwiftPackageReference "SVProgressHUD" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SVProgressHUD/SVProgressHUD.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
+		DCC768992EC23DDE0055A92D /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.21.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DCC768682EC23A0D0055A92D /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCC768672EC23A0D0055A92D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		DCC768912EC23D970055A92D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCC768902EC23D970055A92D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		DCC768942EC23DB50055A92D /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCC768932EC23DB50055A92D /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+		DCC768972EC23DC60055A92D /* SVProgressHUD */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCC768962EC23DC60055A92D /* XCRemoteSwiftPackageReference "SVProgressHUD" */;
+			productName = SVProgressHUD;
+		};
+		DCC7689A2EC23DDE0055A92D /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCC768992EC23DDE0055A92D /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DCC768472EC239DC0055A92D /* Project object */;
 }
