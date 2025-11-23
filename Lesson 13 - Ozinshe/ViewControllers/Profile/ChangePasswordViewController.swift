@@ -9,11 +9,12 @@ import UIKit
 import SnapKit
 
 class ChangePasswordViewController: UIViewController {
-
+    var buttonBottomConstraint: Constraint?
+    
     lazy var upperView = {
         let view = UIView()
         
-        view.backgroundColor = UIColor(named: "D1D5DB")
+        view.backgroundColor = UIColor(named: "FFFFFF")
         
         return view
     }()
@@ -38,115 +39,83 @@ class ChangePasswordViewController: UIViewController {
         return label
     }()
     
-    let passwordTextField = UITextField()
-    lazy var passwordView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 12
+    lazy var passwordTextField = {
+        let textField = CustomTextField()
         
-        passwordTextField.placeholder = "Сіздің құпия сөзіңіз"
-        passwordTextField.keyboardType = .default
-        passwordTextField.isSecureTextEntry = true
-        passwordTextField.autocorrectionType = .no
-        passwordTextField.autocapitalizationType = .none
-        passwordTextField.borderStyle = .none
-        passwordTextField.textAlignment = .left
-        passwordTextField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
+        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.keyboardType = .default
+        textField.isSecureTextEntry = true
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.textAlignment = .left
+        textField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
+        textField.backgroundColor = UIColor(named: "TextFields")
+        textField.layer.cornerRadius = 12
         
-        
-        let imagePassword = UIImageView()
-        imagePassword.image = UIImage(named: "PasswordKey")
-        imagePassword.contentMode = .scaleAspectFill
-        imagePassword.clipsToBounds = true
-        
-        let showPasswordButton = UIButton()
-        showPasswordButton
-            .setImage(UIImage(named: "ShowPassword"), for: .normal)
-        showPasswordButton.addTarget(self, action: #selector(showPassword(_:)), for: .touchUpInside)
-        showPasswordButton.tag = 1
-        
-        view.addSubview(imagePassword)
-        view.addSubview(passwordTextField)
-        view.addSubview(showPasswordButton)
-        
-        imagePassword.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
-            make.top.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview().inset(16)
-            make.height.width.equalTo(20)
-        }
-        
-        passwordTextField.snp.makeConstraints { make in
-            make.leading.equalTo(imagePassword.snp.trailing).offset(8)
-            make.trailing.equalTo(showPasswordButton.snp.leading).offset(8)
-            make.top.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview().inset(16)
-        }
-        
-        showPasswordButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(16)
-            make.top.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview().inset(16)
-            make.size.equalTo(CGSize(width: 20, height: 20))
-        }
-    
-        return view
+        return textField
     }()
     
-    let copyPasswordTextField = UITextField()
-    lazy var copyPasswordView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 12
+    lazy var imagePassword = {
+        let image = UIImageView()
         
-        copyPasswordTextField.placeholder = "Сіздің құпия сөзіңіз"
-        copyPasswordTextField.keyboardType = .default
-        copyPasswordTextField.isSecureTextEntry = true
-        copyPasswordTextField.autocorrectionType = .no
-        copyPasswordTextField.autocapitalizationType = .none
-        copyPasswordTextField.borderStyle = .none
-        copyPasswordTextField.textAlignment = .left
-        copyPasswordTextField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
+        image.image = UIImage(named: "PasswordKey")
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
         
-        
-        let imagePassword = UIImageView()
-        imagePassword.image = UIImage(named: "PasswordKey")
-        imagePassword.contentMode = .scaleAspectFill
-        imagePassword.clipsToBounds = true
-        
-        let showPasswordButton = UIButton()
-        showPasswordButton
-            .setImage(UIImage(named: "ShowPassword"), for: .normal)
-        showPasswordButton.addTarget(self, action: #selector(showPassword(_:)), for: .touchUpInside)
-        showPasswordButton.tag = 2
-        
-        view.addSubview(imagePassword)
-        view.addSubview(copyPasswordTextField)
-        view.addSubview(showPasswordButton)
-        
-        imagePassword.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(16)
-            make.top.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview().inset(16)
-            make.height.width.equalTo(20)
-        }
-        
-        copyPasswordTextField.snp.makeConstraints { make in
-            make.leading.equalTo(imagePassword.snp.trailing).offset(8)
-            make.trailing.equalTo(showPasswordButton.snp.leading).offset(8)
-            make.top.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview().inset(16)
-        }
-        
-        showPasswordButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(16)
-            make.top.equalToSuperview().offset(16)
-            make.bottom.equalToSuperview().inset(16)
-            make.size.equalTo(CGSize(width: 20, height: 20))
-        }
-    
-        return view
+        return image
     }()
+    
+    lazy var showPasswordButton = {
+        let button = UIButton()
+        
+        button
+            .setImage(UIImage(named: "ShowPassword"), for: .normal)
+        button
+            .addTarget(self, action: #selector(showPassword(_:)), for: .touchUpInside)
+        button.tag = 1
+        
+        return button
+    }()
+    
+    lazy var copyPasswordTextField = {
+        let textField = CustomTextField()
+        
+        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.keyboardType = .default
+        textField.isSecureTextEntry = true
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.textAlignment = .left
+        textField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
+        textField.backgroundColor = UIColor(named: "TextFields")
+        textField.layer.cornerRadius = 12
+        
+        
+        return textField
+    }()
+    
+    lazy var copyImagePassword = {
+        let image = UIImageView()
+        
+        image.image = UIImage(named: "PasswordKey")
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        
+        return image
+    }()
+    
+    lazy var copyShowPasswordButton = {
+        let button = UIButton()
+        
+        button
+            .setImage(UIImage(named: "ShowPassword"), for: .normal)
+        button
+            .addTarget(self, action: #selector(showPassword(_:)), for: .touchUpInside)
+        button.tag = 2
+        
+        return button
+    }()
+    
     
     lazy var applyPasswordButton = {
         let button = UIButton()
@@ -164,7 +133,8 @@ class ChangePasswordViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = UIColor(named: "FFFFFF")
+        setupKeyboardObservers()
         setupUI()
 
     }
@@ -172,10 +142,14 @@ class ChangePasswordViewController: UIViewController {
     private func setupUI() {
         view.addSubview(upperView)
         view.addSubview(passwordLabel)
-        view.addSubview(passwordView)
         view.addSubview(copyPasswordLabel)
-        view.addSubview(copyPasswordView)
         view.addSubview(applyPasswordButton)
+        view.addSubview(passwordTextField)
+        view.addSubview(imagePassword)
+        view.addSubview(showPasswordButton)
+        view.addSubview(copyPasswordTextField)
+        view.addSubview(copyImagePassword)
+        view.addSubview(copyShowPasswordButton)
         
         upperView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(0)
@@ -190,24 +164,50 @@ class ChangePasswordViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        passwordView.snp.makeConstraints { make in
+        passwordTextField.snp.makeConstraints { make in
             make.top.equalTo(passwordLabel.snp.bottom).offset(4)
             make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().inset(24)
+            make.trailing.width.equalToSuperview().inset(24)
             make.height.equalTo(56)
         }
         
+        imagePassword.snp.makeConstraints { make in
+            make.top.equalTo(passwordLabel.snp.bottom).offset(22)
+            make.leading.equalToSuperview().inset(40)
+            make.height.width.equalTo(20)
+            
+        }
+        
+        showPasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(passwordLabel.snp.bottom).offset(22)
+            make.trailing.equalToSuperview().inset(40)
+            make.height.width.equalTo(20)
+        }
+        
         copyPasswordLabel.snp.makeConstraints { make in
-            make.top.equalTo(passwordView.snp.bottom).offset(20)
+            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(24)
             make.centerX.equalToSuperview()
         }
         
-        copyPasswordView.snp.makeConstraints { make in
+        copyPasswordTextField.snp.makeConstraints { make in
             make.top.equalTo(copyPasswordLabel.snp.bottom).offset(4)
             make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().inset(24)
+            make.trailing.width.equalToSuperview().inset(24)
             make.height.equalTo(56)
+        }
+        
+        copyImagePassword.snp.makeConstraints { make in
+            make.top.equalTo(copyPasswordLabel.snp.bottom).offset(22)
+            make.leading.equalToSuperview().inset(40)
+            make.height.width.equalTo(20)
+            
+        }
+        
+        copyShowPasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(copyPasswordLabel.snp.bottom).offset(22)
+            make.trailing.equalToSuperview().inset(40)
+            make.height.width.equalTo(20)
         }
         
         applyPasswordButton.snp.makeConstraints { make in
@@ -215,8 +215,49 @@ class ChangePasswordViewController: UIViewController {
             make.trailing.equalToSuperview().inset(24)
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(42)
             make.height.equalTo(56)
+            buttonBottomConstraint = make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16).constraint
         }
         
+    }
+    
+    func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillShow(notification:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(keyboardWillHide(notification:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
+    }
+    
+    
+    @objc private func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+        
+        buttonBottomConstraint?.update(offset: -keyboardFrame.height - 16)
+        
+        UIView.animate(withDuration: duration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func keyboardWillHide(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+        
+        buttonBottomConstraint?.update(offset: -16)
+        
+        UIView.animate(withDuration: duration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     @objc private func showPassword(_ sender: UIButton) {

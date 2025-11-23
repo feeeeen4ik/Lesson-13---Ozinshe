@@ -11,6 +11,7 @@ final class FavoritesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "FFFFFF")
         tableView.separatorStyle = .none
     }
     

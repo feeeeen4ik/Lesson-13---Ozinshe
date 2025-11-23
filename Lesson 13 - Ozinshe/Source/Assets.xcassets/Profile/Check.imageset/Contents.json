@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Favorite.svg",
+      "filename" : "Check.svg",
       "idiom" : "universal"
     },
     {
@@ -11,6 +11,7 @@
           "value" : "dark"
         }
       ],
+      "filename" : "CheckDark.svg",
       "idiom" : "universal"
     }
   ],

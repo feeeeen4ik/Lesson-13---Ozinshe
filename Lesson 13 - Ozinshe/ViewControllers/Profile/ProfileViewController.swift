@@ -10,24 +10,6 @@ import SnapKit
 
 final class ProfileViewController: UIViewController {
     
-    lazy var logoutButton = {
-        let button = UIButton()
-        
-        button.setImage(UIImage(named: "LogOut"), for: .normal)
-        
-        return button
-    }()
-    
-    lazy var titleLabel = {
-        let label = UILabel()
-        
-        label.text = "Профиль"
-        label.font = UIFont(name: "SFProDisplay-Bold", size: 16)
-        label.textColor = UIColor(named: "111827")
-            
-        return label
-    }()
-    
     lazy var topView = {
         let view = UIView()
         
@@ -73,6 +55,7 @@ final class ProfileViewController: UIViewController {
     let profileInfoView = UIView()
     let changePasswordView = UIView()
     let changeLanguageView = UIView()
+    let changeLanguageLabel = UILabel()
     
     lazy var settingsView = {
         let view = UIView()
@@ -101,7 +84,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(profileInfoView)
         
         profileInfoButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(0)
+            make.leading.equalToSuperview().offset(24)
             make.top.equalToSuperview().offset(20)
             make.trailing.equalTo(profileTextLabel.snp.leading)
         }
@@ -113,9 +96,9 @@ final class ProfileViewController: UIViewController {
         }
         
         profileButtonSymbolImage.snp.makeConstraints { make in
-            make.leading.equalTo(profileTextLabel.snp.trailing).offset(14)
+            make.leading.equalTo(profileTextLabel.snp.trailing).offset(8)
             make.height.width.equalTo(16)
-            make.trailing.equalToSuperview().offset(0)
+            make.trailing.equalToSuperview().inset(24)
             make.centerY.equalTo(profileTextLabel)
         }
         
@@ -143,14 +126,14 @@ final class ProfileViewController: UIViewController {
         view.addSubview(changePasswordView)
         
         changePasswordButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(0)
+            make.leading.equalToSuperview().offset(24)
             make.top.equalTo(profileInfoView).offset(20)
             make.trailing.equalTo(changePasswordSymbolImage.snp.leading)
         }
         
         changePasswordSymbolImage.snp.makeConstraints { make in
             make.height.width.equalTo(16)
-            make.trailing.equalToSuperview().offset(0)
+            make.trailing.equalToSuperview().inset(24)
             make.centerY.equalTo(changePasswordButton)
         }
         
@@ -166,9 +149,14 @@ final class ProfileViewController: UIViewController {
         changeLanguageButton.setTitleColor(UIColor(named: "1C2431"), for: .normal)
         changeLanguageButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         changeLanguageButton.contentHorizontalAlignment = .left
+        changeLanguageButton
+            .addTarget(
+                self,
+                action: #selector(changeLanguageButtonTapped),
+                for: .touchUpInside
+            )
         
-        let changeLanguageLabel = UILabel()
-        changeLanguageLabel.text = "Қазақша"
+        changeLanguageLabel.text = LanguageModel.getChoosenSystemLanguage().title
         changeLanguageLabel.font = UIFont(name: "SFProDisplay-Medium", size: 12)
         changeLanguageLabel.textColor = UIColor(named: "9CA3AF")
         
@@ -183,7 +171,7 @@ final class ProfileViewController: UIViewController {
         view.addSubview(changeLanguageView)
         
         changeLanguageButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(0)
+            make.leading.equalToSuperview().offset(24)
             make.top.equalTo(changePasswordView.snp.bottom).offset(20)
             make.trailing.equalTo(changeLanguageLabel.snp.leading)
         }
@@ -195,9 +183,9 @@ final class ProfileViewController: UIViewController {
         }
         
         changeLanguageSymbolImage.snp.makeConstraints { make in
-            make.leading.equalTo(changeLanguageLabel.snp.trailing).offset(14)
+            make.leading.equalTo(changeLanguageLabel.snp.trailing).offset(8)
             make.height.width.equalTo(16)
-            make.trailing.equalToSuperview().offset(0)
+            make.trailing.equalToSuperview().inset(24)
             make.centerY.equalTo(changeLanguageLabel)
         }
         
@@ -216,20 +204,21 @@ final class ProfileViewController: UIViewController {
         
         themeStyleSwitch.onTintColor = UIColor(named: "B376F7")
         themeStyleSwitch.addTarget(self, action: #selector(changeTheme(_:)), for: .valueChanged)
+        themeStyleSwitch.isOn = ThemeManager.shared.currentTheme == .dark
         
         view.addSubview(themeStyleLabel)
         view.addSubview(themeStyleSwitch)
         
         themeStyleLabel.snp.makeConstraints { make in
             make.top.equalTo(changeLanguageView).offset(20)
-            make.leading.equalToSuperview().offset(0)
+            make.leading.equalToSuperview().offset(24)
             make.trailing.equalTo(themeStyleSwitch)
         }
         
         themeStyleSwitch.snp.makeConstraints { make in
             make.height.equalTo(32)
             make.width.equalTo(52)
-            make.trailing.equalToSuperview().offset(-15)
+            make.trailing.equalToSuperview().inset(40)
             make.centerY.equalTo(themeStyleLabel)
         }
         
@@ -241,36 +230,38 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         setupUI()
-        checkThemeSwitcher()
-        updateTheme()
     }
     
-    
-    
     private func setupUI() {
-        view.addSubview(logoutButton)
-        view.addSubview(titleLabel)
+        
+        view.backgroundColor = UIColor(named: "ProfileVC")
+        navigationItem.title = "Профиль"
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "FFFFFF")
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "LogOut")?.withRenderingMode(
+                .alwaysOriginal
+            ),
+            style: .plain,
+            target: self,
+            action: #selector(logOut)
+        )
+        
         view.addSubview(topView)
         view.addSubview(profileImageView)
         view.addSubview(myProfileTitleLabel)
         view.addSubview(emailLabel)
         view.addSubview(settingsView)
         
-        logoutButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(60)
-            make.leading.equalToSuperview().offset(311)
-            make.trailing.equalToSuperview().offset(-24)
-            make.height.width.equalTo(40)
-        }
-        
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(65)
-            make.centerX.equalToSuperview()
-        }
-        
         topView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview().offset(0)
-            make.top.equalTo(titleLabel.snp.bottom).offset(19)
             make.height.equalTo(1)
         }
         
@@ -290,7 +281,7 @@ final class ProfileViewController: UIViewController {
         }
         
         settingsView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(24)
+            make.leading.trailing.equalToSuperview().inset(0)
             make.top.equalTo(emailLabel.snp.bottom).offset(24)
             make.bottom.equalToSuperview().offset(0)
         }
@@ -303,13 +294,9 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func changeTheme(_ sender: UISwitch) {
-        if sender.isOn {
-            UserDefaults.standard.set(true, forKey: "isDarkThemeEnabled")
-            updateTheme()
-        } else {
-            UserDefaults.standard.set(false, forKey: "isDarkThemeEnabled")
-            updateTheme()
-        }
+        let newTheme: AppTheme = sender.isOn ? .dark : .light
+        
+        ThemeManager.shared.applyTheme(newTheme)
     }
     
     @objc private func changePasswordButtonTapped() {
@@ -318,53 +305,34 @@ final class ProfileViewController: UIViewController {
         navigationController?.pushViewController(VC, animated: true)
     }
     
-    private func updateTheme() {
-        if themeStyleSwitch.isOn {
-            
-            view.backgroundColor = UIColor(named: "111827")
-            titleLabel.textColor = .white
-            topView.backgroundColor = UIColor(named: "1C2431")
-            myProfileTitleLabel.textColor = .white
-            settingsView.backgroundColor = UIColor(named: "111827")
-            
-            profileInfoButton.setTitleColor(.white, for: .normal)
-            profileInfoView.backgroundColor = UIColor(named: "1C2431")
-            
-            themeStyleLabel.textColor = .white
-            
-            changePasswordButton.setTitleColor(.white, for: .normal)
-            changePasswordView.backgroundColor = UIColor(named: "1C2431")
-            
-            changeLanguageButton.setTitleColor(.white, for: .normal)
-            changeLanguageView.backgroundColor = UIColor(named: "1C2431")
-        } else {
-            
-            view.backgroundColor = .white
-            titleLabel.textColor = UIColor(named: "111827")
-            topView.backgroundColor = UIColor(named: "D1D5DB")
-            myProfileTitleLabel.textColor = UIColor(named: "111827")
-            settingsView.backgroundColor = UIColor(named: "F9FAFB")
-            
-            profileInfoButton.setTitleColor(UIColor(named: "111827"), for: .normal)
-            profileInfoView.backgroundColor = UIColor(named: "D1D5DB")
-            
-            themeStyleLabel.textColor = UIColor(named: "111827")
-            
-            changePasswordButton.setTitleColor(UIColor(named: "111827"), for: .normal)
-            changePasswordView.backgroundColor = UIColor(named: "D1D5DB")
-            
-            changeLanguageButton.setTitleColor(UIColor(named: "111827"), for: .normal)
-            changeLanguageView.backgroundColor = UIColor(named: "D1D5DB")
-        }
+    @objc private func logOut() {
+        print("logOut")
     }
     
-    private func checkThemeSwitcher() {
-        if let isDarkMode = UserDefaults.standard.value(forKey: "isDarkThemeEnabled") as? Bool, isDarkMode {
-            themeStyleSwitch.isOn = true
-        } else {
-            themeStyleSwitch.isEnabled = true
+    @objc private func changeLanguageButtonTapped() {
+        let VC = LanguagesTableViewController()
+        VC.title = "Тіл"
+        VC.delegate = self
+        
+        let navVC = UINavigationController(rootViewController: VC)
+        navVC.modalPresentationStyle = .pageSheet
+        navVC.navigationBar.prefersLargeTitles = true
+        
+        
+        if let sheet = navVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+            
+            
         }
         
+        present(navVC, animated: true)
         
+    }
+}
+
+extension ProfileViewController: LanguageSelectedProtocol {
+    func didSelectLanguage(_ language: AppLanguages) {
+        changeLanguageLabel.text = language.title
     }
 }

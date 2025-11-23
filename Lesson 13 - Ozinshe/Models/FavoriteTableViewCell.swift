@@ -92,6 +92,7 @@ class FavoriteTableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLable)
         contentView.addSubview(playView)
         contentView.addSubview(bottomView)
+        contentView.backgroundColor = UIColor(named: "FFFFFF")
         
         pictureImageView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview().offset(24)

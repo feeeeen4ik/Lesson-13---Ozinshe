@@ -21,8 +21,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         
         window.rootViewController = TabBarViewController()
-        
         window.makeKeyAndVisible()
+        
+        let currentTheme = ThemeManager.shared.currentTheme
+        ThemeManager.shared.applyTheme(currentTheme)
         
     }
 

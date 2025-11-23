@@ -13,7 +13,7 @@ class ProfileInfoViewController: UIViewController {
     lazy var upperView = {
         let view = UIView()
         
-        view.backgroundColor = UIColor(named: "D1D5DB")
+        view.backgroundColor = UIColor(named: "FFFFFF")
         
         return view
     }()
@@ -36,6 +36,7 @@ class ProfileInfoViewController: UIViewController {
         textField.borderStyle = .none
         textField.keyboardType = .default
         textField.textAlignment = .left
+        textField.textColor = UIColor(named: "111827")
         
         return textField
     }()
@@ -67,6 +68,7 @@ class ProfileInfoViewController: UIViewController {
         textField.keyboardType = .default
         textField.textAlignment = .left
         textField.textContentType = .emailAddress
+        textField.textColor = UIColor(named: "111827")
         
         return textField
     }()
@@ -98,6 +100,7 @@ class ProfileInfoViewController: UIViewController {
         textField.keyboardType = .numberPad
         textField.textAlignment = .left
         textField.textContentType = .telephoneNumber
+        textField.textColor = UIColor(named: "111827")
         
         return textField
     }()
@@ -131,6 +134,7 @@ class ProfileInfoViewController: UIViewController {
         datePicker.tintColor = .label
         datePicker.subviews.first?.backgroundColor = .clear
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.tintColor = UIColor(named: "111827")
         
         let components = DateComponents(year: 1994, month: 12, day: 94)
         datePicker.date = Calendar.current.date(from: components) ?? Date()
@@ -149,7 +153,7 @@ class ProfileInfoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "FFFFFF")
         title = "Жеке деректер"
         
         setupUI()
