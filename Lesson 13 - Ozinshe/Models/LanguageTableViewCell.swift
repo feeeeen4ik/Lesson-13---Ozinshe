@@ -42,6 +42,7 @@ class LanguageTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        //убираем стандартный разделитель между ячейками
         separatorInset = UIEdgeInsets(
             top: 0,
             left: .greatestFiniteMagnitude,
@@ -49,6 +50,7 @@ class LanguageTableViewCell: UITableViewCell {
             right: 0
         )
         
+        //устанавливаем фон при нажатии на ячейку (эффект активации клика)
         let selectedBG = UIView()
         selectedBG.backgroundColor = UIColor.systemGray5.withAlphaComponent(1)
         selectedBackgroundView = selectedBG

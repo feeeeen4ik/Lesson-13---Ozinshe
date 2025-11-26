@@ -62,8 +62,8 @@
             filePath = "Lesson 13 - Ozinshe/ViewControllers/Profile/ChangePasswordViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "273"
-            endingLineNumber = "273"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
             landmarkName = "applyPassword()"
             landmarkType = "7">
          </BreakpointContent>

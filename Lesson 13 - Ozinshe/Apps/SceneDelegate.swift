@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.rootViewController = TabBarViewController()
         window.makeKeyAndVisible()
         
+        //устанавливаем тему приложения при запуске
         let currentTheme = ThemeManager.shared.currentTheme
         ThemeManager.shared.applyTheme(currentTheme)
         

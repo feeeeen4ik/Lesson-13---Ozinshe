@@ -220,6 +220,7 @@ class ChangePasswordViewController: UIViewController {
         
     }
     
+    //отслеживание открытия/скрытия клавиатуры
     func setupKeyboardObservers() {
         NotificationCenter.default.addObserver(self,
             selector: #selector(keyboardWillShow(notification:)),
@@ -233,6 +234,7 @@ class ChangePasswordViewController: UIViewController {
     }
     
     
+    //селектор для сдвига кнопки при открытии клавиатупы
     @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
@@ -245,6 +247,7 @@ class ChangePasswordViewController: UIViewController {
         }
     }
     
+    //селектор для сдвига кнопки при скрытии клавиатупы
     @objc private func keyboardWillHide(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }

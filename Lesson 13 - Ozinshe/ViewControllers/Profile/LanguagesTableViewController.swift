@@ -7,6 +7,7 @@
 
 import UIKit
 
+// протокол установки labelLanguage на главном VC профиля
 protocol LanguageSelectedProtocol: AnyObject {
     func didSelectLanguage(_ language: AppLanguages)
 }
@@ -34,6 +35,7 @@ class LanguagesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //регистрация ячейки с ID
         tableView.register(LanguageTableViewCell.self, forCellReuseIdentifier: "LanguageCell")
     }
 

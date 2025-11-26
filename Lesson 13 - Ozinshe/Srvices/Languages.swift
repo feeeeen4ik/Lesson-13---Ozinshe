@@ -32,11 +32,10 @@ struct LanguageModel {
     }
     
     static func saveSystemLanguage(_ language: AppLanguages) {
-        do {
-            let data = try JSONEncoder().encode(language)
+        if let data = try? JSONEncoder().encode(language) {
             UserDefaults.standard.set(data, forKey: "ChoosedLanguage")
-        } catch {
-            print("Ошибка сохранения данных!")
+        } else {
+            print("Ошибка: не удалось закодировать язык")
         }
     }
     

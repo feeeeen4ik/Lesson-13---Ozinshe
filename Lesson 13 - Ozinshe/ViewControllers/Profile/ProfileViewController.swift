@@ -236,6 +236,8 @@ final class ProfileViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "ProfileVC")
         navigationItem.title = "Профиль"
+        
+        //установка цвета для NavigationBar
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = UIColor(named: "FFFFFF")
@@ -306,7 +308,22 @@ final class ProfileViewController: UIViewController {
     }
     
     @objc private func logOut() {
-        print("logOut")
+        let VC = LogOutViewController()
+        
+        VC.title = "Шығу"
+        
+        let navVC = UINavigationController(rootViewController: VC)
+        
+        //настройка navigationBar и sheetPresentationCOntroller
+        navVC.modalPresentationStyle = .pageSheet
+        navVC.navigationBar.prefersLargeTitles = true
+        
+        if let sheet = navVC.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        
+        present(navVC, animated: true)
     }
     
     @objc private func changeLanguageButtonTapped() {
@@ -315,6 +332,7 @@ final class ProfileViewController: UIViewController {
         VC.delegate = self
         
         let navVC = UINavigationController(rootViewController: VC)
+        //настройка navigationBar и sheetPresentationCOntroller
         navVC.modalPresentationStyle = .pageSheet
         navVC.navigationBar.prefersLargeTitles = true
         
