@@ -18,14 +18,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
-        let window = UIWindow(windowScene: windowScene)
+        window = UIWindow(windowScene: windowScene)
         
-        window.rootViewController = TabBarViewController()
-        window.makeKeyAndVisible()
+//        window?.rootViewController = TabBarViewController()
+        let navigationController = UINavigationController(
+            rootViewController: LoginViewController()
+        )
+//        
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
         
         //устанавливаем тему приложения при запуске
         let currentTheme = ThemeManager.shared.currentTheme
         ThemeManager.shared.applyTheme(currentTheme)
+        
+        
         
     }
 

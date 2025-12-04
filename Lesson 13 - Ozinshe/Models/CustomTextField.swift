@@ -12,6 +12,21 @@ final class CustomTextField: UITextField {
     // настройки отступов в поле ввода текста
     let padding = UIEdgeInsets(top: 0, left: 44, bottom: 0, right: 44)
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func commonInit() {
+        layer.borderColor = UIColor(named: "textFieldBorder")?.cgColor
+        layer.borderWidth = 1
+        clipsToBounds = true
+    }
+    
     override func textRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)
     }
@@ -23,6 +38,7 @@ final class CustomTextField: UITextField {
     override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: padding)
     }
+    
     
     //установка цвета бордера при активации полля для ввода текста
     override func becomeFirstResponder() -> Bool {

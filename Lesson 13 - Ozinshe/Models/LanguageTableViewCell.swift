@@ -68,7 +68,7 @@ class LanguageTableViewCell: UITableViewCell {
         contentView.addSubview(deviderView)
         
         languageLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(20)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalTo(chooseImage)
         }
@@ -76,7 +76,7 @@ class LanguageTableViewCell: UITableViewCell {
         chooseImage.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(24)
             make.height.width.equalTo(24)
-            make.top.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(20)
         }
         
         deviderView.snp.makeConstraints { make in

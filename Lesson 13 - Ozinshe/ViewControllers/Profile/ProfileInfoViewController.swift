@@ -65,7 +65,7 @@ class ProfileInfoViewController: UIViewController {
         textField.text = "123321@mail.ru"
         textField.placeholder = "email"
         textField.borderStyle = .none
-        textField.keyboardType = .default
+        textField.keyboardType = .emailAddress
         textField.textAlignment = .left
         textField.textContentType = .emailAddress
         textField.textColor = UIColor(named: "111827")

@@ -303,6 +303,7 @@ final class ProfileViewController: UIViewController {
     
     @objc private func changePasswordButtonTapped() {
         let VC = ChangePasswordViewController()
+        VC.title = "Құпия сөзді өзгерту"
         VC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(VC, animated: true)
     }
@@ -340,8 +341,6 @@ final class ProfileViewController: UIViewController {
         if let sheet = navVC.sheetPresentationController {
             sheet.detents = [.medium()]
             sheet.prefersGrabberVisible = true
-            
-            
         }
         
         present(navVC, animated: true)

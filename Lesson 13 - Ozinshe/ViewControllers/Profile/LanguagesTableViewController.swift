@@ -35,6 +35,8 @@ class LanguagesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor(named: "FFFFFF")
+        
         //регистрация ячейки с ID
         tableView.register(LanguageTableViewCell.self, forCellReuseIdentifier: "LanguageCell")
     }
@@ -63,6 +65,10 @@ class LanguagesTableViewController: UITableViewController {
         delegate?.didSelectLanguage(selectedLanguage)
         
         dismiss(animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        64
     }
 
 }

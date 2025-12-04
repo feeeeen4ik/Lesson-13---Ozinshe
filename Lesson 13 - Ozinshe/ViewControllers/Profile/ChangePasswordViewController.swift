@@ -175,7 +175,6 @@ class ChangePasswordViewController: UIViewController {
             make.top.equalTo(passwordLabel.snp.bottom).offset(22)
             make.leading.equalToSuperview().inset(40)
             make.height.width.equalTo(20)
-            
         }
         
         showPasswordButton.snp.makeConstraints { make in
@@ -213,9 +212,10 @@ class ChangePasswordViewController: UIViewController {
         applyPasswordButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(42)
+            buttonBottomConstraint = make.bottom
+                .equalTo(view.safeAreaLayoutGuide)
+                .inset(16).constraint
             make.height.equalTo(56)
-            buttonBottomConstraint = make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-16).constraint
         }
         
     }
@@ -240,7 +240,7 @@ class ChangePasswordViewController: UIViewController {
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
               let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
         
-        buttonBottomConstraint?.update(offset: -keyboardFrame.height - 16)
+        buttonBottomConstraint?.update(offset: -keyboardFrame.height)
         
         UIView.animate(withDuration: duration) {
             self.view.layoutIfNeeded()
