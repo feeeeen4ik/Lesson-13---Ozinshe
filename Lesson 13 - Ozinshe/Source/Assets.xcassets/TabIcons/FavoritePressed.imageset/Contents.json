@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "FavoritePressedLight.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "FavoritePressed.svg",
       "idiom" : "universal"
     }

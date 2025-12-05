@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "HomePressedLight.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "HomePressed.svg",
       "idiom" : "universal"
     }

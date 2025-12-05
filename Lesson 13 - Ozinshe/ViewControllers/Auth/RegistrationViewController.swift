@@ -1,17 +1,17 @@
 //
-//  RegLoginViewController.swift
+//  RegistrationViewController.swift
 //  Lesson 13 - Ozinshe
 //
-//  Created by Феликс on 02.12.2025.
+//  Created by Феликс on 05.12.2025.
 //
 
 import UIKit
 import SnapKit
 
-class LoginViewController: UIViewController {
+class RegistrationViewController: UIViewController {
 
     lazy var titleLabel: UILabel = CustomLabel(
-        text: "Сәлем",
+        text: "Тіркелу",
         fontName: "SFProDisplay-Bold",
         fontSize: 24,
         textColor: "111827",
@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     )
     
     lazy var secondTitleLabel: UILabel = CustomLabel(
-        text: "Аккаунтқа кіріңіз",
+        text: "Деректерді толтырыңыз",
         fontName: "SFProDisplay-Medium",
         fontSize: 16,
         textColor: "9CA3AF",
@@ -79,6 +79,7 @@ class LoginViewController: UIViewController {
         textField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
         textField.backgroundColor = UIColor(named: "TextFields")
         textField.layer.cornerRadius = 12
+        textField.layer.borderColor = UIColor(named: "textFieldBorder")?.cgColor
         
         return textField
     }()
@@ -95,21 +96,68 @@ class LoginViewController: UIViewController {
     
     lazy var showPasswordButton = {
         let button = UIButton()
+        button.tag = 1
         
         button
             .setImage(UIImage(named: "ShowPassword"), for: .normal)
         button
-            .addTarget(self, action: #selector(showPassword), for: .touchUpInside)
+            .addTarget(self, action: #selector(showPassword(_:)), for: .touchUpInside)
         
         return button
     }()
     
-    lazy var authButton = {
+    lazy var copyPasswordLabel: UILabel = CustomLabel(
+        text: "Құпия сөзді қайталаңыз",
+        fontName: "SFProDisplay-Bold",
+        fontSize: 14,
+        textColor: "111827",
+        textAlignment: .left
+    )
+    lazy var copyPasswordTextField = {
+        let textField = CustomTextField()
+        
+        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.keyboardType = .default
+        textField.isSecureTextEntry = true
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.textAlignment = .left
+        textField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
+        textField.backgroundColor = UIColor(named: "TextFields")
+        textField.layer.cornerRadius = 12
+        textField.layer.borderColor = UIColor(named: "textFieldBorder")?.cgColor
+        
+        return textField
+    }()
+    
+    lazy var copyPasswordImage = {
+        let image = UIImageView()
+        
+        image.image = UIImage(named: "PasswordKey")
+        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
+        
+        return image
+    }()
+    
+    lazy var copyShowPasswordButton = {
+        let button = UIButton()
+        button.tag = 2
+        
+        button
+            .setImage(UIImage(named: "ShowPassword"), for: .normal)
+        button
+            .addTarget(self, action: #selector(showPassword(_:)), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var regButton = {
         let button = UIButton()
         
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = UIColor(named: "7E2DFC")
-        config.title = "Кіру"
+        config.title = "Тіркелу"
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer{ incoming in
             var outgoing = incoming
             
@@ -122,65 +170,16 @@ class LoginViewController: UIViewController {
         button.configuration = config
         button.layer.cornerRadius = 12
         button.clipsToBounds = true
-        
-        return button
-    }()
-    
-    lazy var createAccauntStack = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.alignment = .center
-        stack.spacing = 0
-        stack.addArrangedSubview(createAccauntLabel)
-        stack.addArrangedSubview(createAccauntButton)
-        
-        return stack
-    }()
-    
-    lazy var createAccauntButton = {
-        let button = UIButton()
-        
-        var config = UIButton.Configuration.filled()
-        config.baseBackgroundColor = .clear
-        config.title = "Тіркелу"
-        button.configurationUpdateHandler = { btn in
-            switch btn.state {
-            case .highlighted:
-                btn.titleLabel?.alpha = 0.6
-            default:
-                btn.titleLabel?.alpha = 1.0
-            }
-        }
-        
-        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer{ incoming in
-            var outgoing = incoming
-            
-            outgoing.font = UIFont(name: "SFProDisplay-Bold", size: 14)
-            outgoing.foregroundColor = UIColor(named: "B376F7")
-            
-            return outgoing
-        }
-        
-        button.configuration = config
-        button.layer.borderWidth = 0
         button
             .addTarget(
                 self,
-                action: #selector(createAccaunt),
+                action: #selector(authorizate),
                 for: .touchUpInside
             )
         
         return button
     }()
-    
-    lazy var createAccauntLabel: UILabel = CustomLabel(
-        text: "Аккаунтыныз жоқ па?",
-        fontName: "SFProDisplay-Medium",
-        fontSize: 14,
-        textColor: "9CA3AF",
-        textAlignment: .left
-    )
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -202,8 +201,12 @@ class LoginViewController: UIViewController {
                 passwordTextField,
                 passwordImage,
                 showPasswordButton,
-                authButton,
-                createAccauntStack
+                copyPasswordLabel,
+                copyPasswordTextField,
+                copyPasswordImage,
+                copyShowPasswordButton,
+                regButton,
+                
             )
         
         titleLabel.snp.makeConstraints { make in
@@ -257,29 +260,60 @@ class LoginViewController: UIViewController {
             make.trailing.equalToSuperview().inset(40)
             make.height.width.equalTo(20)
         }
+
+        copyPasswordLabel.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(12)
+            make.leading.trailing.equalTo(passwordTextField)
+            
+        }
         
-        authButton.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(40)
+        copyPasswordTextField.snp.makeConstraints { make in
+            make.top.equalTo(copyPasswordLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalTo(passwordTextField)
+            make.height.equalTo(56)
+        }
+        
+        copyPasswordImage.snp.makeConstraints { make in
+            make.top.equalTo(copyPasswordTextField.snp.top).offset(17)
+            make.leading.equalTo(copyPasswordTextField.snp.leading).offset(16)
+            make.height.width.equalTo(20)
+        }
+        
+        copyShowPasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(copyPasswordImage)
+            make.trailing.equalTo(copyPasswordTextField.snp.trailing).inset(16)
+            make.height.width.equalTo(20)
+        }
+        
+        regButton.snp.makeConstraints { make in
+            make.top.equalTo(copyShowPasswordButton.snp.bottom).offset(40)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
             make.height.equalTo(56)
         }
         
-        createAccauntStack.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(authButton.snp.bottom).offset(24)
+    }
+    
+    @objc private func showPassword(_ sender: UIButton) {
+        switch sender.tag {
+        case 1:
+            passwordTextField.isSecureTextEntry = passwordTextField.isSecureTextEntry ? false : true
+        default:
+            copyPasswordTextField.isSecureTextEntry = copyPasswordTextField.isSecureTextEntry ? false : true
+        }
+    }
+    
+    @objc private func authorizate() {
+        
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = scene.windows.first {
+            let mainVC = TabBarViewController()
+            let navVC = UINavigationController(rootViewController: mainVC)
+            
+            window.rootViewController = navVC
+            window.makeKeyAndVisible()
         }
         
     }
-    
-    @objc private func showPassword() {
-        passwordTextField.isSecureTextEntry = passwordTextField.isSecureTextEntry ? false : true
-    }
-    
-    @objc private func createAccaunt() {
-        let VC = RegistrationViewController()
-        
-        navigationController?.pushViewController(VC, animated: true)
-        
-    }
+
 }

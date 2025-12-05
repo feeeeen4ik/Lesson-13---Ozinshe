@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "ProfilePressedLight.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "ProfilePressed.svg",
       "idiom" : "universal"
     }

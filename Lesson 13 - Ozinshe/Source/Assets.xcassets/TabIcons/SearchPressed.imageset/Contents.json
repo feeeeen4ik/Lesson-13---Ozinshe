@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "SearchPressedLight.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "SearchPressed.svg",
       "idiom" : "universal"
     }

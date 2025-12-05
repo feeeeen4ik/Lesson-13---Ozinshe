@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Favorite.svg",
+      "filename" : "FavoriteLight.svg",
       "idiom" : "universal"
     },
     {
@@ -11,11 +11,15 @@
           "value" : "dark"
         }
       ],
+      "filename" : "Favorite.svg",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
+  },
+  "properties" : {
+    "template-rendering-intent" : "original"
   }
 }
