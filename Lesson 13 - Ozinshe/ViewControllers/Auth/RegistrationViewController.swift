@@ -286,7 +286,7 @@ class RegistrationViewController: UIViewController {
         }
         
         regButton.snp.makeConstraints { make in
-            make.top.equalTo(copyShowPasswordButton.snp.bottom).offset(40)
+            make.top.equalTo(copyPasswordTextField.snp.bottom).offset(40)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
             make.height.equalTo(56)

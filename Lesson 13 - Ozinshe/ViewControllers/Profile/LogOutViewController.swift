@@ -34,6 +34,16 @@ class LogOutViewController: UIViewController {
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = UIColor(named: "7E2DFC")
         config.cornerStyle = .large
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer(
+            { incoming in
+                var outgoing = incoming
+                
+                outgoing.font = UIFont(name: "SFProDisplay-Bold", size: 16)
+                outgoing.foregroundColor = .white
+                
+                return outgoing
+            }
+        )
 
         button.configuration = config
         button.configurationUpdateHandler = { btn in
@@ -46,9 +56,8 @@ class LogOutViewController: UIViewController {
         }
         
         button.setTitle("Иә, шығу", for: .normal)
-        button.tintColor = .white
         button.layer.cornerRadius = 12
-        button.titleLabel?.font = UIFont(name: "SFProDisplay-Bold", size: 16)
+        button.addTarget(self, action: #selector(logOut), for: .touchUpInside)
         
         return button
     }()
@@ -59,7 +68,16 @@ class LogOutViewController: UIViewController {
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = .clear
         config.cornerStyle = .large
-        
+        config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer(
+            { incoming in
+                var outgoing = incoming
+                
+                outgoing.font = UIFont(name: "SFProDisplay-Bold", size: 16)
+                outgoing.foregroundColor = UIColor(named: "5415C6")
+                
+                return outgoing
+            }
+        )
         //настройка эффекта нажатия
         button.configuration = config
         button.configurationUpdateHandler = { btn in
@@ -70,10 +88,10 @@ class LogOutViewController: UIViewController {
                 btn.alpha = 1.0
             }
         }
+        
         button.setTitle("Жоқ", for: .normal)
-        button.tintColor = UIColor(named: "5415C6")
         button.layer.cornerRadius = 12
-        button.titleLabel?.font = UIFont(name: "SFProDisplay-Bold", size: 16)
+        button.addTarget(self, action: #selector(denied), for: .touchUpInside)
         
         return button
     }()
@@ -126,6 +144,22 @@ class LogOutViewController: UIViewController {
             make.bottom.equalToSuperview().inset(16)
             make.height.equalTo(56)
         }
+    }
+    
+    @objc private func logOut() {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = scene.windows.first {
+            let mainVC = LoginViewController()
+            let navVC = UINavigationController(rootViewController: mainVC)
+            
+            window.rootViewController = navVC
+            window.makeKeyAndVisible()
+            
+        }
+    }
+    
+    @objc private func denied() {
+        dismiss(animated: true)
     }
 
 }
