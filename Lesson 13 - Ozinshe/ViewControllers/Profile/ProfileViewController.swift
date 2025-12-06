@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Localize_Swift
 
 final class ProfileViewController: UIViewController {
     
@@ -29,7 +30,7 @@ final class ProfileViewController: UIViewController {
     lazy var myProfileTitleLabel = {
         let label = UILabel()
         
-        label.text = "Менің профилім"
+        label.text = "profileTitleLable".localized()
         label.font = UIFont(name: "SFProDisplay-Bold", size: 24)
         label.textColor = UIColor(named: "111827")
         
@@ -62,7 +63,7 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = UIColor(named: "F9FAFB")
         
         //MARK: profile info
-        profileInfoButton.setTitle("Жеке деректер", for: .normal)
+        profileInfoButton.setTitle("profileInfoLable".localized(), for: .normal)
         profileInfoButton.setTitleColor(UIColor(named: "1C2431"), for: .normal)
         profileInfoButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         profileInfoButton.contentHorizontalAlignment = .left
@@ -228,14 +229,20 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(updateLanguage),
+                name: .languageChanged,
+                object: nil
+            )
         setupUI()
     }
     
     private func setupUI() {
         
         view.backgroundColor = UIColor(named: "ProfileVC")
-        navigationItem.title = "Профиль"
+        navigationItem.title = "profileMainTitleLable".localized()
         
         //установка цвета для NavigationBar
         let appearance = UINavigationBarAppearance()
@@ -344,7 +351,12 @@ final class ProfileViewController: UIViewController {
         }
         
         present(navVC, animated: true)
-        
+    }
+    
+    @objc private func updateLanguage() {
+        navigationItem.title = "profileMainTitleLable".localized()
+        myProfileTitleLabel.text = "profileTitleLable".localized()
+        profileInfoButton.setTitle("profileInfoLable".localized(), for: .normal)
     }
 }
 

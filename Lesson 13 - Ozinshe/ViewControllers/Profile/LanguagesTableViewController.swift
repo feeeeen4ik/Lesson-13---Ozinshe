@@ -59,7 +59,10 @@ class LanguagesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedLanguage = languages[indexPath.row].id
-        LanguageModel.saveSystemLanguage(selectedLanguage)
+        
+        LanguageModel.setSystemLanguage(selectedLanguage)
+        NotificationCenter.default.post(name: .languageChanged, object: nil)
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
         delegate?.didSelectLanguage(selectedLanguage)

@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import Localize_Swift
 
 enum AppLanguages: String, CaseIterable, Codable {
-    case en
-    case ru
-    case kz
+    case en = "en"
+    case ru = "ru"
+    case kz = "kk"
     
     var title: String {
         switch self {
@@ -23,33 +24,19 @@ enum AppLanguages: String, CaseIterable, Codable {
 
 struct LanguageModel {
     let id: AppLanguages
-    let isSelected: Bool
     
-    static func getAllLanguages(selected: AppLanguages? = nil) -> [LanguageModel] {
+    static func getAllLanguages() -> [LanguageModel] {
         AppLanguages.allCases.map {
-            LanguageModel(id: $0, isSelected: $0 == selected)
+            LanguageModel(id: $0)
         }
     }
     
-    static func saveSystemLanguage(_ language: AppLanguages) {
-        if let data = try? JSONEncoder().encode(language) {
-            UserDefaults.standard.set(data, forKey: "ChoosedLanguage")
-        } else {
-            print("Ошибка: не удалось закодировать язык")
-        }
+    static func setSystemLanguage(_ language: AppLanguages) {
+        Localize.setCurrentLanguage(language.rawValue)
     }
     
     static func getChoosenSystemLanguage() -> AppLanguages {
-        
-        guard let data = UserDefaults.standard.data(forKey: "ChoosedLanguage"),
-              let choosenLanguageFromData = try? JSONDecoder().decode(
-                AppLanguages.self,
-                from: data)
-        else {
-            return .kz
-        }
-        
-        return choosenLanguageFromData
+        AppLanguages(rawValue: Localize.currentLanguage()) ?? .en
     }
 }
 

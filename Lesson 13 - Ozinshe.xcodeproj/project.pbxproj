@@ -12,6 +12,7 @@
 		DCC768952EC23DB50055A92D /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = DCC768942EC23DB50055A92D /* SwiftyJSON */; };
 		DCC768982EC23DC60055A92D /* SVProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = DCC768972EC23DC60055A92D /* SVProgressHUD */; };
 		DCC7689B2EC23DDE0055A92D /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = DCC7689A2EC23DDE0055A92D /* SDWebImage */; };
+		DCE9E0742EE491B8007F1058 /* Localize_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = DCE9E0732EE491B8007F1058 /* Localize_Swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 				DCC768982EC23DC60055A92D /* SVProgressHUD in Frameworks */,
 				DCC768952EC23DB50055A92D /* SwiftyJSON in Frameworks */,
 				DCC768692EC23A0D0055A92D /* SnapKit in Frameworks */,
+				DCE9E0742EE491B8007F1058 /* Localize_Swift in Frameworks */,
 				DCC768922EC23D970055A92D /* Alamofire in Frameworks */,
 				DCC7689B2EC23DDE0055A92D /* SDWebImage in Frameworks */,
 			);
@@ -96,6 +98,7 @@
 				DCC768942EC23DB50055A92D /* SwiftyJSON */,
 				DCC768972EC23DC60055A92D /* SVProgressHUD */,
 				DCC7689A2EC23DDE0055A92D /* SDWebImage */,
+				DCE9E0732EE491B8007F1058 /* Localize_Swift */,
 			);
 			productName = "Lesson 13 - Ozinshe";
 			productReference = DCC7684F2EC239DC0055A92D /* Lesson 13 - Ozinshe.app */;
@@ -122,6 +125,8 @@
 			knownRegions = (
 				en,
 				Base,
+				kk,
+				ru,
 			);
 			mainGroup = DCC768462EC239DC0055A92D;
 			minimizedProjectReferenceProxies = 1;
@@ -131,6 +136,7 @@
 				DCC768932EC23DB50055A92D /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				DCC768962EC23DC60055A92D /* XCRemoteSwiftPackageReference "SVProgressHUD" */,
 				DCC768992EC23DDE0055A92D /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				DCE9E0722EE491B8007F1058 /* XCRemoteSwiftPackageReference "Localize-Swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = DCC768502EC239DC0055A92D /* Products */;
@@ -422,6 +428,14 @@
 				minimumVersion = 5.21.3;
 			};
 		};
+		DCE9E0722EE491B8007F1058 /* XCRemoteSwiftPackageReference "Localize-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/marmelroy/Localize-Swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -449,6 +463,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DCC768992EC23DDE0055A92D /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		DCE9E0732EE491B8007F1058 /* Localize_Swift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DCE9E0722EE491B8007F1058 /* XCRemoteSwiftPackageReference "Localize-Swift" */;
+			productName = Localize_Swift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -106,14 +106,14 @@ class RegistrationViewController: UIViewController {
         return button
     }()
     
-    lazy var copyPasswordLabel: UILabel = CustomLabel(
+    lazy var secondPasswordLabel: UILabel = CustomLabel(
         text: "Құпия сөзді қайталаңыз",
         fontName: "SFProDisplay-Bold",
         fontSize: 14,
         textColor: "111827",
         textAlignment: .left
     )
-    lazy var copyPasswordTextField = {
+    lazy var secondPasswordTextField = {
         let textField = CustomTextField()
         
         textField.placeholder = "Сіздің құпия сөзіңіз"
@@ -130,7 +130,7 @@ class RegistrationViewController: UIViewController {
         return textField
     }()
     
-    lazy var copyPasswordImage = {
+    lazy var secondPasswordImage = {
         let image = UIImageView()
         
         image.image = UIImage(named: "PasswordKey")
@@ -140,7 +140,7 @@ class RegistrationViewController: UIViewController {
         return image
     }()
     
-    lazy var copyShowPasswordButton = {
+    lazy var secondShowPasswordButton = {
         let button = UIButton()
         button.tag = 2
         
@@ -201,10 +201,10 @@ class RegistrationViewController: UIViewController {
                 passwordTextField,
                 passwordImage,
                 showPasswordButton,
-                copyPasswordLabel,
-                copyPasswordTextField,
-                copyPasswordImage,
-                copyShowPasswordButton,
+                secondPasswordLabel,
+                secondPasswordTextField,
+                secondPasswordImage,
+                secondShowPasswordButton,
                 regButton,
                 
             )
@@ -261,32 +261,32 @@ class RegistrationViewController: UIViewController {
             make.height.width.equalTo(20)
         }
 
-        copyPasswordLabel.snp.makeConstraints { make in
+        secondPasswordLabel.snp.makeConstraints { make in
             make.top.equalTo(passwordTextField.snp.bottom).offset(12)
             make.leading.trailing.equalTo(passwordTextField)
             
         }
         
-        copyPasswordTextField.snp.makeConstraints { make in
-            make.top.equalTo(copyPasswordLabel.snp.bottom).offset(5)
+        secondPasswordTextField.snp.makeConstraints { make in
+            make.top.equalTo(secondPasswordLabel.snp.bottom).offset(5)
             make.leading.trailing.equalTo(passwordTextField)
             make.height.equalTo(56)
         }
         
-        copyPasswordImage.snp.makeConstraints { make in
-            make.top.equalTo(copyPasswordTextField.snp.top).offset(17)
-            make.leading.equalTo(copyPasswordTextField.snp.leading).offset(16)
+        secondPasswordImage.snp.makeConstraints { make in
+            make.top.equalTo(secondPasswordTextField.snp.top).offset(17)
+            make.leading.equalTo(secondPasswordTextField.snp.leading).offset(16)
             make.height.width.equalTo(20)
         }
         
-        copyShowPasswordButton.snp.makeConstraints { make in
-            make.top.equalTo(copyPasswordImage)
-            make.trailing.equalTo(copyPasswordTextField.snp.trailing).inset(16)
+        secondShowPasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(secondPasswordImage)
+            make.trailing.equalTo(secondPasswordTextField.snp.trailing).inset(16)
             make.height.width.equalTo(20)
         }
         
         regButton.snp.makeConstraints { make in
-            make.top.equalTo(copyPasswordTextField.snp.bottom).offset(40)
+            make.top.equalTo(secondPasswordTextField.snp.bottom).offset(40)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
             make.height.equalTo(56)
@@ -299,7 +299,7 @@ class RegistrationViewController: UIViewController {
         case 1:
             passwordTextField.isSecureTextEntry = passwordTextField.isSecureTextEntry ? false : true
         default:
-            copyPasswordTextField.isSecureTextEntry = copyPasswordTextField.isSecureTextEntry ? false : true
+            secondPasswordTextField.isSecureTextEntry = secondPasswordTextField.isSecureTextEntry ? false : true
         }
     }
     
@@ -313,7 +313,6 @@ class RegistrationViewController: UIViewController {
             window.rootViewController = navVC
             window.makeKeyAndVisible()
         }
-        
     }
 
 }

@@ -13,6 +13,7 @@ final class FavoritesTableViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "FFFFFF")
         tableView.separatorStyle = .none
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -1,5 +1,5 @@
 {
-  "originHash" : "c220349dd63d8bbb3195a0e1756cf2fa54d7f869f3146cf5fe6edc1d59f9c935",
+  "originHash" : "47cc2627d10a3b88cfdf6070c69e945cb326a9c36b9ebbb608f917ee7d329cdb",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
         "version" : "5.10.2"
+      }
+    },
+    {
+      "identity" : "localize-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/marmelroy/Localize-Swift.git",
+      "state" : {
+        "revision" : "0aa221fed0512772eaad04171d966b8d77b15212",
+        "version" : "3.2.0"
       }
     },
     {

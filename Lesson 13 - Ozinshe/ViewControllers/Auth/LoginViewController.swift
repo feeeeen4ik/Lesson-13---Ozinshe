@@ -122,6 +122,7 @@ class LoginViewController: UIViewController {
         button.configuration = config
         button.layer.cornerRadius = 12
         button.clipsToBounds = true
+        button.addTarget(self, action: #selector(auth), for: .touchUpInside)
         
         return button
     }()
@@ -281,5 +282,16 @@ class LoginViewController: UIViewController {
         
         navigationController?.pushViewController(VC, animated: true)
         
+    }
+    
+    @objc private func auth() {
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = scene.windows.first {
+            let mainVC = TabBarViewController()
+            let navVC = UINavigationController(rootViewController: mainVC)
+            
+            window.rootViewController = navVC
+            window.makeKeyAndVisible()
+        }
     }
 }
