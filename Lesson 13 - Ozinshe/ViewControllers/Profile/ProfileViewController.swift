@@ -50,6 +50,7 @@ final class ProfileViewController: UIViewController {
     //MARK: profile view
     let themeStyleSwitch = UISwitch()
     let profileInfoButton = UIButton()
+    let profileTextLabel = UILabel()
     let changePasswordButton = UIButton()
     let changeLanguageButton = UIButton()
     let themeStyleLabel = UILabel()
@@ -63,16 +64,21 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = UIColor(named: "F9FAFB")
         
         //MARK: profile info
-        profileInfoButton.setTitle("profileInfoLable".localized(), for: .normal)
+        profileInfoButton.setTitle("profileInfoButton".localized(), for: .normal)
         profileInfoButton.setTitleColor(UIColor(named: "1C2431"), for: .normal)
         profileInfoButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         profileInfoButton.contentHorizontalAlignment = .left
         profileInfoButton.addTarget(self, action: #selector(profileInfoTapped), for: .touchUpInside)
         
-        let profileTextLabel = UILabel()
-        profileTextLabel.text = "Өңдеу"
+        profileTextLabel.text = "profileInfoLabel".localized()
         profileTextLabel.font = UIFont(name: "SFProDisplay-Medium", size: 12)
         profileTextLabel.textColor = UIColor(named: "9CA3AF")
+        profileTextLabel.setContentHuggingPriority(.required, for: .horizontal)
+        profileTextLabel
+            .setContentCompressionResistancePriority(
+                .required,
+                for: .horizontal
+            )
         
         let profileButtonSymbolImage = UIImageView()
         profileButtonSymbolImage.image = UIImage(named: "ChevronRight")
@@ -93,7 +99,6 @@ final class ProfileViewController: UIViewController {
         profileTextLabel.snp.makeConstraints { make in
             make.leading.equalTo(profileInfoButton.snp.trailing).offset(145)
             make.centerY.equalTo(profileInfoButton)
-            make.width.equalTo(39)
         }
         
         profileButtonSymbolImage.snp.makeConstraints { make in
@@ -111,7 +116,7 @@ final class ProfileViewController: UIViewController {
         }
         
         //MARK: change password
-        changePasswordButton.setTitle("Құпия сөзді өзгерту", for: .normal)
+        changePasswordButton.setTitle("changePasswordButton".localized(), for: .normal)
         changePasswordButton.setTitleColor(UIColor(named: "1C2431"), for: .normal)
         changePasswordButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         changePasswordButton.contentHorizontalAlignment = .left
@@ -146,7 +151,8 @@ final class ProfileViewController: UIViewController {
         }
         
         //MARK: change language
-        changeLanguageButton.setTitle("Тіл", for: .normal)
+        changeLanguageButton
+            .setTitle("changeLanguageButton".localized(), for: .normal)
         changeLanguageButton.setTitleColor(UIColor(named: "1C2431"), for: .normal)
         changeLanguageButton.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         changeLanguageButton.contentHorizontalAlignment = .left
@@ -160,6 +166,13 @@ final class ProfileViewController: UIViewController {
         changeLanguageLabel.text = LanguageModel.getChoosenSystemLanguage().title
         changeLanguageLabel.font = UIFont(name: "SFProDisplay-Medium", size: 12)
         changeLanguageLabel.textColor = UIColor(named: "9CA3AF")
+        changeLanguageLabel
+            .setContentHuggingPriority(.required, for: .horizontal)
+        changeLanguageLabel
+            .setContentCompressionResistancePriority(
+                .required,
+                for: .horizontal
+            )
         
         let changeLanguageSymbolImage = UIImageView()
         changeLanguageSymbolImage.image = UIImage(named: "ChevronRight")
@@ -180,7 +193,6 @@ final class ProfileViewController: UIViewController {
         changeLanguageLabel.snp.makeConstraints { make in
             make.leading.equalTo(changeLanguageButton.snp.trailing).offset(145)
             make.centerY.equalTo(changeLanguageButton)
-            make.width.equalTo(53)
         }
         
         changeLanguageSymbolImage.snp.makeConstraints { make in
@@ -198,7 +210,7 @@ final class ProfileViewController: UIViewController {
         }
         
         //MARK: change theme
-        themeStyleLabel.text = "Қараңғы режим"
+        themeStyleLabel.text = "themeStyleLabel".localized()
         themeStyleLabel.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         themeStyleLabel.textColor = UIColor(named: "1C2431")
         themeStyleLabel.textAlignment = .left
@@ -318,7 +330,7 @@ final class ProfileViewController: UIViewController {
     @objc private func logOut() {
         let VC = LogOutViewController()
         
-        VC.title = "Шығу"
+//        VC.title = "Шығу"
         
         let navVC = UINavigationController(rootViewController: VC)
         
@@ -356,7 +368,12 @@ final class ProfileViewController: UIViewController {
     @objc private func updateLanguage() {
         navigationItem.title = "profileMainTitleLable".localized()
         myProfileTitleLabel.text = "profileTitleLable".localized()
-        profileInfoButton.setTitle("profileInfoLable".localized(), for: .normal)
+        profileInfoButton.setTitle("profileInfoButton".localized(), for: .normal)
+        profileTextLabel.text = "profileInfoLabel".localized()
+        changePasswordButton.setTitle("changePasswordButton".localized(), for: .normal)
+        changeLanguageButton
+            .setTitle("changeLanguageButton".localized(), for: .normal)
+        themeStyleLabel.text = "themeStyleLabel".localized()
     }
 }
 

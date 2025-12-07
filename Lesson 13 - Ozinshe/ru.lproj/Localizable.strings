@@ -1,3 +1,14 @@
+//ProfileViewController
 "profileMainTitleLable" = "Профиль";
 "profileTitleLable" = "Мой профиль";
-"profileInfoLable" = "Личные данные";
+"profileInfoButton" = "Личные данные";
+"profileInfoLabel" = "Изменить";
+"changePasswordButton" = "Изменить пароль";
+"changeLanguageButton" = "Языки";
+"themeStyleLabel" = "Темный режим";
+
+//LogOutViewController
+"logOutMainTitleLabel" = "Выйти";
+"logOutSecondTitleLabel" = "Вы действительно хотите выйти из аккаунта?";
+"profileConfirButton" = "Да, выйти";
+"profileDenyButton" = "Нет";

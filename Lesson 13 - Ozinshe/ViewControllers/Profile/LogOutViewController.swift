@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Localize_Swift
 
 class LogOutViewController: UIViewController {
     
@@ -20,9 +21,10 @@ class LogOutViewController: UIViewController {
     lazy var topLabel = {
         let label = UILabel()
         
-        label.text = "Сіз шынымен аккаунтыныздан"
+        label.text = "logOutSecondTitleLabel".localized()
         label.textColor = UIColor(named: "9CA3AF")
         label.font = UIFont(name: "SFProDisplay-Medium", size: 16)
+        label.numberOfLines = 2
         
         return label
     }()
@@ -55,7 +57,7 @@ class LogOutViewController: UIViewController {
             }
         }
         
-        button.setTitle("Иә, шығу", for: .normal)
+        button.setTitle("profileConfirButton".localized(), for: .normal)
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(logOut), for: .touchUpInside)
         
@@ -89,7 +91,7 @@ class LogOutViewController: UIViewController {
             }
         }
         
-        button.setTitle("Жоқ", for: .normal)
+        button.setTitle("profileDenyButton".localized(), for: .normal)
         button.layer.cornerRadius = 12
         button.addTarget(self, action: #selector(denied), for: .touchUpInside)
         
@@ -99,6 +101,15 @@ class LogOutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(updateLanguage),
+                name: .languageChanged,
+                object: nil
+            )
+        
+        navigationItem.title = "logOutMainTitleLabel".localized()
         view.backgroundColor = UIColor(named: "FFFFFF")
         setupUI()
         
@@ -160,6 +171,13 @@ class LogOutViewController: UIViewController {
     
     @objc private func denied() {
         dismiss(animated: true)
+    }
+    
+    @objc private func updateLanguage() {
+        navigationItem.title = "logOutMainTitleLabel".localized()
+        topLabel.text = "logOutSecondTitleLabel".localized()
+        confirmButton.setTitle("profileConfirButton".localized(), for: .normal)
+        denyButton.setTitle("profileDenyButton".localized(), for: .normal)
     }
 
 }

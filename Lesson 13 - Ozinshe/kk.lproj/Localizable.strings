@@ -1,3 +1,14 @@
+//ProfileViewController
 "profileMainTitleLable" = "Профиль";
 "profileTitleLable" = "Менің профилім";
-"profileInfoLable" = "Жеке деректер";
+"profileInfoButton" = "Жеке деректер";
+"profileInfoLabel" = "Өңдеу";
+"changePasswordButton" = "Құпия сөзді өзгерту";
+"changeLanguageButton" = "Тіл";
+"themeStyleLabel" = "Қараңғы режим";
+
+//LogOutViewController
+"logOutMainTitleLabel" = "Шығу";
+"logOutSecondTitleLabel" = "Сіз шынымен аккаунтыныздан";
+"profileConfirButton" = "Иә, шығу";
+"profileDenyButton" = "Жоқ";

@@ -1,3 +1,13 @@
 "profileMainTitleLable" = "Profile";
 "profileTitleLable" = "My profile";
-"profileInfoLable" = "Personal data";
+"profileInfoButton" = "Personal data";
+"profileInfoLabel" = "Change";
+"changePasswordButton" = "Change password";
+"changeLanguageButton" = "Language";
+"themeStyleLabel" = "Dark mode";
+
+//LogOutViewController
+"logOutMainTitleLabel" = "Log out";
+"logOutSecondTitleLabel" = "Are you sure you want to log out of your account?";
+"profileConfirButton" = "Yes, log out";
+"profileDenyButton" = "No";
