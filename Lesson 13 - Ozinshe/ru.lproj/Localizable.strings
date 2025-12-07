@@ -12,3 +12,13 @@
 "logOutSecondTitleLabel" = "Вы действительно хотите выйти из аккаунта?";
 "profileConfirButton" = "Да, выйти";
 "profileDenyButton" = "Нет";
+
+//LoginViewController
+"logInMainTitleLabel" = "Привет";
+"logInSecondTitleLabel" = "Войдите в аккаунт";
+"logInEmailTextFieldPlaceholder" = "Ваш email";
+"logInPasswordLabel" = "Пароль";
+"logInPasswordTextFieldPlaceholder" = "Ваш пароль";
+"logInAuthTitleButton" = "Войти";
+"logInCreateAccauntLabel" = "У вас нет аккаунта?";
+"createAccauntTitleButton" = "Зарегистрируйтесь";

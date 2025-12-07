@@ -12,3 +12,13 @@
 "logOutSecondTitleLabel" = "Сіз шынымен аккаунтыныздан";
 "profileConfirButton" = "Иә, шығу";
 "profileDenyButton" = "Жоқ";
+
+//LoginViewController
+"logInMainTitleLabel" = "Сәлем";
+"logInSecondTitleLabel" = "Аккаунтқа кіріңіз";
+"logInEmailTextFieldPlaceholder" = "Сіздің email";
+"logInPasswordLabel" = "Құпия сөз";
+"logInPasswordTextFieldPlaceholder" = "Сіздің құпия сөзіңіз";
+"logInAuthTitleButton" = "Кіру";
+"logInCreateAccauntLabel" = "Аккаунтыныз жоқ па?";
+"createAccauntTitleButton" = "Тіркелу";

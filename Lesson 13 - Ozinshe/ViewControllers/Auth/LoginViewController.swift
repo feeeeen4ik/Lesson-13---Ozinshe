@@ -7,11 +7,12 @@
 
 import UIKit
 import SnapKit
+import Localize_Swift
 
 class LoginViewController: UIViewController {
 
     lazy var titleLabel: UILabel = CustomLabel(
-        text: "Сәлем",
+        text: "logInMainTitleLabel".localized(),
         fontName: "SFProDisplay-Bold",
         fontSize: 24,
         textColor: "111827",
@@ -19,7 +20,7 @@ class LoginViewController: UIViewController {
     )
     
     lazy var secondTitleLabel: UILabel = CustomLabel(
-        text: "Аккаунтқа кіріңіз",
+        text: "logInSecondTitleLabel".localized(),
         fontName: "SFProDisplay-Medium",
         fontSize: 16,
         textColor: "9CA3AF",
@@ -37,7 +38,7 @@ class LoginViewController: UIViewController {
     lazy var emailTextField = {
         let textField = CustomTextField()
         
-        textField.placeholder = "Сіздің email"
+        textField.placeholder = "logInEmailTextFieldPlaceholder".localized()
         textField.keyboardType = .emailAddress
         textField.textAlignment = .left
         textField.autocorrectionType = .no
@@ -61,7 +62,7 @@ class LoginViewController: UIViewController {
     }()
     
     lazy var passwordLabel: UILabel = CustomLabel(
-        text: "Құпия сөз",
+        text: "logInPasswordLabel".localized(),
         fontName: "SFProDisplay-Bold",
         fontSize: 14,
         textColor: "111827",
@@ -70,7 +71,7 @@ class LoginViewController: UIViewController {
     lazy var passwordTextField = {
         let textField = CustomTextField()
         
-        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.placeholder = "logInPasswordTextFieldPlaceholder".localized()
         textField.keyboardType = .default
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
@@ -109,7 +110,7 @@ class LoginViewController: UIViewController {
         
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = UIColor(named: "7E2DFC")
-        config.title = "Кіру"
+        config.title = "logInAuthTitleButton".localized()
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer{ incoming in
             var outgoing = incoming
             
@@ -143,7 +144,7 @@ class LoginViewController: UIViewController {
         
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = .clear
-        config.title = "Тіркелу"
+        config.title = "createAccauntTitleButton".localized()
         button.configurationUpdateHandler = { btn in
             switch btn.state {
             case .highlighted:
@@ -175,7 +176,7 @@ class LoginViewController: UIViewController {
     }()
     
     lazy var createAccauntLabel: UILabel = CustomLabel(
-        text: "Аккаунтыныз жоқ па?",
+        text: "logInCreateAccauntLabel".localized(),
         fontName: "SFProDisplay-Medium",
         fontSize: 14,
         textColor: "9CA3AF",
@@ -184,7 +185,14 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(updateLanguage),
+                name: .languageChanged,
+                object: nil
+            )
         view.backgroundColor = UIColor(named: "FFFFFF")
         
         setupUI()
@@ -293,5 +301,16 @@ class LoginViewController: UIViewController {
             window.rootViewController = navVC
             window.makeKeyAndVisible()
         }
+    }
+    
+    @objc private func updateLanguage() {
+        titleLabel.text = "logInMainTitleLabel".localized()
+        secondTitleLabel.text = "logInSecondTitleLabel".localized()
+        emailTextField.placeholder = "logInEmailPlaceholder".localized()
+        passwordLabel.text = "logInPasswordLabel".localized()
+        passwordTextField.placeholder = "logInPasswordPlaceholder".localized()
+        authButton.setTitle( "logInAuthButton".localized(), for: .normal)
+        createAccauntLabel.text = "logInCreateAccauntLabel".localized()
+        createAccauntButton.setTitle( "logInCreateAccauntButton".localized(), for: .normal)
     }
 }

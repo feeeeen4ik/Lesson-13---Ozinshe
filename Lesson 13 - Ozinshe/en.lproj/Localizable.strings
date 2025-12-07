@@ -11,3 +11,13 @@
 "logOutSecondTitleLabel" = "Are you sure you want to log out of your account?";
 "profileConfirButton" = "Yes, log out";
 "profileDenyButton" = "No";
+
+//LoginViewController
+"logInMainTitleLabel" = "Hello";
+"logInSecondTitleLabel" = "Log in to your account";
+"logInEmailTextFieldPlaceholder" = "Your email";
+"logInPasswordLabel" = "Password";
+"logInPasswordTextFieldPlaceholder" = "Your password";
+"logInAuthTitleButton" = "Log in";
+"logInCreateAccauntLabel" = "Don’t have an account?";
+"createAccauntTitleButton" = "Sign Up";
