@@ -7,8 +7,9 @@
 
 import UIKit
 import SnapKit
+import Localize_Swift
 
-class ChangePasswordViewController: UIViewController {
+class ChangePasswordViewController: BaseViewController {
     var buttonBottomConstraint: Constraint?
     
     lazy var upperView = {
@@ -22,7 +23,7 @@ class ChangePasswordViewController: UIViewController {
     lazy var passwordLabel = {
         let label = UILabel()
         
-        label.text = "Password"
+        label.text = "changePaswordPasswordLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         label.textColor = UIColor(named: "111827")
         
@@ -32,7 +33,7 @@ class ChangePasswordViewController: UIViewController {
     lazy var copyPasswordLabel = {
         let label = UILabel()
         
-        label.text = "Құпия сөзді қайталаңыз"
+        label.text = "changePaswordCopyPasswordLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         label.textColor = UIColor(named: "111827")
         
@@ -42,7 +43,8 @@ class ChangePasswordViewController: UIViewController {
     lazy var passwordTextField = {
         let textField = CustomTextField()
         
-        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.placeholder = "changePaswordPasswordTextFieldPlaceholder"
+            .localized()
         textField.keyboardType = .default
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
@@ -80,7 +82,8 @@ class ChangePasswordViewController: UIViewController {
     lazy var copyPasswordTextField = {
         let textField = CustomTextField()
         
-        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.placeholder = "changePaswordPasswordTextFieldPlaceholder"
+            .localized()
         textField.keyboardType = .default
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
@@ -121,7 +124,11 @@ class ChangePasswordViewController: UIViewController {
         let button = UIButton()
         
         button.layer.cornerRadius = 12
-        button.setTitle("Өзгерістерді сақтау", for: .normal)
+        button
+            .setTitle(
+                "changePaswordApplyPasswordButton".localized(),
+                for: .normal
+            )
         button.titleLabel?.font = UIFont(name: "SFProDisplay-Bold", size: 16)
         button.titleLabel?.textColor = .white
         button.backgroundColor = UIColor(named: "7E2DFC")
@@ -134,6 +141,7 @@ class ChangePasswordViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "FFFFFF")
+        title = "changePaswordTitle".localized()
         setupKeyboardObservers()
         setupUI()
 
@@ -259,10 +267,6 @@ class ChangePasswordViewController: UIViewController {
         }
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     @objc private func showPassword(_ sender: UIButton) {
         switch sender.tag {
         case 1:
@@ -274,5 +278,19 @@ class ChangePasswordViewController: UIViewController {
     
     @objc private func applyPassword() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    override func updateLanguage() {
+        title = "changePaswordTitle".localized()
+        passwordLabel.text = "changePaswordPasswordLabel".localized()
+        passwordTextField.placeholder = "changePaswordPasswordTextFieldPlaceholder"
+            .localized()
+        copyPasswordTextField.placeholder = "changePaswordPasswordTextFieldPlaceholder"
+            .localized()
+        applyPasswordButton
+            .setTitle(
+                "changePaswordApplyPasswordButton".localized(),
+                for: .normal
+            )
     }
 }

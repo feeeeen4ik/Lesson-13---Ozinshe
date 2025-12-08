@@ -7,11 +7,12 @@
 
 import UIKit
 import SnapKit
+import Localize_Swift
 
-class RegistrationViewController: UIViewController {
+class RegistrationViewController: BaseViewController {
 
     lazy var titleLabel: UILabel = CustomLabel(
-        text: "Тіркелу",
+        text: "regMainTitleLabel".localized(),
         fontName: "SFProDisplay-Bold",
         fontSize: 24,
         textColor: "111827",
@@ -19,7 +20,7 @@ class RegistrationViewController: UIViewController {
     )
     
     lazy var secondTitleLabel: UILabel = CustomLabel(
-        text: "Деректерді толтырыңыз",
+        text: "regSecondTitleLabel".localized(),
         fontName: "SFProDisplay-Medium",
         fontSize: 16,
         textColor: "9CA3AF",
@@ -37,7 +38,7 @@ class RegistrationViewController: UIViewController {
     lazy var emailTextField = {
         let textField = CustomTextField()
         
-        textField.placeholder = "Сіздің email"
+        textField.placeholder = "regEmailTextFieldPlaceholder".localized()
         textField.keyboardType = .emailAddress
         textField.textAlignment = .left
         textField.autocorrectionType = .no
@@ -61,7 +62,7 @@ class RegistrationViewController: UIViewController {
     }()
     
     lazy var passwordLabel: UILabel = CustomLabel(
-        text: "Құпия сөз",
+        text: "regInPasswordLabel".localized(),
         fontName: "SFProDisplay-Bold",
         fontSize: 14,
         textColor: "111827",
@@ -70,7 +71,7 @@ class RegistrationViewController: UIViewController {
     lazy var passwordTextField = {
         let textField = CustomTextField()
         
-        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.placeholder = "regInPasswordTextFieldPlaceholder".localized()
         textField.keyboardType = .default
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
@@ -107,7 +108,7 @@ class RegistrationViewController: UIViewController {
     }()
     
     lazy var secondPasswordLabel: UILabel = CustomLabel(
-        text: "Құпия сөзді қайталаңыз",
+        text: "regInSecondPasswordLabel".localized(),
         fontName: "SFProDisplay-Bold",
         fontSize: 14,
         textColor: "111827",
@@ -116,7 +117,7 @@ class RegistrationViewController: UIViewController {
     lazy var secondPasswordTextField = {
         let textField = CustomTextField()
         
-        textField.placeholder = "Сіздің құпия сөзіңіз"
+        textField.placeholder = "regInPasswordTextFieldPlaceholder".localized()
         textField.keyboardType = .default
         textField.isSecureTextEntry = true
         textField.autocorrectionType = .no
@@ -157,7 +158,7 @@ class RegistrationViewController: UIViewController {
         
         var config = UIButton.Configuration.filled()
         config.baseBackgroundColor = UIColor(named: "7E2DFC")
-        config.title = "Тіркелу"
+        config.title = "regMainTitleLabel".localized()
         config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer{ incoming in
             var outgoing = incoming
             
@@ -313,6 +314,18 @@ class RegistrationViewController: UIViewController {
             window.rootViewController = navVC
             window.makeKeyAndVisible()
         }
+    }
+    
+    override func updateLanguage() {
+        titleLabel.text = "regMainTitleLabel".localized()
+        secondTitleLabel.text = "regSecondMainTitleLabel".localized()
+        emailTextField.placeholder = "regEmailPlaceholder".localized()
+        passwordLabel.text = "regInPasswordLabel".localized()
+        passwordTextField.placeholder = "regInPasswordTextFieldPlaceholder".localized()
+        secondPasswordLabel.text = "regInSecondPasswordLabel".localized()
+        secondPasswordTextField.placeholder = "regInPasswordTextFieldPlaceholder".localized()
+            .localized()
+        regButton.setTitle("regMainTitleLabel".localized(), for: .normal)
     }
 
 }

@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Localize_Swift
 
-class LoginViewController: UIViewController {
+class LoginViewController: BaseViewController {
 
     lazy var titleLabel: UILabel = CustomLabel(
         text: "logInMainTitleLabel".localized(),
@@ -186,13 +186,6 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default
-            .addObserver(
-                self,
-                selector: #selector(updateLanguage),
-                name: .languageChanged,
-                object: nil
-            )
         view.backgroundColor = UIColor(named: "FFFFFF")
         
         setupUI()
@@ -303,7 +296,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    @objc private func updateLanguage() {
+    override func updateLanguage() {
         titleLabel.text = "logInMainTitleLabel".localized()
         secondTitleLabel.text = "logInSecondTitleLabel".localized()
         emailTextField.placeholder = "logInEmailPlaceholder".localized()

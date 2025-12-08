@@ -7,8 +7,9 @@
 
 import UIKit
 import SnapKit
+import Localize_Swift
 
-class ProfileInfoViewController: UIViewController {
+class ProfileInfoViewController: BaseViewController {
     
     lazy var upperView = {
         let view = UIView()
@@ -21,7 +22,7 @@ class ProfileInfoViewController: UIViewController {
     lazy var nameLabel = {
         let label = UILabel()
         
-        label.text = "Сіздің атыңыз"
+        label.text = "profileInfoNameLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -32,7 +33,8 @@ class ProfileInfoViewController: UIViewController {
         let textField = UITextField()
         
         textField.text = "Феликс"
-        textField.placeholder = "name"
+        textField.placeholder = "profileInfoNameTextFieldPlaceHolder"
+            .localized()
         textField.borderStyle = .none
         textField.keyboardType = .default
         textField.textAlignment = .left
@@ -63,7 +65,7 @@ class ProfileInfoViewController: UIViewController {
         let textField = UITextField()
         
         textField.text = "123321@mail.ru"
-        textField.placeholder = "email"
+        textField.placeholder = "Email"
         textField.borderStyle = .none
         textField.keyboardType = .emailAddress
         textField.textAlignment = .left
@@ -84,7 +86,7 @@ class ProfileInfoViewController: UIViewController {
     lazy var phoneNumberLabel = {
         let label = UILabel()
         
-        label.text = "Телефон"
+        label.text = "profileInfoPhoneNumberLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -116,7 +118,7 @@ class ProfileInfoViewController: UIViewController {
     lazy var birthdayLabel = {
         let label = UILabel()
         
-        label.text = "Туылған күні"
+        label.text = "profileInfoBirthdayLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -154,7 +156,7 @@ class ProfileInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "FFFFFF")
-        title = "Жеке деректер"
+        title = "profileInfoTitle".localized()
         
         setupUI()
     }
@@ -252,6 +254,14 @@ class ProfileInfoViewController: UIViewController {
             make.height.equalTo(1)
         }
     }
-
+    
+    override func updateLanguage() {
+        title = "profileInfoTitle".localized()
+        nameLabel.text = "profileInfoNameLabel".localized()
+        nameTextField.placeholder = "profileInfoNameTextFieldPlaceHolder"
+            .localized()
+        phoneNumberLabel.text = "profileInfoPhoneNumberLabel".localized()
+        birthdayLabel.text = "profileInfoBirthdayLabel".localized()
+    }
 
 }

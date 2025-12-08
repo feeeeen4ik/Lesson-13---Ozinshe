@@ -1,3 +1,4 @@
+//ProfileViewController
 "profileMainTitleLable" = "Profile";
 "profileTitleLable" = "My profile";
 "profileInfoButton" = "Personal data";
@@ -21,3 +22,25 @@
 "logInAuthTitleButton" = "Log in";
 "logInCreateAccauntLabel" = "Don’t have an account?";
 "createAccauntTitleButton" = "Sign Up";
+
+//RegistrationViewController
+"regMainTitleLabel" = "Registration";
+"regSecondTitleLabel" = "Fill in your details";
+"regEmailTextFieldPlaceholder" = "Your email";
+"regInPasswordLabel" = "Password";
+"regInPasswordTextFieldPlaceholder" = "Your password";
+"regInSecondPasswordLabel" = "Repeat password";
+
+//ProfileInfoViewController
+"profileInfoTitle" = "Personal info";
+"profileInfoNameLabel" = "Your name";
+"profileInfoNameTextFieldPlaceHolder" = "Your name";
+"profileInfoPhoneNumberLabel" = "Phone";
+"profileInfoBirthdayLabel" = "Birthday";
+
+//ChangePasswordViewController
+"changePaswordTitle" = "Change password";
+"changePaswordPasswordLabel" = "Password";
+"changePaswordCopyPasswordLabel" = "Repeat password";
+"changePaswordPasswordTextFieldPlaceholder" = "Your password";
+"changePaswordApplyPasswordButton" = "Save changes";

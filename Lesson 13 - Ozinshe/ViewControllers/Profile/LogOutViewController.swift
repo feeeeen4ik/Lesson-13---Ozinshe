@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Localize_Swift
 
-class LogOutViewController: UIViewController {
+class LogOutViewController: BaseViewController {
     
     lazy var container = {
         let view = UIView()
@@ -101,14 +101,6 @@ class LogOutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default
-            .addObserver(
-                self,
-                selector: #selector(updateLanguage),
-                name: .languageChanged,
-                object: nil
-            )
-        
         navigationItem.title = "logOutMainTitleLabel".localized()
         view.backgroundColor = UIColor(named: "FFFFFF")
         setupUI()
@@ -173,7 +165,7 @@ class LogOutViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @objc private func updateLanguage() {
+    override func updateLanguage() {
         navigationItem.title = "logOutMainTitleLabel".localized()
         topLabel.text = "logOutSecondTitleLabel".localized()
         confirmButton.setTitle("profileConfirButton".localized(), for: .normal)

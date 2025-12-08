@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Localize_Swift
 
-final class ProfileViewController: UIViewController {
+final class ProfileViewController: BaseViewController {
     
     lazy var topView = {
         let view = UIView()
@@ -241,13 +241,6 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default
-            .addObserver(
-                self,
-                selector: #selector(updateLanguage),
-                name: .languageChanged,
-                object: nil
-            )
         setupUI()
     }
     
@@ -322,7 +315,6 @@ final class ProfileViewController: UIViewController {
     
     @objc private func changePasswordButtonTapped() {
         let VC = ChangePasswordViewController()
-        VC.title = "Құпия сөзді өзгерту"
         VC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(VC, animated: true)
     }
@@ -365,7 +357,7 @@ final class ProfileViewController: UIViewController {
         present(navVC, animated: true)
     }
     
-    @objc private func updateLanguage() {
+    override func updateLanguage() {
         navigationItem.title = "profileMainTitleLable".localized()
         myProfileTitleLabel.text = "profileTitleLable".localized()
         profileInfoButton.setTitle("profileInfoButton".localized(), for: .normal)

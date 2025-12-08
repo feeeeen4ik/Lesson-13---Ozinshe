@@ -22,3 +22,25 @@
 "logInAuthTitleButton" = "Войти";
 "logInCreateAccauntLabel" = "У вас нет аккаунта?";
 "createAccauntTitleButton" = "Зарегистрируйтесь";
+
+//RegistrationViewController
+"regMainTitleLabel" = "Регистрация";
+"regSecondTitleLabel" = "Заполните данные";
+"regEmailTextFieldPlaceholder" = "Ваш email";
+"regInPasswordLabel" = "Пароль";
+"regInPasswordTextFieldPlaceholder" = "Ваш пароль";
+"regInSecondPasswordLabel" = "Повторите пароль";
+
+//ProfileInfoViewController
+"profileInfoTitle" = "Личные данные";
+"profileInfoNameLabel" = "Ваше имя";
+"profileInfoNameTextFieldPlaceHolder" = "Ваше имя";
+"profileInfoPhoneNumberLabel" = "Телефон";
+"profileInfoBirthdayLabel" = "Дата рождения";
+
+//ChangePasswordViewController
+"changePaswordTitle" = "Изменение пароля";
+"changePaswordPasswordLabel" = "Пароль";
+"changePaswordCopyPasswordLabel" = "Повторите пароль";
+"changePaswordPasswordTextFieldPlaceholder" = "Ваш пароль";
+"changePaswordApplyPasswordButton" = "Сохранить изменения";

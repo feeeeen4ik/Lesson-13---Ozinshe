@@ -21,4 +21,26 @@
 "logInPasswordTextFieldPlaceholder" = "Сіздің құпия сөзіңіз";
 "logInAuthTitleButton" = "Кіру";
 "logInCreateAccauntLabel" = "Аккаунтыныз жоқ па?";
-"createAccauntTitleButton" = "Тіркелу";
+"logInCreateAccauntTitleButton" = "Тіркелу";
+
+//RegistrationViewController
+"regMainTitleLabel" = "Тіркелу";
+"regSecondTitleLabel" = "Деректерді толтырыңыз";
+"regEmailTextFieldPlaceholder" = "Сіздің email";
+"regInPasswordLabel" = "Құпия сөз";
+"regInPasswordTextFieldPlaceholder" = "Сіздің құпия сөзіңіз";
+"regInSecondPasswordLabel" = "Құпия сөзді қайталаңыз";
+
+//ProfileInfoViewController
+"profileInfoTitle" = "Жеке деректер";
+"profileInfoNameLabel" = "Сіздің атыңыз";
+"profileInfoNameTextFieldPlaceHolder" = "Сіздің атыңыз";
+"profileInfoPhoneNumberLabel" = "Телефон";
+"profileInfoBirthdayLabel" = "Туылған күні";
+
+//ChangePasswordViewController
+"changePaswordTitle" = "Құпия сөзді өзгерту";
+"changePaswordPasswordLabel" = "Құпия сөз";
+"changePaswordCopyPasswordLabel" = "Құпия сөзді қайталаңыз";
+"changePaswordPasswordTextFieldPlaceholder" = "Сіздің құпия сөзіңіз";
+"changePaswordApplyPasswordButton" = "Өзгерістерді сақтау";
