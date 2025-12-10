@@ -340,7 +340,6 @@ final class ProfileViewController: BaseViewController {
     
     @objc private func changeLanguageButtonTapped() {
         let VC = LanguagesTableViewController()
-        VC.title = "Тіл"
         VC.delegate = self
         
         let navVC = UINavigationController(rootViewController: VC)

@@ -44,3 +44,15 @@
 "changePaswordCopyPasswordLabel" = "Повторите пароль";
 "changePaswordPasswordTextFieldPlaceholder" = "Ваш пароль";
 "changePaswordApplyPasswordButton" = "Сохранить изменения";
+
+//LanguagesTableViewController
+"languagesMaintitle" = "Языки";
+
+//OnboardingViewController
+"onboardingMainTitle" = "Добро пожаловать в ÖZINŞE!";
+"onboardingTextFirst" = "Фильмы, сериалы, ситкомы, анимационные проекты, телепередачи, реалити-шоу, аниме и многое другое.";
+"onboardingTextSecond" = "Смотрите с любого устройства.
+    Смотрите любимые фильмы без доплаты с телефона, планшета или ноутбука.";
+"onboardingTextThird" = "Регистрация проста. Зарегистрируйтесь сейчас и получайте доступ к любимым фильмам.";
+"onbordingSkipButtonTitle" = "Пропустить";
+"onbordingButtonTitle" = "Продолжить";

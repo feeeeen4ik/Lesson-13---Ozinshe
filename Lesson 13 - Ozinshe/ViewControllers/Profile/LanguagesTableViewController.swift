@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Localize_Swift
 
 // протокол установки labelLanguage на главном VC профиля
 protocol LanguageSelectedProtocol: AnyObject {
@@ -34,7 +35,7 @@ class LanguagesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        title = "languagesMaintitle".localized()
         view.backgroundColor = UIColor(named: "FFFFFF")
         
         //регистрация ячейки с ID

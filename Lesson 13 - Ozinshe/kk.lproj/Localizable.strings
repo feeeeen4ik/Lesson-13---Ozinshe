@@ -21,7 +21,7 @@
 "logInPasswordTextFieldPlaceholder" = "Сіздің құпия сөзіңіз";
 "logInAuthTitleButton" = "Кіру";
 "logInCreateAccauntLabel" = "Аккаунтыныз жоқ па?";
-"logInCreateAccauntTitleButton" = "Тіркелу";
+"createAccauntTitleButton" = "Тіркелу";
 
 //RegistrationViewController
 "regMainTitleLabel" = "Тіркелу";
@@ -44,3 +44,16 @@
 "changePaswordCopyPasswordLabel" = "Құпия сөзді қайталаңыз";
 "changePaswordPasswordTextFieldPlaceholder" = "Сіздің құпия сөзіңіз";
 "changePaswordApplyPasswordButton" = "Өзгерістерді сақтау";
+
+//LanguagesTableViewController
+"languagesMaintitle" = "Тіл";
+
+
+//OnboardingViewController
+"onboardingMainTitle" = "ÖZINŞE-ге қош келдің!";
+"onboardingTextFirst" = "Фильмдер, телехикаялар, ситкомдар, анимациялық жобалар, телебағдарламалар мен реалити-шоулар, аниме және тағы басқалары";
+"onboardingTextSecond" = "Кез келген құрылғыдан қара 
+    Сүйікті фильміңді  қосымша төлемсіз телефоннан, планшеттен, ноутбуктан қара";
+"onboardingTextThird" = "Тіркелу оңай. Қазір тіркел де қалаған фильміңе қол жеткіз";
+"onbordingSkipButtonTitle" = "Өткізу";
+"onbordingButtonTitle" = "Әрі қарай";

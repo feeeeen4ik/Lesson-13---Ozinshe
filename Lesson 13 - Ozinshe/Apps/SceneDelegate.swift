@@ -21,11 +21,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
 //        window?.rootViewController = TabBarViewController()
-        let navigationController = UINavigationController(
-            rootViewController: LoginViewController()
-        )
-//        
-        window?.rootViewController = navigationController
+//        let navigationController = UINavigationController(
+//            rootViewController: LoginViewController()
+//        )
+//
+        window?.rootViewController = OnboardingViewController()
+        
+//        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         
         //устанавливаем тему приложения при запуске

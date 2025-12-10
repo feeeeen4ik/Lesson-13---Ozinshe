@@ -4,7 +4,7 @@
 "profileInfoButton" = "Personal data";
 "profileInfoLabel" = "Change";
 "changePasswordButton" = "Change password";
-"changeLanguageButton" = "Language";
+"changeLanguageButton" = "Languages";
 "themeStyleLabel" = "Dark mode";
 
 //LogOutViewController
@@ -44,3 +44,18 @@
 "changePaswordCopyPasswordLabel" = "Repeat password";
 "changePaswordPasswordTextFieldPlaceholder" = "Your password";
 "changePaswordApplyPasswordButton" = "Save changes";
+
+//LanguagesTableViewController
+"languagesMaintitle" = "Languages";
+
+//OnboardingViewController
+"onboardingMainTitle" = "Welcome to ÖZINŞE!";
+"onboardingTextFirst" = "Movies, TV series, sitcoms, animated projects, TV shows, reality shows, anime and much more.";
+"onboardingTextSecond" = "Watch from any device.
+    Enjoy your favorite movies without extra charges on your phone, tablet, or laptop.";
+"onboardingTextThird" = "Signing up is easy. Register now and get access to your favorite movies.";
+"onbordingSkipButtonTitle" = "Skip";
+"onbordingButtonTitle" = "Continue";
+
+
+
