@@ -60,7 +60,7 @@ class OnboardingViewController: BaseViewController, UIScrollViewDelegate {
         
         button.configuration = config
         button.layer.cornerRadius = 8
-        button.addTarget(self, action: #selector(skipButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(continueButtonTapped), for: .touchUpInside)
         
         button.configurationUpdateHandler = { button in
             switch button.state {
@@ -94,25 +94,33 @@ class OnboardingViewController: BaseViewController, UIScrollViewDelegate {
         scrollView.isPagingEnabled = true
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.delegate = self
         
         return scrollView
     }()
     
+    lazy var normalDot = makeDotImage(width: 8, height: 8)
+    lazy var currentDot = makeDotImage(width: 20, height: 8)
+    
     lazy var pageControl = {
         let control = UIPageControl()
         
         control.currentPageIndicatorTintColor = UIColor(named: "B376F7")
-        control.pageIndicatorTintColor = UIColor(named: "D1D5DB")
+        control.pageIndicatorTintColor = UIColor(named: "4B5563")
         control.currentPage = 0
         control.numberOfPages = pages.count
+        control.preferredCurrentPageIndicatorImage = UIImage()
         control.translatesAutoresizingMaskIntoConstraints = false
+        control.preferredIndicatorImage = normalDot
+        control.setIndicatorImage(currentDot, forPage: 0)
         
         return control
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         setupUI()
     }
@@ -168,12 +176,6 @@ class OnboardingViewController: BaseViewController, UIScrollViewDelegate {
         imageTop.clipsToBounds = true
         imageTop.translatesAutoresizingMaskIntoConstraints = false
         
-        let imageBottom = UIImageView()
-        imageBottom.image = UIImage(named: "OnboardingWhite")
-        imageBottom.contentMode = .scaleAspectFill
-        imageBottom.clipsToBounds = true
-        imageBottom.translatesAutoresizingMaskIntoConstraints = false
-        
         let titleLabel = UILabel()
         titleLabel.text = mainTitle
         titleLabel.font = UIFont(name: "SFProDisplay-Bold", size: 24)
@@ -189,26 +191,19 @@ class OnboardingViewController: BaseViewController, UIScrollViewDelegate {
         textLabel.numberOfLines = 4
             
         container.addSubview(imageTop)
-        container.addSubview(imageBottom)
         container.addSubview(titleLabel)
         container.addSubview(textLabel)
         
         imageTop.snp.makeConstraints { make in
             make.top.equalToSuperview()
+            make.bottom.equalToSuperview()
             make.centerX.equalToSuperview()
             make.height.equalTo(504)
             make.width.equalTo(400)
         }
         
-        imageBottom.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
-            make.centerX.equalToSuperview()
-            make.height.equalTo(650)
-            make.width.equalTo(400)
-        }
-        
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(imageBottom.snp.top).offset(300)
+            make.top.equalTo(imageTop.snp.top).offset(520)
             make.leading.equalToSuperview().offset(40)
             make.trailing.equalToSuperview().inset(40)
         }
@@ -222,32 +217,48 @@ class OnboardingViewController: BaseViewController, UIScrollViewDelegate {
         return container
     }
     
-    @objc private func skipButtonTapped() {
-        let lastIndex = pages.count - 1
-        let offsetX = CGFloat(lastIndex) * scrollView.bounds.width
-        scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
-        pageControl.currentPage = pages.count - 1
-        
-    }
+//    @objc private func skipButtonTapped() {
+//        let lastIndex = pages.count - 1
+//        let offsetX = CGFloat(lastIndex) * scrollView.bounds.width
+//        scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
+//        pageControl.currentPage = pages.count - 1
+//        
+//    }
     
     @objc private func continueButtonTapped() {
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = scene.windows.first {
-            let mainVC = LoginViewController()
-            let navVC = UINavigationController(rootViewController: mainVC)
-            
-            window.rootViewController = navVC
-            window.makeKeyAndVisible()
+        navigationController?
+            .pushViewController(LoginViewController(), animated: true)
+    }
+    
+    private func makeDotImage(width: CGFloat, height: CGFloat) -> UIImage {
+
+        let size = CGSize(width: width, height: height)
+        let renderer = UIGraphicsImageRenderer(size: size)
+
+        return renderer.image { ctx in
+            let rect = CGRect(origin: .zero, size: size)
+            let path = UIBezierPath(roundedRect: rect, cornerRadius: height / 2)
+            path.fill()
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let width = scrollView.bounds.width
+        guard width > 0 else {
+            return
+        }
+        
         let page = Int(
-            round(scrollView.contentOffset.x / scrollView.bounds.width)
+            round(scrollView.contentOffset.x / width)
         )
         
         if pageControl.currentPage != page {
             pageControl.currentPage = page
+        }
+        
+        for index in 0..<pageControl.numberOfPages {
+            let image = index == page ? currentDot : normalDot
+            pageControl.setIndicatorImage(image, forPage: index)
         }
         
         skipButton.isHidden = page == pages.count - 1 ? true : false

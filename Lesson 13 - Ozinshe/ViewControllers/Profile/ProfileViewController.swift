@@ -322,8 +322,6 @@ final class ProfileViewController: BaseViewController {
     @objc private func logOut() {
         let VC = LogOutViewController()
         
-//        VC.title = "Шығу"
-        
         let navVC = UINavigationController(rootViewController: VC)
         
         //настройка navigationBar и sheetPresentationCOntroller

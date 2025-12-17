@@ -152,12 +152,13 @@ class LogOutViewController: BaseViewController {
     @objc private func logOut() {
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = scene.windows.first {
-            let mainVC = LoginViewController()
+            let mainVC = OnboardingViewController()
             let navVC = UINavigationController(rootViewController: mainVC)
             
-            window.rootViewController = navVC
-            window.makeKeyAndVisible()
-            
+            UIView.transition(with: window, duration: 0.35, options: .transitionCrossDissolve) {
+                window.rootViewController = navVC
+                window.makeKeyAndVisible()
+            }
         }
     }
     

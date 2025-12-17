@@ -291,8 +291,10 @@ class LoginViewController: BaseViewController {
             let mainVC = TabBarViewController()
             let navVC = UINavigationController(rootViewController: mainVC)
             
-            window.rootViewController = navVC
-            window.makeKeyAndVisible()
+            UIView.transition(with: window, duration: 0.35, options: .transitionCrossDissolve) {
+                window.rootViewController = navVC
+                window.makeKeyAndVisible()
+            }
         }
     }
     
