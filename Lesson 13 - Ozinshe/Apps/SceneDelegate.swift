@@ -20,9 +20,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: windowScene)
         
-        let navigationController = UINavigationController(
-            rootViewController: OnboardingViewController()
-        )
+        let navigationController = UINavigationController()
+        var mainVC = UIViewController()
+        
+        if ProfileStorage.shared.accessToken == "" {
+            mainVC = OnboardingViewController()
+        } else {
+            mainVC = TabBarViewController()
+        }
+        
+        navigationController.setViewControllers([mainVC], animated: false)
+        
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         

@@ -10,30 +10,42 @@ import SnapKit
 import Localize_Swift
 
 class LoginViewController: BaseViewController {
-
-    lazy var titleLabel: UILabel = CustomLabel(
-        text: "logInMainTitleLabel".localized(),
-        fontName: "SFProDisplay-Bold",
-        fontSize: 24,
-        textColor: "111827",
-        textAlignment: .left
-    )
     
-    lazy var secondTitleLabel: UILabel = CustomLabel(
-        text: "logInSecondTitleLabel".localized(),
-        fontName: "SFProDisplay-Medium",
-        fontSize: 16,
-        textColor: "9CA3AF",
-        textAlignment: .left
-    )
+    let networkManager = NetworkManager.shared
+    let profileStorage = ProfileStorage.shared
     
-    lazy var emailLabel: UILabel = CustomLabel(
-        text: "Email",
-        fontName: "SFProDisplay-Bold",
-        fontSize: 14,
-        textColor: "111827",
-        textAlignment: .left
-    )
+    lazy var titleLabel =  {
+        let label = CustomLabel(
+            text: "logInMainTitleLabel".localized(),
+            fontName: "SFProDisplay-Bold",
+            fontSize: 24,
+            textColor: "111827",
+            textAlignment: .left
+        )
+        return label
+    }()
+    
+    lazy var secondTitleLabel = {
+        let label  = CustomLabel(
+            text: "logInSecondTitleLabel".localized(),
+            fontName: "SFProDisplay-Medium",
+            fontSize: 16,
+            textColor: "9CA3AF",
+            textAlignment: .left
+        )
+        return label
+    }()
+    
+    lazy var emailLabel = {
+        let label = CustomLabel(
+            text: "Email",
+            fontName: "SFProDisplay-Bold",
+            fontSize: 14,
+            textColor: "111827",
+            textAlignment: .left
+        )
+        return label
+    }()
     
     lazy var emailTextField = {
         let textField = CustomTextField()
@@ -61,13 +73,30 @@ class LoginViewController: BaseViewController {
         return image
     }()
     
-    lazy var passwordLabel: UILabel = CustomLabel(
-        text: "logInPasswordLabel".localized(),
-        fontName: "SFProDisplay-Bold",
-        fontSize: 14,
-        textColor: "111827",
-        textAlignment: .left
-    )
+    lazy var wrongEmailLabel = {
+        let label = CustomLabel(
+            text: "logInWrongEmailLabel".localized(),
+            fontName: "SFProDisplay-Medium",
+            fontSize: 14,
+            textColor: "FF402B",
+            textAlignment: .left
+        )
+        label.isHidden = true
+        return label
+    }()
+    
+    lazy var passwordLabel = {
+        let label = CustomLabel(
+            text: "logInPasswordLabel".localized(),
+            fontName: "SFProDisplay-Bold",
+            fontSize: 14,
+            textColor: "111827",
+            textAlignment: .left
+        )
+        
+        return label
+    }()
+    
     lazy var passwordTextField = {
         let textField = CustomTextField()
         
@@ -175,13 +204,16 @@ class LoginViewController: BaseViewController {
         return button
     }()
     
-    lazy var createAccauntLabel: UILabel = CustomLabel(
-        text: "logInCreateAccauntLabel".localized(),
-        fontName: "SFProDisplay-Medium",
-        fontSize: 14,
-        textColor: "9CA3AF",
-        textAlignment: .left
-    )
+    lazy var createAccauntLabel = {
+        let label = CustomLabel(
+            text: "logInCreateAccauntLabel".localized(),
+            fontName: "SFProDisplay-Medium",
+            fontSize: 14,
+            textColor: "9CA3AF",
+            textAlignment: .left
+        )
+        return label
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -205,7 +237,8 @@ class LoginViewController: BaseViewController {
                 passwordImage,
                 showPasswordButton,
                 authButton,
-                createAccauntStack
+                createAccauntStack,
+                wrongEmailLabel
             )
         
         titleLabel.snp.makeConstraints { make in
@@ -236,9 +269,14 @@ class LoginViewController: BaseViewController {
             make.leading.equalToSuperview().inset(40)
             make.height.width.equalTo(20)
         }
+        wrongEmailLabel.snp.makeConstraints { make in
+            make.top.equalTo(emailTextField.snp.bottom).offset(16)
+            make.leading.trailing.equalTo(emailTextField)
+            make.height.equalTo(0)
+        }
         
         passwordLabel.snp.makeConstraints { make in
-            make.top.equalTo(emailTextField.snp.bottom).offset(12)
+            make.top.equalTo(wrongEmailLabel.snp.bottom).offset(14)
             make.leading.trailing.equalTo(emailTextField)
         }
         
@@ -286,16 +324,71 @@ class LoginViewController: BaseViewController {
     }
     
     @objc private func auth() {
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = scene.windows.first {
-            let mainVC = TabBarViewController()
-            let navVC = UINavigationController(rootViewController: mainVC)
-            
-            UIView.transition(with: window, duration: 0.35, options: .transitionCrossDissolve) {
-                window.rootViewController = navVC
-                window.makeKeyAndVisible()
-            }
+        
+        if emailTextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true {
+            showAlert(
+                title: "emailAndPasswordFieldsIsEmptyTitle".localized(),
+                message: "emailAndPasswordFieldsIsEmptyMassage".localized()
+            )
+            return
         }
+        
+        let email = emailTextField.text ?? ""
+        let checkedEmail = email.checkValidateEmail
+        validateEmail(email)
+        if checkedEmail == false {
+            return
+        }
+        
+        networkManager
+            .signIn(
+                email: emailTextField.text ?? "",
+                password: passwordTextField.text ?? "") { [unowned self] result in
+                    switch result {
+                    case .success(let response):
+                        profileStorage.accessToken = response.accessToken
+                        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                           let window = scene.windows.first {
+                            let mainVC = TabBarViewController()
+                            let navVC = UINavigationController(rootViewController: mainVC)
+                            
+                            UIView.transition(with: window, duration: 0.35, options: .transitionCrossDissolve) {
+                                window.rootViewController = navVC
+                                window.makeKeyAndVisible()
+                            }
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        showAlert(
+                            title: "logInErrorTitle".localized(),
+                            message: "logOnErrorMassage".localized()
+                        )
+                    }
+                }
+    }
+    
+    private func validateEmail(_ email: String) {
+        let isValid = email.checkValidateEmail
+        
+        wrongEmailLabel.isHidden = isValid
+        emailTextField.layer.borderColor = isValid ? UIColor(
+            named: "textFieldBorder"
+        )?.cgColor : UIColor(named: "FF402B")?.cgColor
+        
+        wrongEmailLabel.snp.updateConstraints { make in
+            make.height.equalTo(isValid ? 0 : 24)
+        }
+        
+        UIView.animate(withDuration: 0.24) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
     }
     
     override func updateLanguage() {

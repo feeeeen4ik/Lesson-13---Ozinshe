@@ -22,6 +22,7 @@
 "logInAuthTitleButton" = "Log in";
 "logInCreateAccauntLabel" = "Don’t have an account?";
 "createAccauntTitleButton" = "Sign Up";
+"logInWrongEmailLabel" = "Wrong format";
 
 //RegistrationViewController
 "regMainTitleLabel" = "Registration";
@@ -30,6 +31,7 @@
 "regInPasswordLabel" = "Password";
 "regInPasswordTextFieldPlaceholder" = "Your password";
 "regInSecondPasswordLabel" = "Repeat password";
+"regAccountAlreadyExistsLabel" = "User with this email is already registered";
 
 //ProfileInfoViewController
 "profileInfoTitle" = "Personal info";
@@ -57,5 +59,15 @@
 "onbordingSkipButtonTitle" = "Skip";
 "onbordingButtonTitle" = "Continue";
 
+//allert
+"logInErrorTitle" = "Error";
+"logOnErrorMassage" = "";
 
+//allert
+"logInErrorTitle" = "Error";
+"logOnErrorMassage" = "Profile not found";
+"emailAndPasswordFieldsIsEmptyTitle" = "Looks like something’s missing 👀";
+"emailAndPasswordFieldsIsEmptyMassage" = "Don’t forget email and password";
+"regPasswordIsDifferentTitle" = "Passwords don’t match";
+"regPasswordIsDifferentMassage" = "Please enter the same password in both fields";
 

@@ -34,7 +34,7 @@ final class TabBarViewController: UITabBarController {
             selectedImage: UIImage(named: "SearchPressed")
         )
         
-        profileVC.tabBarItem = UITabBarItem(
+        profileNC.tabBarItem = UITabBarItem(
             title: "",
             image: UIImage(named: "Profile"),
             selectedImage: UIImage(named: "ProfilePressed")

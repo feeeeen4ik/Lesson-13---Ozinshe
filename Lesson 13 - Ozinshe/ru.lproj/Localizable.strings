@@ -22,6 +22,7 @@
 "logInAuthTitleButton" = "Войти";
 "logInCreateAccauntLabel" = "У вас нет аккаунта?";
 "createAccauntTitleButton" = "Зарегистрируйтесь";
+"logInWrongEmailLabel" = "Не верный формат";
 
 //RegistrationViewController
 "regMainTitleLabel" = "Регистрация";
@@ -30,6 +31,7 @@
 "regInPasswordLabel" = "Пароль";
 "regInPasswordTextFieldPlaceholder" = "Ваш пароль";
 "regInSecondPasswordLabel" = "Повторите пароль";
+"regAccountAlreadyExistsLabel" = "Пользователь с таким email уже зарегистрирован";
 
 //ProfileInfoViewController
 "profileInfoTitle" = "Личные данные";
@@ -56,3 +58,12 @@
 "onboardingTextThird" = "Регистрация проста. Зарегистрируйтесь сейчас и получайте доступ к любимым фильмам.";
 "onbordingSkipButtonTitle" = "Пропустить";
 "onbordingButtonTitle" = "Продолжить";
+
+//allert
+"logInErrorTitle" = "Ошибка";
+"logOnErrorMassage" = "Профиль не найден";
+"emailAndPasswordFieldsIsEmptyTitle" = "Кажется, чего-то не хватает 👀";
+"emailAndPasswordFieldsIsEmptyMassage" = "Email и пароль ещё не заполнены";
+"regPasswordIsDifferentTitle" = "Пароли разные";
+"regPasswordIsDifferentMassage" = "Введите одинаковые пароли в оба поля";
+

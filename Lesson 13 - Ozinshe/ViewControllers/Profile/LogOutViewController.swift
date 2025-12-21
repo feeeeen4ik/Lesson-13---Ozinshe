@@ -11,6 +11,8 @@ import Localize_Swift
 
 class LogOutViewController: BaseViewController {
     
+    let profileStorage = ProfileStorage.shared
+
     lazy var container = {
         let view = UIView()
         view.backgroundColor = .clear
@@ -150,6 +152,8 @@ class LogOutViewController: BaseViewController {
     }
     
     @objc private func logOut() {
+        profileStorage.clear()
+        
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = scene.windows.first {
             let mainVC = OnboardingViewController()

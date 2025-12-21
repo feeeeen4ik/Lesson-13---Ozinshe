@@ -10,6 +10,9 @@ import SnapKit
 import Localize_Swift
 
 class RegistrationViewController: BaseViewController {
+    
+    private let networkManager = NetworkManager.shared
+    private let profileStorage = ProfileStorage.shared
 
     lazy var titleLabel: UILabel = CustomLabel(
         text: "regMainTitleLabel".localized(),
@@ -59,6 +62,18 @@ class RegistrationViewController: BaseViewController {
         image.clipsToBounds = true
         
         return image
+    }()
+    
+    lazy var wrongEmailLabel = {
+        let label = CustomLabel(
+            text: "logInWrongEmailLabel".localized(),
+            fontName: "SFProDisplay-Medium",
+            fontSize: 14,
+            textColor: "FF402B",
+            textAlignment: .left)
+        label.isHidden = true
+        
+        return label
     }()
     
     lazy var passwordLabel: UILabel = CustomLabel(
@@ -153,6 +168,19 @@ class RegistrationViewController: BaseViewController {
         return button
     }()
     
+    lazy var accountAlredyExistsLabel = {
+        let label = CustomLabel(
+            text: "regAccountAlreadyExistsLabel".localized(),
+            fontName: "SFProDisplay-Bold",
+            fontSize: 14,
+            textColor: "FF402B",
+            textAlignment: .left
+        )
+        label.isHidden = true
+        
+        return label
+    }()
+    
     lazy var regButton = {
         let button = UIButton()
         
@@ -207,7 +235,8 @@ class RegistrationViewController: BaseViewController {
                 secondPasswordImage,
                 secondShowPasswordButton,
                 regButton,
-                
+                wrongEmailLabel,
+                accountAlredyExistsLabel
             )
         
         titleLabel.snp.makeConstraints { make in
@@ -239,8 +268,14 @@ class RegistrationViewController: BaseViewController {
             make.height.width.equalTo(20)
         }
         
+        wrongEmailLabel.snp.makeConstraints { make in
+            make.top.equalTo(emailTextField.snp.bottom).offset(15)
+            make.leading.trailing.equalTo(emailTextField)
+            make.height.equalTo(0)
+        }
+        
         passwordLabel.snp.makeConstraints { make in
-            make.top.equalTo(emailTextField.snp.bottom).offset(12)
+            make.top.equalTo(wrongEmailLabel.snp.bottom).offset(12)
             make.leading.trailing.equalTo(emailTextField)
         }
         
@@ -286,8 +321,14 @@ class RegistrationViewController: BaseViewController {
             make.height.width.equalTo(20)
         }
         
+        accountAlredyExistsLabel.snp.makeConstraints { make in
+            make.top.equalTo(secondPasswordTextField.snp.bottom).offset(31)
+            make.leading.trailing.equalTo(passwordTextField)
+            make.height.equalTo(0)
+        }
+        
         regButton.snp.makeConstraints { make in
-            make.top.equalTo(secondPasswordTextField.snp.bottom).offset(40)
+            make.top.equalTo(accountAlredyExistsLabel.snp.bottom).offset(40)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
             make.height.equalTo(56)
@@ -306,16 +347,86 @@ class RegistrationViewController: BaseViewController {
     
     @objc private func authorizate() {
         
-        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let window = scene.windows.first {
-            let mainVC = TabBarViewController()
-            let navVC = UINavigationController(rootViewController: mainVC)
-            
-            UIView.transition(with: window, duration: 0.35, options: .transitionCrossDissolve) {
-                window.rootViewController = navVC
-                window.makeKeyAndVisible()
-            }
+        if emailTextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true || secondPasswordTextField.text?.isEmpty == true {
+            showAlert(
+                title: "emailAndPasswordFieldsIsEmptyTitle".localized(),
+                message: "emailAndPasswordFieldsIsEmptyMassage".localized()
+            )
+            return
         }
+        
+        if passwordTextField.text != secondPasswordTextField.text {
+            showAlert(
+                title: "regPasswordIsDifferentTitle".localized(),
+                message: "regPasswordIsDifferentMassage".localized()
+            )
+            return
+        }
+        
+        let email = emailTextField.text ?? ""
+        let checkedEmail = email.checkValidateEmail
+        validateEmail(email)
+        if checkedEmail == false {
+            return
+        }
+        
+        networkManager
+            .signUp(
+                email: emailTextField.text!,
+                password: passwordTextField.text!) { [unowned self] result in
+                    switch result {
+                    case .success(let response):
+                        profileStorage.accessToken = response.accessToken
+                        showAccountAlreadyExistsLabel(false)
+                        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                           let window = scene.windows.first {
+                            let mainVC = TabBarViewController()
+                            let navVC = UINavigationController(rootViewController: mainVC)
+                            
+                            UIView.transition(with: window, duration: 0.35, options: .transitionCrossDissolve) {
+                                window.rootViewController = navVC
+                                window.makeKeyAndVisible()
+                            }
+                        }
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        showAccountAlreadyExistsLabel(true)
+                    }
+                }
+    }
+    
+    private func validateEmail(_ email: String) {
+        let isValid = email.checkValidateEmail
+        
+        wrongEmailLabel.isHidden = isValid
+        emailTextField.layer.borderColor = isValid ? UIColor(
+            named: "textFieldBorder"
+        )?.cgColor : UIColor(named: "FF402B")?.cgColor
+        
+        wrongEmailLabel.snp.updateConstraints { make in
+            make.height.equalTo(isValid ? 0 : 24)
+        }
+        
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func showAccountAlreadyExistsLabel(_ show: Bool) {
+        accountAlredyExistsLabel.isHidden = !show
+        accountAlredyExistsLabel.snp.updateConstraints { make in
+            make.height.equalTo(show ? 22 : 0)
+        }
+        
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
     }
     
     override func updateLanguage() {

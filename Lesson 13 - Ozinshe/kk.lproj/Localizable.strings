@@ -22,6 +22,7 @@
 "logInAuthTitleButton" = "Кіру";
 "logInCreateAccauntLabel" = "Аккаунтыныз жоқ па?";
 "createAccauntTitleButton" = "Тіркелу";
+"logInWrongEmailLabel" = "Қате формат";
 
 //RegistrationViewController
 "regMainTitleLabel" = "Тіркелу";
@@ -30,6 +31,7 @@
 "regInPasswordLabel" = "Құпия сөз";
 "regInPasswordTextFieldPlaceholder" = "Сіздің құпия сөзіңіз";
 "regInSecondPasswordLabel" = "Құпия сөзді қайталаңыз";
+"regAccountAlreadyExistsLabel" = "Мұндай email-ы бар пайдаланушы тіркелген";
 
 //ProfileInfoViewController
 "profileInfoTitle" = "Жеке деректер";
@@ -57,3 +59,11 @@
 "onboardingTextThird" = "Тіркелу оңай. Қазір тіркел де қалаған фильміңе қол жеткіз";
 "onbordingSkipButtonTitle" = "Өткізу";
 "onbordingButtonTitle" = "Әрі қарай";
+
+//allert
+"logInErrorTitle" = "Қате";
+"logOnErrorMassage" = "Профиль табылмады";
+"emailAndPasswordFieldsIsEmptyTitle" = "Бірдеңе жетіспей тұрған сияқты 👀";
+"emailAndPasswordFieldsIsEmptyMassage" = "Электрондық пошта мен құпиясөзді ұмытпаңыз";
+"regPasswordIsDifferentTitle" = "Құпиясөздер сәйкес келмейді";
+"regPasswordIsDifferentMassage" = "Екі өріске де бірдей құпиясөз енгізіңіз";
