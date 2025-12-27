@@ -6,6 +6,7 @@
 //
 
 import Foundation
+// accessToken eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJmZWxpeEBtYWlsLnJ1IiwiaWF0IjoxNzY2Nzc3MjM5LCJleHAiOjE3OTgzMTMyMzl9.Tu1AsJfA4Y8DlKuzABsPfMaJWTtDfRZqS1YVj3iolEUZi-YbCzWEIo6BFG3sGa3tf7VFPgQwUfoAfZuIJKMCvA
 
 final class ProfileStorage {
     static let shared = ProfileStorage()

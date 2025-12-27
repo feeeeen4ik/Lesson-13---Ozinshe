@@ -7,19 +7,23 @@
 
 import Alamofire
 import SVProgressHUD
+import SDWebImage
 
 enum responseURL: String {
     
     case signIn = "auth/V1/signin"
     case signUp = "auth/V1/signup"
+    case favorites = "core/V1/favorite/"
 }
 
 final class NetworkManager {
     static let shared = NetworkManager()
+    static let baseURLForImage: String = "http://apiozinshe.mobydev.kz/core/public/V1/show/"
     
     private init() {}
     
     private let baseURL: String = "http://apiozinshe.mobydev.kz/"
+    private let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
     
     func signIn(email: String, password: String, completion: @escaping (Result<SignInResponse, AFError>) -> Void) {
         let parameters: [String: String] = [
@@ -71,5 +75,17 @@ final class NetworkManager {
         }
     }
     
+    func getFavorites(
+        completion: @escaping (Result<[Movie], AFError>) -> Void
+    ) {
+        let url = baseURL + responseURL.favorites.rawValue
+        AF.request(
+            url,
+            method: .get,
+            headers: headers
+        ).validate().responseDecodable(of: [Movie].self) { response in
+            completion(response.result)
+            }
+        }
     
 }

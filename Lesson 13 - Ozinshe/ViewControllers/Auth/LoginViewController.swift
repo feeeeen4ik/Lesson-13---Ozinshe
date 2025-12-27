@@ -361,7 +361,7 @@ class LoginViewController: BaseViewController {
                         print(error.localizedDescription)
                         showAlert(
                             title: "logInErrorTitle".localized(),
-                            message: "logOnErrorMassage".localized()
+                            message: error.localizedDescription
                         )
                     }
                 }

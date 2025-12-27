@@ -7,12 +7,16 @@
 
 import UIKit
 import SnapKit
+import SDWebImage
+import Kingfisher
 
 class FavoriteTableViewCell: UITableViewCell {
     
+    private let baseURLForImage = NetworkManager.baseURLForImage
+    static let identifier: String = "FavoriteTableViewCell"
+    
     lazy var pictureImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "Image")
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
@@ -22,7 +26,6 @@ class FavoriteTableViewCell: UITableViewCell {
     
     lazy var titleLable = {
         let label = UILabel()
-        label.text = "Қызғалдақтар мекені"
         label.font = UIFont(name: "SFProDisplay-Bold", size: 14)
         label.textColor = UIColor(named: "111827")
         
@@ -31,7 +34,6 @@ class FavoriteTableViewCell: UITableViewCell {
     
     lazy var subtitleLable = {
         let label = UILabel()
-        label.text = "2020 • Телехикая • Мультфильм"
         label.font = UIFont(name: "SFProDisplay-Regular", size: 12)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -86,7 +88,29 @@ class FavoriteTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setupUI() {
+    func configure(with model: Movie) {
+        titleLable.text = model.name
+        subtitleLable.text = "\(model.year) "
+        model.genres.forEach { subtitleLable.text?.append("• \($0.name) ") }
+        let pictureIndex = URL(string: model.poster.link)?.lastPathComponent ?? "0"
+        let pictureURL = URL(string: "\(baseURLForImage)\(pictureIndex)")
+        let processor = DownsamplingImageProcessor(
+            size: pictureImageView.bounds
+                .size)
+        pictureImageView.kf.indicatorType = .activity
+        pictureImageView.kf
+            .setImage(
+                with: pictureURL,
+                placeholder: UIImage(named: "ImageNotFound"),
+                options: [
+                    .processor(processor),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ]
+            )
+    }
+    
+    private func setupUI() {
         contentView.addSubview(pictureImageView)
         contentView.addSubview(titleLable)
         contentView.addSubview(subtitleLable)

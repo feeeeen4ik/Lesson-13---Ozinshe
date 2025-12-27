@@ -6,22 +6,50 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 final class FavoritesTableViewController: UITableViewController {
-
+    private let networkManager = NetworkManager.shared
+    
+    private var movies: [Movie] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView
+            .register(
+                FavoriteTableViewCell.self,
+                forCellReuseIdentifier: FavoriteTableViewCell.identifier
+            )
+        SVProgressHUD.show()
+        networkManager.getFavorites { [unowned self] result in
+            switch result {
+            case .success(let values):
+                SVProgressHUD.dismiss()
+                movies = values
+                tableView.reloadData()
+            case .failure(let error):
+                SVProgressHUD.dismiss()
+                print(error.localizedDescription)
+                
+            }
+        }
         view.backgroundColor = UIColor(named: "FFFFFF")
         tableView.separatorStyle = .none
         
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        movies.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = FavoriteTableViewCell()
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: FavoriteTableViewCell.identifier,
+            for: indexPath
+        ) as! FavoriteTableViewCell
+        
+        let movie = movies[indexPath.row]
+        cell.configure(with: movie)
         
         return cell
     }
