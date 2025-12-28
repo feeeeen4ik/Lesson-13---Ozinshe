@@ -10,7 +10,7 @@ import SnapKit
 import SDWebImage
 import Kingfisher
 
-class FavoriteTableViewCell: UITableViewCell {
+final class FavoriteTableViewCell: UITableViewCell {
     
     private let baseURLForImage = NetworkManager.baseURLForImage
     static let identifier: String = "FavoriteTableViewCell"

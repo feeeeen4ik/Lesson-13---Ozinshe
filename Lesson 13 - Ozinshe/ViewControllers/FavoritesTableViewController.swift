@@ -20,22 +20,10 @@ final class FavoritesTableViewController: UITableViewController {
                 FavoriteTableViewCell.self,
                 forCellReuseIdentifier: FavoriteTableViewCell.identifier
             )
-        SVProgressHUD.show()
-        networkManager.getFavorites { [unowned self] result in
-            switch result {
-            case .success(let values):
-                SVProgressHUD.dismiss()
-                movies = values
-                tableView.reloadData()
-            case .failure(let error):
-                SVProgressHUD.dismiss()
-                print(error.localizedDescription)
-                
-            }
-        }
         view.backgroundColor = UIColor(named: "FFFFFF")
         tableView.separatorStyle = .none
         
+        loadFavorites()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -57,5 +45,22 @@ final class FavoritesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         153
     }
-    
+        
+    private func loadFavorites() {
+        SVProgressHUD.show()
+        networkManager.getFavorites { [weak self] result in
+            guard let self else { return }
+            
+            SVProgressHUD.dismiss()
+            
+            switch result {
+            case .success(let values):
+                movies = values
+                tableView.reloadData()
+            case .failure(let error):
+                print(error.localizedDescription)
+                
+            }
+        }
+    }
 }

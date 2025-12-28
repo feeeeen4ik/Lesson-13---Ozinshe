@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 import Localize_Swift
+import SVProgressHUD
 
-class LoginViewController: BaseViewController {
+final class LoginViewController: BaseViewController {
     
     let networkManager = NetworkManager.shared
     let profileStorage = ProfileStorage.shared
@@ -340,10 +341,15 @@ class LoginViewController: BaseViewController {
             return
         }
         
+        SVProgressHUD.show()
         networkManager
             .signIn(
                 email: emailTextField.text ?? "",
-                password: passwordTextField.text ?? "") { [unowned self] result in
+                password: passwordTextField.text ?? "") { [weak self] result in
+                    guard let self else { return }
+                    
+                    SVProgressHUD.dismiss()
+                    
                     switch result {
                     case .success(let response):
                         profileStorage.accessToken = response.accessToken
@@ -385,7 +391,7 @@ class LoginViewController: BaseViewController {
         
     }
     
-    func showAlert(title: String, message: String) {
+    private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true)

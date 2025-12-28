@@ -6,10 +6,8 @@
 //
 
 import Alamofire
-import SVProgressHUD
-import SDWebImage
 
-enum responseURL: String {
+enum ResponseURL: String {
     
     case signIn = "auth/V1/signin"
     case signUp = "auth/V1/signup"
@@ -23,7 +21,7 @@ final class NetworkManager {
     private init() {}
     
     private let baseURL: String = "http://apiozinshe.mobydev.kz/"
-    private let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
+    private var headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
     
     func signIn(email: String, password: String, completion: @escaping (Result<SignInResponse, AFError>) -> Void) {
         let parameters: [String: String] = [
@@ -31,22 +29,15 @@ final class NetworkManager {
             "password": password
         ]
         
-        let url = baseURL + responseURL.signIn.rawValue
-        SVProgressHUD.show()
+        let url = baseURL + ResponseURL.signIn.rawValue
+        
         AF.request(
             url,
             method: .post,
             parameters: parameters,
             encoding: JSONEncoding.default
         ).responseDecodable(of: SignInResponse.self) { response in
-            switch response.result {
-            case .success(let value):
-                SVProgressHUD.dismiss()
-                completion(.success(value))
-            case .failure(let error):
-                SVProgressHUD.dismiss()
-                completion(.failure(error))
-            }
+            completion(response.result)
         }
     }
     
@@ -56,29 +47,22 @@ final class NetworkManager {
             "password": password
         ]
         
-        let url = baseURL + responseURL.signUp.rawValue
-        SVProgressHUD.show()
+        let url = baseURL + ResponseURL.signUp.rawValue
+        
         AF.request(
             url,
             method: .post,
             parameters: parameters,
             encoding: JSONEncoding.default
         ).responseDecodable(of: SignInResponse.self) { response in
-            switch response.result {
-            case .success(let value):
-                SVProgressHUD.dismiss()
-                completion(.success(value))
-            case .failure(let error):
-                SVProgressHUD.dismiss()
-                completion(.failure(error))
-            }
+            completion(response.result)
         }
     }
     
     func getFavorites(
         completion: @escaping (Result<[Movie], AFError>) -> Void
     ) {
-        let url = baseURL + responseURL.favorites.rawValue
+        let url = baseURL + ResponseURL.favorites.rawValue
         AF.request(
             url,
             method: .get,

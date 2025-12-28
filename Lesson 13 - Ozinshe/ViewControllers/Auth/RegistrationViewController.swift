@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 import Localize_Swift
+import SVProgressHUD
 
-class RegistrationViewController: BaseViewController {
+final class RegistrationViewController: BaseViewController {
     
     private let networkManager = NetworkManager.shared
     private let profileStorage = ProfileStorage.shared
@@ -370,6 +371,7 @@ class RegistrationViewController: BaseViewController {
             return
         }
         
+        SVProgressHUD.show()
         networkManager
             .signUp(
                 email: emailTextField.text!,
@@ -392,6 +394,7 @@ class RegistrationViewController: BaseViewController {
                         print(error.localizedDescription)
                         showAccountAlreadyExistsLabel(true)
                     }
+                    SVProgressHUD.dismiss()
                 }
     }
     
