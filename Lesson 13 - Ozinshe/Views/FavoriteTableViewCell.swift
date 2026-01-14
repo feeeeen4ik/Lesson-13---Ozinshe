@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import SDWebImage
 import Kingfisher
 
 final class FavoriteTableViewCell: UITableViewCell {
@@ -101,13 +100,21 @@ final class FavoriteTableViewCell: UITableViewCell {
         pictureImageView.kf
             .setImage(
                 with: pictureURL,
-                placeholder: UIImage(named: "ImageNotFound"),
                 options: [
                     .processor(processor),
                     .transition(.fade(1)),
                     .cacheOriginalImage
                 ]
-            )
+            ) { [weak self] result in
+                guard let self else { return }
+                
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    pictureImageView.image = UIImage(named: "ImageNotFound")
+                }
+            }
     }
     
     private func setupUI() {

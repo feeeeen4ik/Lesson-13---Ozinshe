@@ -8,9 +8,11 @@
 import UIKit
 import SnapKit
 import Localize_Swift
+import SVProgressHUD
 
 class ChangePasswordViewController: BaseViewController {
     var buttonBottomConstraint: Constraint?
+    let networkManager = NetworkManager.shared
     
     lazy var upperView = {
         let view = UIView()
@@ -248,7 +250,7 @@ class ChangePasswordViewController: BaseViewController {
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
               let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
         
-        buttonBottomConstraint?.update(offset: -keyboardFrame.height)
+        buttonBottomConstraint?.update(inset: keyboardFrame.height)
         
         UIView.animate(withDuration: duration) {
             self.view.layoutIfNeeded()
@@ -260,7 +262,7 @@ class ChangePasswordViewController: BaseViewController {
         guard let userInfo = notification.userInfo,
               let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
         
-        buttonBottomConstraint?.update(offset: -16)
+        buttonBottomConstraint?.update(inset: 16)
         
         UIView.animate(withDuration: duration) {
             self.view.layoutIfNeeded()
@@ -277,7 +279,39 @@ class ChangePasswordViewController: BaseViewController {
     }
     
     @objc private func applyPassword() {
-        navigationController?.popViewController(animated: true)
+        
+        if passwordTextField.text?.isEmpty == true || copyPasswordTextField.text?.isEmpty == true {
+            showAlert(title: "Ошибка!", message: "Одно из полей пароля пустое")
+            return
+        }
+        
+        if passwordTextField.text != copyPasswordTextField.text {
+            showAlert(title: "Ошибка!", message: "Пароли не совпадают")
+            return
+        }
+        
+        let newPassword = passwordTextField.text!
+        SVProgressHUD.show()
+        networkManager.changePassword(to: newPassword) { [weak self] error in
+            guard let self else { return }
+            
+            SVProgressHUD.dismiss()
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            } else {
+                navigationController?.popViewController(animated: true)
+                showAlert(title: "Успех!", message: "Ваш пароль изменен!")
+            }
+        }
+    }
+    
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
     }
     
     override func updateLanguage() {

@@ -12,6 +12,9 @@ enum ResponseURL: String {
     case signIn = "auth/V1/signin"
     case signUp = "auth/V1/signup"
     case favorites = "core/V1/favorite/"
+    case profileData = "core/V1/user/profile"
+    case changeProfileData = "core/V1/user/profile/"
+    case changePassword = "core/V1/user/profile/changePassword"
 }
 
 final class NetworkManager {
@@ -72,4 +75,59 @@ final class NetworkManager {
             }
         }
     
+    func deleteFavoriteBy(id number: Int, completion: @escaping (AFError?) -> Void) {
+        let parameters: [String: Int] = ["movieId": number]
+        let url = baseURL + ResponseURL.favorites.rawValue
+        
+        AF.request(
+            url,
+            method: .delete,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).validate().response { response in
+            completion(response.error)
+        }
+    }
+    
+    func getProfileData(completion: @escaping (Result<AccountData, AFError>) -> Void) {
+        let url = baseURL + ResponseURL.profileData.rawValue
+        AF.request(
+            url,
+            method: .get,
+            headers: headers
+        ).validate().responseDecodable(of: AccountData.self) { response in
+            completion(response.result)
+        }
+    }
+    
+    func changeProfileData(userName: String, birthDate: String, phoneNumber: String, completion: @escaping(AFError?) -> Void) {
+        let parameters: [String: String] = ["name": userName, "birthDate": birthDate, "phoneNumber": phoneNumber]
+        let url = baseURL + ResponseURL.changeProfileData.rawValue
+        
+        AF.request(
+            url,
+            method: .put,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).validate().response { response in
+            completion(response.error)
+        }
+    }
+    
+    func changePassword(to newPassword: String, completion: @escaping (AFError?) -> Void) {
+        let parameters: [String: String] = ["password": newPassword]
+        let url = baseURL + ResponseURL.changePassword.rawValue
+        
+        AF.request(
+            url,
+            method: .put,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).validate().response { response in
+            completion(response.error)
+        }
+    }
 }

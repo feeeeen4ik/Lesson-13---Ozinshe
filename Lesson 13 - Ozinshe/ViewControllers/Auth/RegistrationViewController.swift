@@ -445,3 +445,4 @@ final class RegistrationViewController: BaseViewController {
     }
 
 }
+

@@ -63,4 +63,26 @@ final class FavoritesTableViewController: UITableViewController {
             }
         }
     }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            
+            let movie = movies[indexPath.row]
+            
+            networkManager.deleteFavoriteBy(id: movie.id) { [weak self] error in
+                
+                guard let self else { return }
+                
+                if let error {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                movies.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+        }
+        
+    }
 }

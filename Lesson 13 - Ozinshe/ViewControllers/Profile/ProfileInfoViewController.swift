@@ -8,8 +8,12 @@
 import UIKit
 import SnapKit
 import Localize_Swift
+import SVProgressHUD
 
-class ProfileInfoViewController: BaseViewController {
+final class ProfileInfoViewController: BaseViewController {
+    
+    var buttonBottomConstraint: Constraint?
+    let networkManager = NetworkManager.shared
     
     lazy var upperView = {
         let view = UIView()
@@ -71,6 +75,7 @@ class ProfileInfoViewController: BaseViewController {
         textField.textAlignment = .left
         textField.textContentType = .emailAddress
         textField.textColor = UIColor(named: "111827")
+        textField.isEnabled = false
         
         return textField
     }()
@@ -132,6 +137,7 @@ class ProfileInfoViewController: BaseViewController {
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ru_RU")
         datePicker.maximumDate = Date()
+        datePicker.minimumDate = Calendar.current.date(from: DateComponents(year: 1900))
         datePicker.backgroundColor = .clear
         datePicker.tintColor = .label
         datePicker.subviews.first?.backgroundColor = .clear
@@ -152,12 +158,31 @@ class ProfileInfoViewController: BaseViewController {
         return view
     }()
     
+    lazy var applyProfileChangesButton = {
+        let button = UIButton()
+        
+        button.layer.cornerRadius = 12
+        button
+            .setTitle(
+                "changePaswordApplyPasswordButton".localized(),
+                for: .normal
+            )
+        button.titleLabel?.font = UIFont(name: "SFProDisplay-Bold", size: 16)
+        button.titleLabel?.textColor = .white
+        button.backgroundColor = UIColor(named: "7E2DFC")
+        button.clipsToBounds = true
+        button.addTarget(self, action: #selector(applyProfileChanges), for: .touchUpInside)
+        
+        return button
+    }()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "FFFFFF")
         title = "profileInfoTitle".localized()
         
+        setupKeyboardObservers()
         setupUI()
     }
     
@@ -175,6 +200,7 @@ class ProfileInfoViewController: BaseViewController {
         view.addSubview(birthdayLabel)
         view.addSubview(birthdayDatePicker)
         view.addSubview(birthdayBottomView)
+        view.addSubview(applyProfileChangesButton)
         
         upperView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(0)
@@ -253,6 +279,95 @@ class ProfileInfoViewController: BaseViewController {
             make.trailing.equalToSuperview().inset(24)
             make.height.equalTo(1)
         }
+        
+        applyProfileChangesButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(24)
+            buttonBottomConstraint = make.bottom
+                .equalTo(view.safeAreaLayoutGuide)
+                .inset(16).constraint
+            make.height.equalTo(56)
+        }
+    }
+    
+    @objc private func applyProfileChanges() {
+        if nameTextField.text == "" {
+            showAlert(title: "Ошибка!", message: "Поле 'Имя' не может быть пустым!")
+            return
+        }
+        
+        let userName = nameTextField.text!
+        let phoneNumber = phoneNumberTextField.text!.filter { $0.isNumber }
+        let date = birthdayDatePicker.date
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let birthDate = formatter.string(from: date)
+        
+        SVProgressHUD.show()
+        networkManager
+            .changeProfileData(
+                userName: userName,
+                birthDate: birthDate,
+                phoneNumber: phoneNumber) { [weak self] error in
+                    guard let self else { return }
+                    
+                    SVProgressHUD.dismiss()
+                    if let error {
+                        print(error.localizedDescription)
+                        return
+                    } else {
+                        navigationController?.popViewController(animated: true)
+                        showAlert(title: "Успех!", message: "Данные профила обновлены!")
+                    }
+                }
+    }
+    
+    func setupKeyboardObservers() {
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(keyboardWiilShow(notification:)),
+                name: UIResponder.keyboardWillShowNotification,
+                object: nil
+            )
+        
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(keyboardWiilHide(notification:)),
+                name: UIResponder.keyboardWillHideNotification,
+                object: nil
+            )
+    }
+    
+    @objc private func keyboardWiilShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+        
+        buttonBottomConstraint?.update(inset: keyboardFrame.height)
+        
+        UIView.animate(withDuration: duration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func keyboardWiilHide(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+        
+        buttonBottomConstraint?.update(inset: 16)
+        
+        UIView.animate(withDuration: duration) {
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
     }
     
     override func updateLanguage() {
