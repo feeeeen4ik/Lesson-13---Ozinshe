@@ -10,10 +10,16 @@ import SnapKit
 import Localize_Swift
 import SVProgressHUD
 
+protocol ProfileInfoViewControllerDelegate: AnyObject {
+    func didUpdateProfileData(needToReloadData : Bool)
+}
+
 final class ProfileInfoViewController: BaseViewController {
     
     var buttonBottomConstraint: Constraint?
     let networkManager = NetworkManager.shared
+    var profileData: AccountData?
+    weak var delegate: ProfileInfoViewControllerDelegate?
     
     lazy var upperView = {
         let view = UIView()
@@ -184,6 +190,7 @@ final class ProfileInfoViewController: BaseViewController {
         
         setupKeyboardObservers()
         setupUI()
+        setupUiData()
     }
     
     private func setupUI() {
@@ -316,8 +323,9 @@ final class ProfileInfoViewController: BaseViewController {
                         print(error.localizedDescription)
                         return
                     } else {
+                        delegate?.didUpdateProfileData(needToReloadData: true)
                         navigationController?.popViewController(animated: true)
-                        showAlert(title: "Успех!", message: "Данные профила обновлены!")
+                        showAlert(title: "Успех!", message: "Данные профиля обновлены!")
                     }
                 }
     }
@@ -362,6 +370,49 @@ final class ProfileInfoViewController: BaseViewController {
             self.view.layoutIfNeeded()
         }
         
+    }
+    
+    private func setupUiData() {
+        nameTextField.text = profileData?.name ?? ""
+        emailTextField.text = profileData?.user.email ?? ""
+        phoneNumberTextField.text = formatPhoneNumber(from: profileData?.phoneNumber ?? "")
+        birthdayDatePicker.date = formatBirthDate(from: profileData?.birthDate ?? "") ?? Date()
+        
+    }
+    
+    private func formatPhoneNumber(from digits: String) -> String {
+        let maxDigits = 11
+        let cleanDigits = String(digits.prefix(maxDigits))
+        let chars = Array(cleanDigits)
+        
+        var result = ""
+        for (index, char) in chars.enumerated() {
+            switch index {
+            case 0:
+                if char == "8" {
+                    result += String(char)
+                } else {
+                    result += "+\(char)"
+                }
+            case 1:
+                result += "(\(char)"
+            case 4:
+                result += ")\(char)"
+            case 7:
+                result += "-\(char)"
+            case 9:
+                result += "-\(char)"
+            default:
+                result += String(char)
+            }
+        }
+        return result
+    }
+    
+    private func formatBirthDate(from dateString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.date(from: dateString)
     }
     
     private func showAlert(title: String, message: String) {

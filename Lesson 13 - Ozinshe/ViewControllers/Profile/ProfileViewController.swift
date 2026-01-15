@@ -9,7 +9,10 @@ import UIKit
 import SnapKit
 import Localize_Swift
 
-final class ProfileViewController: BaseViewController {
+final class ProfileViewController: BaseViewController, ProfileInfoViewControllerDelegate {
+
+    let networkManager = NetworkManager.shared
+    var profileData: AccountData?
     
     lazy var topView = {
         let view = UIView()
@@ -40,7 +43,6 @@ final class ProfileViewController: BaseViewController {
     lazy var emailLabel = {
         let label = UILabel()
         
-        label.text = "any@gmail.com"
         label.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -238,9 +240,9 @@ final class ProfileViewController: BaseViewController {
         return view
     }()
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        getProfileData()
         setupUI()
     }
     
@@ -304,6 +306,8 @@ final class ProfileViewController: BaseViewController {
     @objc private func profileInfoTapped() {
         let VC = ProfileInfoViewController()
         VC.hidesBottomBarWhenPushed = true
+        VC.delegate = self
+        VC.profileData = profileData
         navigationController?.pushViewController(VC, animated: true)
     }
     
@@ -354,6 +358,20 @@ final class ProfileViewController: BaseViewController {
         present(navVC, animated: true)
     }
     
+    private func getProfileData() {
+        networkManager.getProfileData { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let response):
+                profileData = response
+                emailLabel.text = profileData?.user.email ?? ""
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     override func updateLanguage() {
         navigationItem.title = "profileMainTitleLable".localized()
         myProfileTitleLabel.text = "profileTitleLable".localized()
@@ -363,6 +381,12 @@ final class ProfileViewController: BaseViewController {
         changeLanguageButton
             .setTitle("changeLanguageButton".localized(), for: .normal)
         themeStyleLabel.text = "themeStyleLabel".localized()
+    }
+    
+    func didUpdateProfileData(needToReloadData : Bool) {
+        if needToReloadData {
+            getProfileData()
+        }
     }
 }
 
