@@ -49,6 +49,7 @@ final class ProfileInfoViewController: BaseViewController {
         textField.keyboardType = .default
         textField.textAlignment = .left
         textField.textColor = UIColor(named: "111827")
+        textField.delegate = self
         
         return textField
     }()
@@ -114,6 +115,7 @@ final class ProfileInfoViewController: BaseViewController {
         textField.textAlignment = .left
         textField.textContentType = .telephoneNumber
         textField.textColor = UIColor(named: "111827")
+        textField.delegate = self
         
         return textField
     }()
@@ -189,6 +191,7 @@ final class ProfileInfoViewController: BaseViewController {
         title = "profileInfoTitle".localized()
         
         setupKeyboardObservers()
+        setupHideKeyboardGesture()
         setupUI()
         setupUiData()
     }
@@ -421,6 +424,16 @@ final class ProfileInfoViewController: BaseViewController {
         present(alert, animated: true)
     }
     
+    private func setupHideKeyboardGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
     override func updateLanguage() {
         title = "profileInfoTitle".localized()
         nameLabel.text = "profileInfoNameLabel".localized()
@@ -430,4 +443,11 @@ final class ProfileInfoViewController: BaseViewController {
         birthdayLabel.text = "profileInfoBirthdayLabel".localized()
     }
 
+}
+
+extension ProfileInfoViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
 }
