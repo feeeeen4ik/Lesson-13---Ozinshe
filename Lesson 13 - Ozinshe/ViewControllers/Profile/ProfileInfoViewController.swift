@@ -330,7 +330,7 @@ final class ProfileInfoViewController: BaseViewController {
                         navigationController?.popViewController(animated: true)
                         showAlert(title: "Успех!", message: "Данные профиля обновлены!")
                     }
-                }
+                } 
     }
     
     func setupKeyboardObservers() {

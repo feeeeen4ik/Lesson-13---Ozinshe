@@ -1,5 +1,9 @@
-//ProfileViewController
+//TabBarItemsTitle
 "profileMainTitleLable" = "Profile";
+"favoritesMainTitle" = "Favorites";
+"searchMainTitlel" = "Search";
+
+//ProfileViewController
 "profileTitleLable" = "My profile";
 "profileInfoButton" = "Personal data";
 "profileInfoLabel" = "Change";

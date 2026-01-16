@@ -7,6 +7,8 @@
 
 import UIKit
 import SVProgressHUD
+import Localize_Swift
+import SnapKit
 
 final class FavoritesTableViewController: UITableViewController {
     private let networkManager = NetworkManager.shared
@@ -22,7 +24,7 @@ final class FavoritesTableViewController: UITableViewController {
             )
         view.backgroundColor = UIColor(named: "FFFFFF")
         tableView.separatorStyle = .none
-        
+        setupUI()
         loadFavorites()
     }
     
@@ -52,7 +54,7 @@ final class FavoritesTableViewController: UITableViewController {
             guard let self else { return }
             
             SVProgressHUD.dismiss()
-            
+            	
             switch result {
             case .success(let values):
                 movies = values
@@ -62,6 +64,19 @@ final class FavoritesTableViewController: UITableViewController {
                 
             }
         }
+    }
+    
+    private func setupUI() {
+        view.backgroundColor = UIColor(named: "FFFFFF")
+        navigationItem.title = "favoritesMainTitle".localized()
+        
+        //установка цвета для NavigationBar
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "FFFFFF")
+        
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {

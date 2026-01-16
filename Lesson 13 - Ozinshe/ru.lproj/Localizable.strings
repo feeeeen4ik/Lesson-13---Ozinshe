@@ -1,5 +1,9 @@
-//ProfileViewController
+//TabBarItemsTitle
 "profileMainTitleLable" = "Профиль";
+"favoritesMainTitle" = "Избранное";
+"searchMainTitlel" = "Поиск";
+
+//ProfileViewController
 "profileTitleLable" = "Мой профиль";
 "profileInfoButton" = "Личные данные";
 "profileInfoLabel" = "Изменить";
