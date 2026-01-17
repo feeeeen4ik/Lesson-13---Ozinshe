@@ -12,7 +12,6 @@ import SVProgressHUD
 
 final class LoginViewController: BaseViewController {
     
-    let networkManager = NetworkManager.shared
     let profileStorage = ProfileStorage.shared
     
     lazy var titleLabel =  {
@@ -60,6 +59,7 @@ final class LoginViewController: BaseViewController {
         textField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
         textField.backgroundColor = UIColor(named: "TextFields")
         textField.layer.cornerRadius = 12
+        textField.delegate = self
         
         return textField
     }()
@@ -110,6 +110,7 @@ final class LoginViewController: BaseViewController {
         textField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
         textField.backgroundColor = UIColor(named: "TextFields")
         textField.layer.cornerRadius = 12
+        textField.delegate = self
         
         return textField
     }()
@@ -221,6 +222,7 @@ final class LoginViewController: BaseViewController {
         
         view.backgroundColor = UIColor(named: "FFFFFF")
         
+        setupHideKeyboardGesture()
         setupUI()
 
     }
@@ -366,7 +368,7 @@ final class LoginViewController: BaseViewController {
                     case .failure(let error):
                         print(error.localizedDescription)
                         showAlert(
-                            title: "logInErrorTitle".localized(),
+                            title: "errorTitle".localized(),
                             message: error.localizedDescription
                         )
                     }
@@ -391,6 +393,16 @@ final class LoginViewController: BaseViewController {
         
     }
     
+    private func setupHideKeyboardGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
     private func showAlert(title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -406,5 +418,12 @@ final class LoginViewController: BaseViewController {
         authButton.setTitle( "logInAuthButton".localized(), for: .normal)
         createAccauntLabel.text = "logInCreateAccauntLabel".localized()
         createAccauntButton.setTitle( "logInCreateAccauntButton".localized(), for: .normal)
+    }
+}
+
+extension LoginViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

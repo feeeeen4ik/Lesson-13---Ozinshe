@@ -64,10 +64,11 @@
 "onbordingButtonTitle" = "Продолжить";
 
 //allert
-"logInErrorTitle" = "Ошибка";
+"errorTitle" = "Ошибка";
 "logOnErrorMassage" = "Профиль не найден";
 "emailAndPasswordFieldsIsEmptyTitle" = "Кажется, чего-то не хватает 👀";
 "emailAndPasswordFieldsIsEmptyMassage" = "Email и пароль ещё не заполнены";
 "regPasswordIsDifferentTitle" = "Пароли разные";
 "regPasswordIsDifferentMassage" = "Введите одинаковые пароли в оба поля";
-
+"passwordsTextFieldsNotEqual" = "Пароли не совпадают";
+"oneOfpassTextFieldsisEmpty" = "Одно из полей пароля пустое";

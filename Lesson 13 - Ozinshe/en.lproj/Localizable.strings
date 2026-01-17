@@ -64,14 +64,11 @@
 "onbordingButtonTitle" = "Continue";
 
 //allert
-"logInErrorTitle" = "Error";
-"logOnErrorMassage" = "";
-
-//allert
-"logInErrorTitle" = "Error";
+"errorTitle" = "Error";
 "logOnErrorMassage" = "Profile not found";
 "emailAndPasswordFieldsIsEmptyTitle" = "Looks like something’s missing 👀";
 "emailAndPasswordFieldsIsEmptyMassage" = "Don’t forget email and password";
 "regPasswordIsDifferentTitle" = "Passwords don’t match";
 "regPasswordIsDifferentMassage" = "Please enter the same password in both fields";
-
+"passwordsTextFieldsNotEqual" = "Passwords do not match";
+"oneOfpassTextFieldsisEmpty" = "One of the password fields is empty";

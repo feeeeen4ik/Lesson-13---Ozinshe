@@ -11,8 +11,8 @@ import Localize_Swift
 import SnapKit
 
 final class FavoritesTableViewController: UITableViewController {
-    private let networkManager = NetworkManager.shared
     
+    private let networkManager = NetworkManager.shared
     private var movies: [Movie] = []
     
     override func viewDidLoad() {

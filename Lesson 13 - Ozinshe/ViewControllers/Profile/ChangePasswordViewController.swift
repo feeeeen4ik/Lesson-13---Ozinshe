@@ -11,8 +11,8 @@ import Localize_Swift
 import SVProgressHUD
 
 class ChangePasswordViewController: BaseViewController {
+    
     var buttonBottomConstraint: Constraint?
-    let networkManager = NetworkManager.shared
     
     lazy var upperView = {
         let view = UIView()
@@ -284,12 +284,18 @@ class ChangePasswordViewController: BaseViewController {
     @objc private func applyPassword() {
         
         if passwordTextField.text?.isEmpty == true || copyPasswordTextField.text?.isEmpty == true {
-            showAlert(title: "Ошибка!", message: "Одно из полей пароля пустое")
+            showAlert(
+                title: "errorTitle".localized(),
+                message: "oneOfpassTextFieldsisEmpty".localized()
+            )
             return
         }
         
         if passwordTextField.text != copyPasswordTextField.text {
-            showAlert(title: "Ошибка!", message: "Пароли не совпадают")
+            showAlert(
+                title: "errorTitle".localized(),
+                message: "passwordsTextFieldsNotEqual".localized()
+            )
             return
         }
         

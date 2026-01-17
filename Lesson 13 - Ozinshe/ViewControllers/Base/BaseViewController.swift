@@ -8,7 +8,8 @@
 import UIKit
 
 class BaseViewController: UIViewController {
-
+    
+    let networkManager = NetworkManager.shared
     override func viewDidLoad() {
         super.viewDidLoad()
         NotificationCenter.default

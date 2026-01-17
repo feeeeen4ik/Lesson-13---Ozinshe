@@ -17,7 +17,6 @@ protocol ProfileInfoViewControllerDelegate: AnyObject {
 final class ProfileInfoViewController: BaseViewController {
     
     var buttonBottomConstraint: Constraint?
-    let networkManager = NetworkManager.shared
     var profileData: AccountData?
     weak var delegate: ProfileInfoViewControllerDelegate?
     
@@ -42,7 +41,6 @@ final class ProfileInfoViewController: BaseViewController {
     lazy var nameTextField = {
         let textField = UITextField()
         
-        textField.text = "Феликс"
         textField.placeholder = "profileInfoNameTextFieldPlaceHolder"
             .localized()
         textField.borderStyle = .none
@@ -65,7 +63,6 @@ final class ProfileInfoViewController: BaseViewController {
     lazy var emailLabel = {
         let label = UILabel()
         
-        label.text = "Email"
         label.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -75,7 +72,6 @@ final class ProfileInfoViewController: BaseViewController {
     lazy var emailTextField = {
         let textField = UITextField()
         
-        textField.text = "123321@mail.ru"
         textField.placeholder = "Email"
         textField.borderStyle = .none
         textField.keyboardType = .emailAddress
@@ -108,8 +104,7 @@ final class ProfileInfoViewController: BaseViewController {
     lazy var phoneNumberTextField = {
         let textField = UITextField()
         
-        textField.text = "+7-707-777-77-77"
-        textField.placeholder = "+7-(___)-___-__-__"
+        textField.placeholder = "+7-(___)___-__-__"
         textField.borderStyle = .none
         textField.keyboardType = .numberPad
         textField.textAlignment = .left
@@ -448,6 +443,23 @@ final class ProfileInfoViewController: BaseViewController {
 extension ProfileInfoViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let currentText = textField.text else { return true }
+        
+        if textField === phoneNumberTextField {
+            let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+            
+            let digits = newText.filter { $0.isNumber }
+            
+            let formatted = formatPhoneNumber(from: digits)
+            
+            textField.text = formatted
+            return false
+        }
+        
         return true
     }
 }

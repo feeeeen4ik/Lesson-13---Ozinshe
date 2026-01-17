@@ -65,9 +65,11 @@
 "onbordingButtonTitle" = "Әрі қарай";
 
 //allert
-"logInErrorTitle" = "Қате";
+"errorTitle" = "Қате";
 "logOnErrorMassage" = "Профиль табылмады";
 "emailAndPasswordFieldsIsEmptyTitle" = "Бірдеңе жетіспей тұрған сияқты 👀";
 "emailAndPasswordFieldsIsEmptyMassage" = "Электрондық пошта мен құпиясөзді ұмытпаңыз";
 "regPasswordIsDifferentTitle" = "Құпиясөздер сәйкес келмейді";
 "regPasswordIsDifferentMassage" = "Екі өріске де бірдей құпиясөз енгізіңіз";
+"passwordsTextFieldsNotEqual" = "Құпиясөздер сәйкес келмейді";
+"oneOfpassTextFieldsisEmpty" = "Құпиясөз өрістерінің біреуі бос";

@@ -12,7 +12,6 @@ import SVProgressHUD
 
 final class RegistrationViewController: BaseViewController {
     
-    private let networkManager = NetworkManager.shared
     private let profileStorage = ProfileStorage.shared
 
     lazy var titleLabel: UILabel = CustomLabel(
@@ -51,6 +50,7 @@ final class RegistrationViewController: BaseViewController {
         textField.font = UIFont(name: "SFProDisplay-Regular", size: 16)
         textField.backgroundColor = UIColor(named: "TextFields")
         textField.layer.cornerRadius = 12
+        textField.delegate = self
         
         return textField
     }()
@@ -97,6 +97,7 @@ final class RegistrationViewController: BaseViewController {
         textField.backgroundColor = UIColor(named: "TextFields")
         textField.layer.cornerRadius = 12
         textField.layer.borderColor = UIColor(named: "textFieldBorder")?.cgColor
+        textField.delegate = self
         
         return textField
     }()
@@ -143,6 +144,7 @@ final class RegistrationViewController: BaseViewController {
         textField.backgroundColor = UIColor(named: "TextFields")
         textField.layer.cornerRadius = 12
         textField.layer.borderColor = UIColor(named: "textFieldBorder")?.cgColor
+        textField.delegate = self
         
         return textField
     }()
@@ -215,6 +217,7 @@ final class RegistrationViewController: BaseViewController {
 
         view.backgroundColor = UIColor(named: "FFFFFF")
         
+        setupHideKeyboardGesture()
         setupUI()
 
     }
@@ -337,6 +340,16 @@ final class RegistrationViewController: BaseViewController {
         
     }
     
+    private func setupHideKeyboardGesture() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func hideKeyboard() {
+        view.endEditing(true)
+    }
+    
     @objc private func showPassword(_ sender: UIButton) {
         switch sender.tag {
         case 1:
@@ -446,3 +459,9 @@ final class RegistrationViewController: BaseViewController {
 
 }
 
+extension RegistrationViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

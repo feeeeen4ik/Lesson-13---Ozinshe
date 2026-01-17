@@ -10,7 +10,7 @@ import UIKit
 final class CustomTextField: UITextField {
     
     // настройки отступов в поле ввода текста
-    let padding = UIEdgeInsets(top: 0, left: 44, bottom: 0, right: 44)
+    var padding = UIEdgeInsets(top: 0, left: 44, bottom: 0, right: 44)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

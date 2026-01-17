@@ -11,7 +11,6 @@ import Localize_Swift
 
 final class ProfileViewController: BaseViewController, ProfileInfoViewControllerDelegate {
 
-    let networkManager = NetworkManager.shared
     var profileData: AccountData?
     
     lazy var topView = {
