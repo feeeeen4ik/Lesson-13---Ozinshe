@@ -30,6 +30,9 @@ nonisolated struct Movie: Codable {
     let favorite: Bool
 }
 
+nonisolated struct MoviesResponse: Decodable {
+    let content: [Movie]
+}
 struct Poster: Codable {
     let id: Int
     let link: String

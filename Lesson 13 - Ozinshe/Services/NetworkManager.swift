@@ -15,6 +15,9 @@ enum ResponseURL: String {
     case profileData = "core/V1/user/profile"
     case changeProfileData = "core/V1/user/profile/"
     case changePassword = "core/V1/user/profile/changePassword"
+    case getAllCategories = "core/V1/categories"
+    case getMoviesWithParameters = "core/V1/movies/page"
+    
 }
 
 final class NetworkManager {
@@ -128,6 +131,39 @@ final class NetworkManager {
             headers: headers
         ).validate().response { response in
             completion(response.error)
+        }
+    }
+    
+    func getAllCategories(completion: @escaping (Result<[Category], AFError>) -> Void) {
+        let url = baseURL + ResponseURL.getAllCategories.rawValue
+        AF.request(
+            url,
+            method: .get,
+            headers: headers
+        ).validate().responseDecodable(of: [Category].self) { response in
+            completion(response.result)
+        }
+    }
+    
+    func getMoviesByCategory(categoryId: Int, completion: @escaping (Result<[Movie], AFError>) -> Void) {
+        let parameters: [String: Any] = ["categoryId": categoryId, "sortField": "name", "page": 0]
+        let url = baseURL + ResponseURL.getMoviesWithParameters.rawValue
+        
+        
+        AF.request(
+            url,
+            method: .get,
+            parameters: parameters,
+            encoding: URLEncoding.queryString,
+            headers: headers
+        ).validate().responseDecodable(of: MoviesResponse.self) { response in
+//            completion(response.result)
+            switch response.result {
+            case .success(let result):
+                completion(.success(result.content))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 }

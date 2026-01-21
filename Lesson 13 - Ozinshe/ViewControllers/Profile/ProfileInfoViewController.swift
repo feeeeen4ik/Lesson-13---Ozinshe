@@ -182,8 +182,6 @@ final class ProfileInfoViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(named: "FFFFFF")
-        title = "profileInfoTitle".localized()
         
         setupKeyboardObservers()
         setupHideKeyboardGesture()
@@ -192,6 +190,9 @@ final class ProfileInfoViewController: BaseViewController {
     }
     
     private func setupUI() {
+        view.backgroundColor = UIColor(named: "FFFFFF")
+        title = "profileInfoTitle".localized()
+        
         view.addSubview(upperView)
         view.addSubview(nameLabel)
         view.addSubview(nameTextField)

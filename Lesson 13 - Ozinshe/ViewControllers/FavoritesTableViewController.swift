@@ -17,13 +17,8 @@ final class FavoritesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView
-            .register(
-                FavoriteTableViewCell.self,
-                forCellReuseIdentifier: FavoriteTableViewCell.identifier
-            )
-        view.backgroundColor = UIColor(named: "FFFFFF")
-        tableView.separatorStyle = .none
+
+        registerCells()
         setupUI()
         loadFavorites()
     }
@@ -33,10 +28,10 @@ final class FavoritesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
+        guard let cell = tableView.dequeueReusableCell(
             withIdentifier: FavoriteTableViewCell.identifier,
             for: indexPath
-        ) as! FavoriteTableViewCell
+        ) as? FavoriteTableViewCell else { return UITableViewCell() }
         
         let movie = movies[indexPath.row]
         cell.configure(with: movie)
@@ -69,6 +64,7 @@ final class FavoritesTableViewController: UITableViewController {
     private func setupUI() {
         view.backgroundColor = UIColor(named: "FFFFFF")
         navigationItem.title = "favoritesMainTitle".localized()
+        tableView.separatorStyle = .none
         
         //установка цвета для NavigationBar
         let appearance = UINavigationBarAppearance()
@@ -77,6 +73,14 @@ final class FavoritesTableViewController: UITableViewController {
         
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    }
+    
+    private func registerCells() {
+        tableView
+            .register(
+                FavoriteTableViewCell.self,
+                forCellReuseIdentifier: FavoriteTableViewCell.identifier
+            )
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
