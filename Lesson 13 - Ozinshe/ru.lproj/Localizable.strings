@@ -1,7 +1,7 @@
 //TabBarItemsTitle
 "profileMainTitleLable" = "Профиль";
 "favoritesMainTitle" = "Избранное";
-"searchMainTitlel" = "Поиск";
+"searchMainTitel" = "Поиск";
 
 //ProfileViewController
 "profileTitleLable" = "Мой профиль";
@@ -62,6 +62,10 @@
 "onboardingTextThird" = "Регистрация проста. Зарегистрируйтесь сейчас и получайте доступ к любимым фильмам.";
 "onbordingSkipButtonTitle" = "Пропустить";
 "onbordingButtonTitle" = "Продолжить";
+
+//SearchViewController
+"categoryLabel" = "Категории";
+"searchResult" = "Результат поиска";
 
 //allert
 "errorTitle" = "Ошибка";

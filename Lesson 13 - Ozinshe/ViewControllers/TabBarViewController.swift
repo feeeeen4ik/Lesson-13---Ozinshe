@@ -8,11 +8,22 @@
 import UIKit
 
 final class TabBarViewController: UITabBarController {
-
+    
+    private let tabBarImages: [(normal: String, selected: String)] = [
+        ("Home", "HomePressed"),
+        ("Search", "SearchPressed"),
+        ("Favorite", "FavoritePressed"),
+        ("Profile", "ProfilePressed")
+    ]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        updateTabBarImages()
         setupTabs()
+        
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection: UITraitCollection) in
+            self.updateTabBarImages()
+        }
     }
     
     private func setupTabs() {
@@ -24,37 +35,31 @@ final class TabBarViewController: UITabBarController {
         let profileVC = ProfileViewController()
         let profileNC = UINavigationController(rootViewController: profileVC)
         
-        homeVC.tabBarItem = UITabBarItem(
-            title: "",
-            image: UIImage(named: "Home"),
-            selectedImage: UIImage(named: "HomePressed")
-        )
-        
-        searchVC.tabBarItem = UITabBarItem(
-            title: "",
-            image: UIImage(named: "Search"),
-            selectedImage: UIImage(named: "SearchPressed")
-        )
-        
-        profileNC.tabBarItem = UITabBarItem(
-            title: "",
-            image: UIImage(named: "Profile"),
-            selectedImage: UIImage(named: "ProfilePressed")
-        )
-        
-        favoritesVC.tabBarItem = UITabBarItem(
-            title: "",
-            image: UIImage(named: "Favorite"),
-            selectedImage: UIImage(named: "FavoritePressed")
-        )
-        
-        
         setViewControllers(
             [homeVC, searchNC, favoritesNC, profileNC],
             animated: true
         )
     }
-
-
+    
+    private func updateTabBarImages() {
+        guard let tabBarItems = tabBar.items else { return }
+        
+        for (index, images) in tabBarImages.enumerated() {
+            guard index < tabBarItems.count else { continue }
+            
+            tabBarItems[index].image = UIImage(
+                named: images.normal,
+                in: Bundle.main,
+                compatibleWith: traitCollection
+            )?.withRenderingMode(.alwaysOriginal)
+            
+            tabBarItems[index].selectedImage = UIImage(
+                named: images.selected,
+                in: Bundle.main,
+                compatibleWith: traitCollection
+            )?.withRenderingMode(.alwaysOriginal)
+        }
+    }
+    
 }
 

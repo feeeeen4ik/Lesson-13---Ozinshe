@@ -1,7 +1,7 @@
 //TabBarItemsTitle
 "profileMainTitleLable" = "Профиль";
 "favoritesMainTitle" = "Тізім";
-"searchMainTitlel" = "Іздеу";
+"searchMainTitel" = "Іздеу";
 
 //ProfileViewController
 "profileTitleLable" = "Менің профилім";
@@ -63,6 +63,10 @@
 "onboardingTextThird" = "Тіркелу оңай. Қазір тіркел де қалаған фильміңе қол жеткіз";
 "onbordingSkipButtonTitle" = "Өткізу";
 "onbordingButtonTitle" = "Әрі қарай";
+
+//SearchViewController
+"categoryLabel" = "Санаттар";
+"searchResult" = "Іздеу нәтижелері";
 
 //allert
 "errorTitle" = "Қате";

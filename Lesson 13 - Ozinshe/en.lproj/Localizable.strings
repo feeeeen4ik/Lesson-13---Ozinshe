@@ -1,7 +1,7 @@
 //TabBarItemsTitle
 "profileMainTitleLable" = "Profile";
 "favoritesMainTitle" = "Favorites";
-"searchMainTitlel" = "Search";
+"searchMainTitel" = "Search";
 
 //ProfileViewController
 "profileTitleLable" = "My profile";
@@ -62,6 +62,10 @@
 "onboardingTextThird" = "Signing up is easy. Register now and get access to your favorite movies.";
 "onbordingSkipButtonTitle" = "Skip";
 "onbordingButtonTitle" = "Continue";
+
+//SearchViewController
+"categoryLabel" = "Categories";
+"searchResult" = "Search result";
 
 //allert
 "errorTitle" = "Error";

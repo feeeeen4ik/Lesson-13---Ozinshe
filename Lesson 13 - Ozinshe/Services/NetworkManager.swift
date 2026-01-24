@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import Foundation
 
 enum ResponseURL: String {
     
@@ -17,6 +18,7 @@ enum ResponseURL: String {
     case changePassword = "core/V1/user/profile/changePassword"
     case getAllCategories = "core/V1/categories"
     case getMoviesWithParameters = "core/V1/movies/page"
+    case getMoviesBySearch = "core/V1/movies/search"
     
 }
 
@@ -157,10 +159,29 @@ final class NetworkManager {
             encoding: URLEncoding.queryString,
             headers: headers
         ).validate().responseDecodable(of: MoviesResponse.self) { response in
-//            completion(response.result)
             switch response.result {
             case .success(let result):
                 completion(.success(result.content))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func getMoviesBySearch(query: String, completion: @escaping (Result<[Movie], AFError>) -> Void) {
+        let parameters: [String: String] = ["search": query]
+        let url = baseURL + ResponseURL.getMoviesBySearch.rawValue
+        
+        AF.request(
+            url,
+            method: .get,
+            parameters: parameters,
+            encoding: URLEncoding.queryString,
+            headers: headers
+        ).validate().responseDecodable(of: [Movie].self) { response in
+            switch response.result {
+            case .success(let result):
+                completion(.success(result))
             case .failure(let error):
                 completion(.failure(error))
             }
