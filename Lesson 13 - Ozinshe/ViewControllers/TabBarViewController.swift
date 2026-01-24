@@ -18,8 +18,9 @@ final class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateTabBarImages()
+        
         setupTabs()
+        updateTabBarImages()
         
         registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection: UITraitCollection) in
             self.updateTabBarImages()
