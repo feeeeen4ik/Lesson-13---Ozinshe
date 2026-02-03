@@ -29,6 +29,7 @@ final class TabBarViewController: UITabBarController {
     
     private func setupTabs() {
         let homeVC = HomeViewController()
+        let homeNC = UINavigationController(rootViewController: homeVC)
         let searchVC = SearchViewController()
         let searchNC = UINavigationController(rootViewController: searchVC)
         let favoritesVC = FavoritesTableViewController()
@@ -37,7 +38,7 @@ final class TabBarViewController: UITabBarController {
         let profileNC = UINavigationController(rootViewController: profileVC)
         
         setViewControllers(
-            [homeVC, searchNC, favoritesNC, profileNC],
+            [homeNC, searchNC, favoritesNC, profileNC],
             animated: true
         )
     }

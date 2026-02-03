@@ -19,7 +19,7 @@ enum ResponseURL: String {
     case getAllCategories = "core/V1/categories"
     case getMoviesWithParameters = "core/V1/movies/page"
     case getMoviesBySearch = "core/V1/movies/search"
-    
+    case getMoviesMain = "core/V1/movies_main"
 }
 
 final class NetworkManager {
@@ -136,13 +136,13 @@ final class NetworkManager {
         }
     }
     
-    func getAllCategories(completion: @escaping (Result<[Category], AFError>) -> Void) {
+    func getAllCategories(completion: @escaping (Result<[Categorie], AFError>) -> Void) {
         let url = baseURL + ResponseURL.getAllCategories.rawValue
         AF.request(
             url,
             method: .get,
             headers: headers
-        ).validate().responseDecodable(of: [Category].self) { response in
+        ).validate().responseDecodable(of: [Categorie].self) { response in
             completion(response.result)
         }
     }
@@ -185,6 +185,18 @@ final class NetworkManager {
             case .failure(let error):
                 completion(.failure(error))
             }
+        }
+    }
+    
+    func getMoviesMain(completion: @escaping (Result<[MoviesWrapper], AFError>) -> Void) {
+        let url = baseURL + ResponseURL.getMoviesMain.rawValue
+        
+        AF.request(
+            url,
+            method: .get,
+            headers: headers
+        ).validate().responseDecodable(of: [MoviesWrapper].self) { response in
+            completion(response.result)
         }
     }
 }

@@ -12,7 +12,7 @@ import Localize_Swift
 
 final class MoviesByCategoryViewController: UITableViewController {
 
-    var movieCategory: Category?
+    var movieCategory: Categorie?
     
     private var movies: [Movie] = []
     private let networkmanager = NetworkManager.shared

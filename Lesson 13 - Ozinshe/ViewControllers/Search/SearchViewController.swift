@@ -12,7 +12,7 @@ import SnapKit
 
 final class SearchViewController: BaseViewController {
     
-    var categories: [Category] = []
+    var categories: [Categorie] = []
     var searchedMovies: [Movie] = []
     
     lazy var searchTextField = {

@@ -5,7 +5,7 @@
 //  Created by Феликс on 27.12.2025.
 //
 
-nonisolated struct Movie: Codable {
+nonisolated struct Movie: Codable, Hashable {
     let id: Int
     let movieType: String
     let name: String
@@ -30,31 +30,37 @@ nonisolated struct Movie: Codable {
     let favorite: Bool
 }
 
-nonisolated struct MoviesResponse: Decodable {
+nonisolated struct MoviesResponse: Decodable, Hashable {
     let content: [Movie]
 }
-struct Poster: Codable {
+
+nonisolated struct MoviesWrapper: Decodable, Hashable {
+    let id: Int
+    let movie: Movie
+}
+
+struct Poster: Codable, Hashable {
     let id: Int
     let link: String
     let fileId: Int
     let movieId: Int
 }
 
-struct Video: Codable {
+struct Video: Codable, Hashable {
     let id: Int
     let link: String
     let seasonId: Int?
     let number: Int
 }
 
-struct Screenshot: Codable {
+struct Screenshot: Codable, Hashable {
     let id: Int
     let link: String
     let fileId: Int
     let movieId: Int
 }
 
-struct CategoryAges: Codable {
+struct CategoryAges: Codable, Hashable {
     let id: Int
     let name: String
     let fileId: Int
@@ -62,7 +68,7 @@ struct CategoryAges: Codable {
     let movieCount: Int?
 }
 
-struct Genre: Codable {
+struct Genre: Codable, Hashable {
     let id: Int
     let name: String
     let fileId: Int
@@ -70,7 +76,7 @@ struct Genre: Codable {
     let movieCount: Int?
 }
 
-struct Categorie: Codable {
+nonisolated struct Categorie: Codable, Hashable {
     let id: Int
     let name: String
     let fileId: Int?
