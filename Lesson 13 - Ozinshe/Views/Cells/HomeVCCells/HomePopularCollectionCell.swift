@@ -9,9 +9,9 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class HomeCollectionCell: UICollectionViewCell {
+class HomePopularCollectionCell: UICollectionViewCell {
     
-    static let reuseIdentifier: String = "HomeCollectionCell"
+    static let reuseIdentifier: String = "HomePopularCollectionCell"
     private let baseURLForImage = NetworkManager.baseURLForImage
     
     lazy var pictureImageView = {
@@ -33,6 +33,23 @@ class HomeCollectionCell: UICollectionViewCell {
         label.layer.cornerRadius = 8
         
         return label
+    }()
+    
+    
+    lazy var containerForCategoryLabel = {
+        let view = UIView()
+        
+        view.backgroundColor = UIColor(named: "7E2DFC")
+        view.layer.cornerRadius = 8
+        
+        view.addSubview(categoryLabel)
+        categoryLabel.snp.makeConstraints { make in
+            make.edges
+                .equalToSuperview()
+                .inset(UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8))
+        }
+        
+        return view
     }()
     
     lazy var movieNameLabel = {
@@ -65,10 +82,12 @@ class HomeCollectionCell: UICollectionViewCell {
     }
     
     private func setupUI() {
+        containerForCategoryLabel.addSubview(categoryLabel)
+        
         contentView.addSubview(pictureImageView)
-        contentView.addSubview(categoryLabel)
         contentView.addSubview(movieNameLabel)
         contentView.addSubview(movieDescriptionLabel)
+        contentView.addSubview(containerForCategoryLabel)
         
         pictureImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -76,11 +95,10 @@ class HomeCollectionCell: UICollectionViewCell {
             make.trailing.equalToSuperview()
         }
         
-        categoryLabel.snp.makeConstraints { make in
+        containerForCategoryLabel.snp.makeConstraints { make in
             make.top.equalTo(pictureImageView.snp.top).offset(8)
             make.leading.equalTo(pictureImageView.snp.leading).offset(8)
             make.height.equalTo(24)
-            make.width.equalTo(77)
         }
         
         movieNameLabel.snp.makeConstraints { make in

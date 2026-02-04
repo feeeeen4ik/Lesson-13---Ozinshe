@@ -20,6 +20,7 @@ enum ResponseURL: String {
     case getMoviesWithParameters = "core/V1/movies/page"
     case getMoviesBySearch = "core/V1/movies/search"
     case getMoviesMain = "core/V1/movies_main"
+    case getUserWatchHistory = "core/V1/history/userHistory"
 }
 
 final class NetworkManager {
@@ -199,4 +200,24 @@ final class NetworkManager {
             completion(response.result)
         }
     }
+    
+    func getUserWatchHistory(
+        completion: @escaping (Result<[Movie], AFError>) -> Void
+    ) {
+        let url = baseURL + ResponseURL.getUserWatchHistory.rawValue
+        
+        AF.request(
+            url,
+            method: .get,
+            headers: headers
+        ).validate().responseDecodable(of: [Movie].self) { response in
+            switch response.result {
+            case .success(let result):
+                completion(.success(result))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
 }

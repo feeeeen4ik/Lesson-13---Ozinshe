@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import SVProgressHUD
-import Localize_Swift
 
 final class MoviesByCategoryViewController: UITableViewController {
 

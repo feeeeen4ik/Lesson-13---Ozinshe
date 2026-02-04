@@ -217,14 +217,6 @@ class OnboardingViewController: BaseViewController, UIScrollViewDelegate {
         return container
     }
     
-//    @objc private func skipButtonTapped() {
-//        let lastIndex = pages.count - 1
-//        let offsetX = CGFloat(lastIndex) * scrollView.bounds.width
-//        scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
-//        pageControl.currentPage = pages.count - 1
-//        
-//    }
-    
     @objc private func continueButtonTapped() {
         navigationController?
             .pushViewController(LoginViewController(), animated: true)
