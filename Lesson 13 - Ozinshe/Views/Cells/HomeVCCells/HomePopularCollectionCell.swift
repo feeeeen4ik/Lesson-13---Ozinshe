@@ -65,7 +65,7 @@ class HomePopularCollectionCell: UICollectionViewCell {
     lazy var movieDescriptionLabel = {
         let label = UILabel()
         
-        label.font = UIFont(name: "SFProDisplay-Bold", size: 14)
+        label.font = UIFont(name: "SFProDisplay-Bold", size: 12)
         label.textColor = UIColor(named: "9CA3AF")
         label.numberOfLines = 2
         
@@ -91,7 +91,7 @@ class HomePopularCollectionCell: UICollectionViewCell {
         
         pictureImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
         
@@ -103,13 +103,13 @@ class HomePopularCollectionCell: UICollectionViewCell {
         
         movieNameLabel.snp.makeConstraints { make in
             make.top.equalTo(pictureImageView.snp.bottom).offset(16)
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
         
         movieDescriptionLabel.snp.makeConstraints { make in
             make.top.equalTo(movieNameLabel.snp.bottom).offset(8)
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }

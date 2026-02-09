@@ -21,6 +21,8 @@ enum ResponseURL: String {
     case getMoviesBySearch = "core/V1/movies/search"
     case getMoviesMain = "core/V1/movies_main"
     case getUserWatchHistory = "core/V1/history/userHistory"
+    case getAllGenres = "core/V1/genres"
+    case showResource = "core/public/V1/show/"
 }
 
 final class NetworkManager {
@@ -220,4 +222,15 @@ final class NetworkManager {
         }
     }
     
+    func getAllGenres(completion: @escaping (Result<[Genre], AFError>) -> Void) {
+        let url = baseURL + ResponseURL.getAllGenres.rawValue
+        
+        AF.request(
+            url,
+            method: .get,
+            headers: headers
+        ).validate().responseDecodable(of: [Genre].self) { response in
+            completion(response.result)
+        }
+    }
 }

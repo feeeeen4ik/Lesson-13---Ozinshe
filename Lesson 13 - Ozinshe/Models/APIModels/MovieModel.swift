@@ -68,7 +68,7 @@ struct CategoryAges: Codable, Hashable {
     let movieCount: Int?
 }
 
-struct Genre: Codable, Hashable {
+nonisolated struct Genre: Codable, Hashable {
     let id: Int
     let name: String
     let fileId: Int

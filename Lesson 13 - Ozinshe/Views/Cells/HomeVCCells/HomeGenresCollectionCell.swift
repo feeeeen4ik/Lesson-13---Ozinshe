@@ -1,17 +1,17 @@
 //
-//  HomeContinueWatchCollectionCell.swift
+//  HomeGenresCollectionCell.swift
 //  Lesson 13 - Ozinshe
 //
-//  Created by Феликс on 04.02.2026.
+//  Created by Феликс on 09.02.2026.
 //
 
 import UIKit
 import SnapKit
 import Kingfisher
 
-class HomeContinueWatchCollectionCell: UICollectionViewCell {
+final class HomeGenresCollectionCell: UICollectionViewCell {
     
-    static let reuseIdentifier: String = "HomeContinueWatchCollectionCell"
+    static let reuseIdentifier: String = "HomeGenreCollectionCell"
     private let baseURLForImage = NetworkManager.baseURLForImage
     
     lazy var pictureImageView = {
@@ -24,21 +24,13 @@ class HomeContinueWatchCollectionCell: UICollectionViewCell {
         return image
     }()
     
-    lazy var movieNameLabel = {
+    lazy var genreNameLabel = {
         let label = UILabel()
         
         label.font = UIFont(name: "SFProDisplay-Bold", size: 14)
-        label.textColor = UIColor(named: "111827")
-        label.textAlignment = .left
-        
-        return label
-    }()
-    
-    lazy var movieDescriptionLabel = {
-        let label = UILabel()
-        
-        label.font = UIFont(name: "SFProDisplay-Bold", size: 12)
-        label.textColor = UIColor(named: "9CA3AF")
+        label.textColor = .white
+        label.numberOfLines = 2
+        label.textAlignment = .center
         
         return label
     }()
@@ -53,40 +45,28 @@ class HomeContinueWatchCollectionCell: UICollectionViewCell {
     }
     
     private func setupUI() {
-        
         contentView.addSubview(pictureImageView)
-        contentView.addSubview(movieNameLabel)
-        contentView.addSubview(movieDescriptionLabel)
+        contentView.addSubview(genreNameLabel)
         
         pictureImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
-        movieNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(pictureImageView.snp.bottom).offset(16)
+        genreNameLabel.snp.makeConstraints { make in
+            make.centerY.centerX.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
-        }
-        
-        movieDescriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(movieNameLabel.snp.bottom).offset(8)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
         }
     }
     
-    func configure(with model: Movie) {
-        movieNameLabel.text = model.name
-        movieDescriptionLabel.text = model.description
+    func configure(with genre: Genre) {
+        genreNameLabel.text = genre.name
         
-        let pictureIndex = URL(string: model.poster.link)?.lastPathComponent ?? "0"
-        let pictureURL = URL(string: "\(baseURLForImage)\(pictureIndex)")
+        let pictureID = genre.fileId
+        let pictureURL = URL(string: "\(baseURLForImage)\(pictureID)")
         let processor = DownsamplingImageProcessor(
-            size: pictureImageView.bounds
-                .size)
+            size: pictureImageView.bounds.size
+        )
         pictureImageView.kf.indicatorType = .activity
         pictureImageView.kf
             .setImage(
@@ -105,7 +85,10 @@ class HomeContinueWatchCollectionCell: UICollectionViewCell {
                 case .failure:
                     pictureImageView.image = UIImage(named: "ImageNotFound")
                 }
+                
             }
+        
+        
     }
     
 }

@@ -13,7 +13,7 @@ class HomeSectionHeaderView: UICollectionReusableView {
         
         private let titleLabel: UILabel = {
             let label = UILabel()
-            label.font = .systemFont(ofSize: 20, weight: .bold)
+            label.font = UIFont(name: "SFProDisplay-Bold", size: 16)
             label.textColor = UIColor(named: "111827")
             return label
         }()
@@ -22,7 +22,7 @@ class HomeSectionHeaderView: UICollectionReusableView {
             super.init(frame: frame)
             addSubview(titleLabel)
             titleLabel.snp.makeConstraints { make in
-                make.leading.equalToSuperview().offset(28)
+                make.leading.equalToSuperview()
                 make.centerY.equalToSuperview()
             }
         }

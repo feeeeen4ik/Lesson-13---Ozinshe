@@ -13,11 +13,13 @@ import SVProgressHUD
 nonisolated enum CollectionViewSections: CaseIterable {
     case popular
     case continueWatching
+    case genres
 }
 
 nonisolated enum Collectionitems: Hashable {
     case popular(MoviesWrapper)
     case continueWatching(Movie)
+    case genres(Genre)
 }
 
 final class HomeViewController: BaseViewController {
@@ -52,6 +54,7 @@ final class HomeViewController: BaseViewController {
         
         getMoviesMain()
         getContinueWatchMovies()
+        getGenres()
     }
     
     private func setupUI() {
@@ -92,6 +95,8 @@ final class HomeViewController: BaseViewController {
                 return createPopularSection()
             case .continueWatching:
                 return createContinueWatchingSection()
+            case .genres:
+                return createGenresSection()
             }
         }
     }
@@ -104,11 +109,11 @@ final class HomeViewController: BaseViewController {
         )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1 / 1.1),
-            heightDimension: .fractionalHeight(0.32)
+            widthDimension: .absolute(340),
+            heightDimension: .absolute(240)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -117,7 +122,7 @@ final class HomeViewController: BaseViewController {
         section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
-            leading: 0,
+            leading: 20,
             bottom: 32,
             trailing: 0
         )
@@ -133,11 +138,11 @@ final class HomeViewController: BaseViewController {
         )
         
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 8, bottom: 5, trailing: 8)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
         
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0 / 1.5),
-            heightDimension: .fractionalHeight(0.3)
+            widthDimension: .absolute(184),
+            heightDimension: .absolute(156)
         )
         
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -156,6 +161,49 @@ final class HomeViewController: BaseViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 0,
+            leading: 20,
+            bottom: 32,
+            trailing: 0
+        )
+        
+        
+        return section
+    }
+    
+    private func createGenresSection() -> NSCollectionLayoutSection? {
+        
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(184),
+            heightDimension: .absolute(112)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(40)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 32, trailing: 0)
         
         
         return section
@@ -173,9 +221,15 @@ final class HomeViewController: BaseViewController {
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: HomeSectionHeaderView.reuseIdentifier
             )
+        
         mainCollectionView.register(HomePopularCollectionCell.self, forCellWithReuseIdentifier: HomePopularCollectionCell.reuseIdentifier)
+        
         mainCollectionView.register(HomeContinueWatchCollectionCell.self,
                 forCellWithReuseIdentifier: HomeContinueWatchCollectionCell.reuseIdentifier)
+        
+        mainCollectionView
+            .register(HomeGenresCollectionCell.self,
+                forCellWithReuseIdentifier: HomeGenresCollectionCell.reuseIdentifier)
         
     }
     
@@ -207,6 +261,13 @@ final class HomeViewController: BaseViewController {
                 cell.configure(with: ContinueWatchMovie)
                 
                 return cell
+            case .genres(let genres):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeGenresCollectionCell.reuseIdentifier, for: indexPath) as? HomeGenresCollectionCell else { fatalError("Невозможно создать ячейку")
+                }
+                
+                cell.configure(with: genres)
+                
+                return cell
             }
         }
         
@@ -225,6 +286,8 @@ final class HomeViewController: BaseViewController {
                 header.configure(title: "Танымал")
             case .continueWatching:
                 header.configure(title: "Көруді жалғастырыңыз")
+            case .genres:
+                header.configure(title: "Жанрды таңдаңыз")
             }
             
             return header
@@ -273,6 +336,20 @@ final class HomeViewController: BaseViewController {
             case .success(let values):
                 let items = values.map { Collectionitems.continueWatching($0) }
                 applySnapshot(for: .continueWatching, items: items)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func getGenres() {
+        networkManager.getAllGenres { [ weak self ] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let value):
+                let items = value.map { Collectionitems.genres($0) }
+                applySnapshot(for: .genres, items: items)
             case .failure(let error):
                 print(error.localizedDescription)
             }
