@@ -1,17 +1,16 @@
 //
-//  HomeGenresCollectionCell.swift
+//  HomeCollectionCell.swift
 //  Lesson 13 - Ozinshe
 //
-//  Created by Феликс on 09.02.2026.
+//  Created by Феликс on 10.02.2026.
 //
 
 import UIKit
 import SnapKit
 import Kingfisher
 
-final class HomeGenresCollectionCell: UICollectionViewCell {
-    
-    static let reuseIdentifier: String = "HomeGenreCollectionCell"
+final class HomeAgesCollectionCell: UICollectionViewCell {
+    static let reuseIdentifier: String = "HomeAgesCollectionCell"
     private let baseURLForImage = NetworkManager.baseURLForImage
     
     lazy var pictureImageView = {
@@ -24,7 +23,7 @@ final class HomeGenresCollectionCell: UICollectionViewCell {
         return image
     }()
     
-    lazy var genreNameLabel = {
+    lazy var ageNameLabel = {
         let label = UILabel()
         
         label.font = UIFont(name: "SFProDisplay-Bold", size: 14)
@@ -46,23 +45,23 @@ final class HomeGenresCollectionCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.addSubview(pictureImageView)
-        contentView.addSubview(genreNameLabel)
+        contentView.addSubview(ageNameLabel)
         
         pictureImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         
-        genreNameLabel.snp.makeConstraints { make in
+        ageNameLabel.snp.makeConstraints { make in
             make.centerY.centerX.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
         }
     }
     
-    func configure(with genre: Genre) {
-        genreNameLabel.text = genre.name
+    func configure(with age: Age) {
+        ageNameLabel.text = age.name
         
-        let pictureID = genre.fileId
+        let pictureID = age.fileId
         let pictureURL = URL(string: "\(baseURLForImage)\(pictureID)")
         let processor = DownsamplingImageProcessor(
             size: pictureImageView.bounds.size
@@ -85,6 +84,10 @@ final class HomeGenresCollectionCell: UICollectionViewCell {
                 case .failure:
                     pictureImageView.image = UIImage(named: "ImageNotFound")
                 }
+                
             }
+        
+        
     }
+    
 }

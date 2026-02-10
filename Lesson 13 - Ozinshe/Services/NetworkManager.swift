@@ -23,6 +23,7 @@ enum ResponseURL: String {
     case getUserWatchHistory = "core/V1/history/userHistory"
     case getAllGenres = "core/V1/genres"
     case showResource = "core/public/V1/show/"
+    case getCategoryAges = "core/V1/category-ages"
 }
 
 final class NetworkManager {
@@ -230,6 +231,18 @@ final class NetworkManager {
             method: .get,
             headers: headers
         ).validate().responseDecodable(of: [Genre].self) { response in
+            completion(response.result)
+        }
+    }
+    
+    func getCategoryAges(completion: @escaping (Result<[Age], AFError>) -> Void) {
+        let url = baseURL + ResponseURL.getCategoryAges.rawValue
+        
+        AF.request(
+            url,
+            method: .get,
+            headers: headers
+        ).validate().responseDecodable(of: [Age].self) { response in
             completion(response.result)
         }
     }

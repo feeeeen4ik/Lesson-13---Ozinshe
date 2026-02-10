@@ -14,12 +14,14 @@ nonisolated enum CollectionViewSections: CaseIterable {
     case popular
     case continueWatching
     case genres
+    case ages
 }
 
 nonisolated enum Collectionitems: Hashable {
     case popular(MoviesWrapper)
     case continueWatching(Movie)
     case genres(Genre)
+    case ages(Age)
 }
 
 final class HomeViewController: BaseViewController {
@@ -55,6 +57,7 @@ final class HomeViewController: BaseViewController {
         getMoviesMain()
         getContinueWatchMovies()
         getGenres()
+        getAges()
     }
     
     private func setupUI() {
@@ -97,6 +100,8 @@ final class HomeViewController: BaseViewController {
                 return createContinueWatchingSection()
             case .genres:
                 return createGenresSection()
+            case .ages:
+                return createAgesSection()
             }
         }
     }
@@ -119,7 +124,7 @@ final class HomeViewController: BaseViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = .groupPaging
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
             leading: 20,
@@ -159,7 +164,7 @@ final class HomeViewController: BaseViewController {
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = .groupPaging
         section.boundarySupplementaryItems = [sectionHeader]
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
@@ -201,7 +206,44 @@ final class HomeViewController: BaseViewController {
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.boundarySupplementaryItems = [sectionHeader]
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 32, trailing: 0)
+        
+        
+        return section
+    }
+    
+    private func createAgesSection() -> NSCollectionLayoutSection? {
+        
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 16)
+        
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .absolute(184),
+            heightDimension: .absolute(112)
+        )
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let headerSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .absolute(40)
+        )
+        
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: UICollectionView.elementKindSectionHeader,
+            alignment: .top
+        )
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .groupPaging
         section.boundarySupplementaryItems = [sectionHeader]
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 32, trailing: 0)
         
@@ -214,6 +256,7 @@ final class HomeViewController: BaseViewController {
         
         mainCollectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         mainCollectionView.backgroundColor = .clear
+        mainCollectionView.delegate = self
         
         mainCollectionView
             .register(
@@ -230,6 +273,10 @@ final class HomeViewController: BaseViewController {
         mainCollectionView
             .register(HomeGenresCollectionCell.self,
                 forCellWithReuseIdentifier: HomeGenresCollectionCell.reuseIdentifier)
+        
+        mainCollectionView
+            .register(
+                HomeAgesCollectionCell.self, forCellWithReuseIdentifier: HomeAgesCollectionCell.reuseIdentifier)
         
     }
     
@@ -268,6 +315,13 @@ final class HomeViewController: BaseViewController {
                 cell.configure(with: genres)
                 
                 return cell
+            case .ages(let ages):
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeAgesCollectionCell.reuseIdentifier, for: indexPath) as? HomeAgesCollectionCell else { fatalError("Невозможно создать ячейку")
+                }
+                
+                cell.configure(with: ages)
+                
+                return cell
             }
         }
         
@@ -288,6 +342,8 @@ final class HomeViewController: BaseViewController {
                 header.configure(title: "Көруді жалғастырыңыз")
             case .genres:
                 header.configure(title: "Жанрды таңдаңыз")
+            case .ages:
+                header.configure(title: "Жасына сәйкес")
             }
             
             return header
@@ -353,6 +409,37 @@ final class HomeViewController: BaseViewController {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    private func getAges() {
+        networkManager.getCategoryAges { [ weak self ] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let value):
+                let items = value.map { Collectionitems.ages($0) }
+                applySnapshot(for: .ages, items: items)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let selectedItem = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        switch selectedItem {
+        case .popular(let moviesWrapper):
+            print(moviesWrapper.movie.name)
+        case .continueWatching(let movie):
+            print(movie.name)
+        case .genres(let genre):
+            print(genre.name)
+        case .ages(let age):
+            print(age.name)
         }
     }
 }

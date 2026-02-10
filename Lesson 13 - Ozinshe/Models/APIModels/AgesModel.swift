@@ -5,10 +5,10 @@
 //  Created by Феликс on 18.01.2026.
 //
 
-nonisolated struct Category: Codable {
+nonisolated struct Age: Codable, Hashable {
     let id: Int
     let name: String
-    let fileId: String?
-    let link: String?
+    let fileId: Int
+    let link: String
     let movieCount: Int
 }
