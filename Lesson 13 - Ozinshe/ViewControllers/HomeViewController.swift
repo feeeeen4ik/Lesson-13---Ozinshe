@@ -124,7 +124,7 @@ final class HomeViewController: BaseViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .continuous
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
             leading: 20,
@@ -164,7 +164,7 @@ final class HomeViewController: BaseViewController {
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [sectionHeader]
         section.contentInsets = NSDirectionalEdgeInsets(
             top: 0,
@@ -206,7 +206,7 @@ final class HomeViewController: BaseViewController {
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [sectionHeader]
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 32, trailing: 0)
         
@@ -243,7 +243,7 @@ final class HomeViewController: BaseViewController {
         )
         
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
+        section.orthogonalScrollingBehavior = .continuous
         section.boundarySupplementaryItems = [sectionHeader]
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 32, trailing: 0)
         
@@ -275,8 +275,8 @@ final class HomeViewController: BaseViewController {
                 forCellWithReuseIdentifier: HomeGenresCollectionCell.reuseIdentifier)
         
         mainCollectionView
-            .register(
-                HomeAgesCollectionCell.self, forCellWithReuseIdentifier: HomeAgesCollectionCell.reuseIdentifier)
+            .register(HomeAgesCollectionCell.self,
+                      forCellWithReuseIdentifier: HomeAgesCollectionCell.reuseIdentifier)
         
     }
     
@@ -438,8 +438,18 @@ extension HomeViewController: UICollectionViewDelegate {
             print(movie.name)
         case .genres(let genre):
             print(genre.name)
+            let VC = MoviesByCategoryViewController()
+            VC.movieGenreId = genre.id
+            VC.title = genre.name
+            
+            navigationController?.pushViewController(VC, animated: true)
         case .ages(let age):
             print(age.name)
+            let VC = MoviesByCategoryViewController()
+            VC.movieCategoryAgeId = age.id
+            VC.title = age.name
+            
+            navigationController?.pushViewController(VC, animated: true)
         }
     }
 }

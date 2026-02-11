@@ -12,13 +12,20 @@ import SVProgressHUD
 final class MoviesByCategoryViewController: UITableViewController {
 
     var movieCategory: Categorie?
+    var movieCategoryAgeId: Int?
+    var movieGenreId: Int?
     
     private var movies: [Movie] = []
     private let networkmanager = NetworkManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadMoviesBy(category: movieCategory?.id ?? 0)
+        
+        loadMoviesBy(
+            category: movieCategory?.id ?? 0,
+            genreId: movieGenreId ?? 0,
+            categoryAgeId: movieCategoryAgeId ?? 0
+        )
         registerCells()
         setupUI()
     }
@@ -50,7 +57,6 @@ final class MoviesByCategoryViewController: UITableViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "FFFFFF")
-        navigationItem.title = movieCategory?.name
         tableView.separatorStyle = .none
         
         
@@ -67,10 +73,10 @@ final class MoviesByCategoryViewController: UITableViewController {
         tableView.register(FavoriteTableViewCell.self, forCellReuseIdentifier: FavoriteTableViewCell.identifier)
     }
     
-    private func loadMoviesBy(category: Int) {
+    private func loadMoviesBy(category: Int, genreId: Int, categoryAgeId: Int) {
         SVProgressHUD.show()
         
-        networkmanager.getMoviesByCategory(categoryId: category) { [weak self] result in
+        networkmanager.getMoviesWithParams(categoryId: category, genreId: genreId, categoryAgeId: categoryAgeId) { [weak self] result in
             guard let self else { return }
             SVProgressHUD.dismiss()
             switch result {

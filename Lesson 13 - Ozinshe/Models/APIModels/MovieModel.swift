@@ -39,28 +39,28 @@ nonisolated struct MoviesWrapper: Decodable, Hashable {
     let movie: Movie
 }
 
-struct Poster: Codable, Hashable {
+nonisolated struct Poster: Codable, Hashable {
     let id: Int
     let link: String
     let fileId: Int
     let movieId: Int
 }
 
-struct Video: Codable, Hashable {
+nonisolated struct Video: Codable, Hashable {
     let id: Int
     let link: String
     let seasonId: Int?
     let number: Int
 }
 
-struct Screenshot: Codable, Hashable {
+nonisolated struct Screenshot: Codable, Hashable {
     let id: Int
     let link: String
     let fileId: Int
     let movieId: Int
 }
 
-struct CategoryAges: Codable, Hashable {
+nonisolated struct CategoryAges: Codable, Hashable {
     let id: Int
     let name: String
     let fileId: Int

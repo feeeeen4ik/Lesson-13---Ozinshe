@@ -26,7 +26,7 @@ enum ResponseURL: String {
     case getCategoryAges = "core/V1/category-ages"
 }
 
-final class NetworkManager {
+final class NetworkManager: Sendable {
     static let shared = NetworkManager()
     static let baseURLForImage: String = "http://apiozinshe.mobydev.kz/core/public/V1/show/"
     
@@ -151,8 +151,14 @@ final class NetworkManager {
         }
     }
     
-    func getMoviesByCategory(categoryId: Int, completion: @escaping (Result<[Movie], AFError>) -> Void) {
-        let parameters: [String: Any] = ["categoryId": categoryId, "sortField": "name", "page": 0]
+    func getMoviesWithParams(categoryId: Int = 0, genreId: Int = 0, categoryAgeId: Int = 0, completion: @escaping (Result<[Movie], AFError>) -> Void) {
+        let parameters: [String: Any] = [
+            "categoryId": categoryId,
+            "genreId": genreId,
+            "sortField": "name",
+            "categoryAgeId": categoryAgeId,
+            "page": 0
+        ]
         let url = baseURL + ResponseURL.getMoviesWithParameters.rawValue
         
         

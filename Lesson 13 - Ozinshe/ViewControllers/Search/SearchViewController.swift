@@ -283,6 +283,7 @@ extension SearchViewController: UICollectionViewDelegate {
         
         let VC = MoviesByCategoryViewController()
         VC.movieCategory = category
+        VC.title = category.name
         
         navigationController?.pushViewController(VC, animated: true)
     }
