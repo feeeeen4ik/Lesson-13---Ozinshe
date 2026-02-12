@@ -19,7 +19,8 @@ enum ResponseURL: String {
     case getAllCategories = "core/V1/categories"
     case getMoviesWithParameters = "core/V1/movies/page"
     case getMoviesBySearch = "core/V1/movies/search"
-    case getMoviesMain = "core/V1/movies_main"
+    case getMoviesMainByCategory = "core/V1/movies/main"
+    case getMoviesMainPopular = "core/V1/movies_main"
     case getUserWatchHistory = "core/V1/history/userHistory"
     case getAllGenres = "core/V1/genres"
     case showResource = "core/public/V1/show/"
@@ -81,8 +82,8 @@ final class NetworkManager: Sendable {
             headers: headers
         ).validate().responseDecodable(of: [Movie].self) { response in
             completion(response.result)
-            }
         }
+    }
     
     func deleteFavoriteBy(id number: Int, completion: @escaping (AFError?) -> Void) {
         let parameters: [String: Int] = ["movieId": number]
@@ -199,7 +200,7 @@ final class NetworkManager: Sendable {
     }
     
     func getMoviesMain(completion: @escaping (Result<[MoviesWrapper], AFError>) -> Void) {
-        let url = baseURL + ResponseURL.getMoviesMain.rawValue
+        let url = baseURL + ResponseURL.getMoviesMainPopular.rawValue
         
         AF.request(
             url,
@@ -252,4 +253,16 @@ final class NetworkManager: Sendable {
             completion(response.result)
         }
     }
+    
+    func getMainMoviesByCategory(completion: @escaping (Result<[MainMoviesByCategories], AFError>) -> Void) {
+            let url = baseURL + ResponseURL.getMoviesMainByCategory.rawValue
+            
+            AF.request(
+                url,
+                method: .get,
+                headers: headers
+            ).validate().responseDecodable(of: [MainMoviesByCategories].self) { response in
+                completion(response.result)
+            }
+        }
 }

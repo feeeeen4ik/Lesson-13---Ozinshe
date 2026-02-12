@@ -30,15 +30,6 @@ nonisolated struct Movie: Codable, Hashable {
     let favorite: Bool
 }
 
-nonisolated struct MoviesResponse: Decodable, Hashable {
-    let content: [Movie]
-}
-
-nonisolated struct MoviesWrapper: Decodable, Hashable {
-    let id: Int
-    let movie: Movie
-}
-
 nonisolated struct Poster: Codable, Hashable {
     let id: Int
     let link: String
@@ -82,4 +73,19 @@ nonisolated struct Categorie: Codable, Hashable {
     let fileId: Int?
     let link: String?
     let movieCount: Int?
+}
+
+nonisolated struct MoviesWrapper: Decodable, Hashable {
+    let id: Int
+    let movie: Movie
+}
+
+nonisolated struct MoviesResponse: Decodable, Hashable {
+    let content: [Movie]
+}
+
+nonisolated struct MainMoviesByCategories: Codable, Hashable {
+    let categoryId: Int
+    let categoryName: String
+    let movies: [Movie]
 }
