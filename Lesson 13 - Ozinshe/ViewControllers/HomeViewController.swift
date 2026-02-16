@@ -556,9 +556,17 @@ extension HomeViewController: UICollectionViewDelegate {
         switch selectedItem {
         case .popular(let moviesWrapper):
             print(moviesWrapper.movie.name)
+            let VC = MovieViewController()
+            VC.movie = moviesWrapper.movie
+            
+            navigationController?.pushViewController(VC, animated: true)
             
         case .continueWatching(let movie):
             print(movie.name)
+            let VC = MovieViewController()
+            VC.movie = movie
+            
+            navigationController?.pushViewController(VC, animated: true)
             
         case .genres(let genre):
             print(genre.name)
@@ -578,6 +586,11 @@ extension HomeViewController: UICollectionViewDelegate {
             
         case .mainCategoryItem(let movie):
             print(movie.name)
+            let VC = MovieViewController()
+            VC.movie = movie
+            
+            navigationController?.pushViewController(VC, animated: true)
+            
         }
     }
 }
