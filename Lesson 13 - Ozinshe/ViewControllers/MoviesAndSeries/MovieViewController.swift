@@ -15,12 +15,13 @@ final class MovieViewController: UIViewController {
     let gradientLayerForTopButtons = CAGradientLayer()
     let gradientLayerForMovieDescription = CAGradientLayer()
     let baseURLForImage = NetworkManager.baseURLForImage
+    
     lazy var returnButton = {
         let button = UIButton()
         
         button.setImage(UIImage(named: "returnButton"), for: .normal)
         button.backgroundColor = .clear
-        button.addTarget( self, action: #selector(returnToMainVC), for: .touchUpInside)
+        button.addTarget(self, action: #selector(returnToMainVC), for: .touchUpInside)
         
         return button
     }()
@@ -97,12 +98,28 @@ final class MovieViewController: UIViewController {
         return stackView
     }()
     
+    lazy var topButtonsStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .horizontal
+        stackView.alignment = .bottom
+        stackView.spacing = 52
+        stackView.distribution = .fillEqually
+        
+        stackView.addArrangedSubview(addToFavoriteStackView)
+        stackView.addArrangedSubview(playButton)
+        stackView.addArrangedSubview(shareStackView)
+        
+        return stackView
+    }()
+    
     lazy var posterImageView = {
         let image = UIImageView()
         
         image.contentMode = .scaleAspectFill
         image.clipsToBounds = true
         image.image = UIImage(named: "ImageNotFound")
+        image.isUserInteractionEnabled = true
         
         return image
     }()
@@ -118,6 +135,9 @@ final class MovieViewController: UIViewController {
         
         scrollView.showsVerticalScrollIndicator = false
         scrollView.backgroundColor = .clear
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.delaysContentTouches = false
+        scrollView.canCancelContentTouches = true
 
         return scrollView
     }()
@@ -128,6 +148,7 @@ final class MovieViewController: UIViewController {
         view.backgroundColor = UIColor(named: "F9FAFB")
         view.layer.cornerRadius = 32
         view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+        view.clipsToBounds = true
         
         return view
     }()
@@ -156,18 +177,17 @@ final class MovieViewController: UIViewController {
         return label
     }()
     
-    lazy var lineMovieView = {
+    lazy var upperLineMovieDescriptionView = {
         let view = UIView()
         
         view.backgroundColor = UIColor(named: "D1D5DB")
         return view
     }()
-    
-    lazy var movieDescriptionView = {
+
+    lazy var bottomLineMovieDescriptionView = {
         let view = UIView()
         
-        view.backgroundColor = .clear
-        
+        view.backgroundColor = UIColor(named: "D1D5DB")
         return view
     }()
     
@@ -183,20 +203,101 @@ final class MovieViewController: UIViewController {
         
         return label
     }()
+        
+    lazy var movieDescriptionView = {
+        let view = GradientMaskView()
+        
+        view.addSubviews(fullMovieDescriptionLabel)
+        
+        fullMovieDescriptionLabel.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        return view
+    }()
     
-    lazy var topButtonsStackView = {
-        let stackView = UIStackView()
+    lazy var moreDescriptionButton = {
+        let button = UIButton()
         
-        stackView.axis = .horizontal
-        stackView.alignment = .bottom
-        stackView.spacing = 52
-        stackView.distribution = .fillEqually
+        button.setTitle("Толығырақ", for: .normal)
+        button.setTitleColor(UIColor(named: "B376F7"), for: .normal)
+        button.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 14)
+        button.backgroundColor = .clear
+        button.addTarget(self, action: #selector(showMoreDescription), for: .touchUpInside)
         
-        stackView.addArrangedSubview(addToFavoriteStackView)
-        stackView.addArrangedSubview(playButton)
-        stackView.addArrangedSubview(shareStackView)
+        return button
+    }()
+    
+    lazy var directorLabel = {
+        let label = UILabel()
         
-        return stackView
+        label.text = "Режиссер:"
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        label.textColor = UIColor(named: "4B5563")
+        
+        return label
+    }()
+    
+    lazy var directorNameLabel = {
+        let label = UILabel()
+        
+        label.text = movie?.director
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        label.textColor = UIColor(named: "9CA3AF")
+        
+        return label
+    }()
+    
+    lazy var directorStackView = {
+        let stack = UIStackView()
+        
+        stack.axis = .horizontal
+        stack.spacing = 19
+        stack.alignment = .leading
+        stack.addArrangedSubview(directorLabel)
+        stack.addArrangedSubview(directorNameLabel)
+        
+        return stack
+    }()
+    
+    lazy var producerLabel = {
+        let label = UILabel()
+        
+        label.text = "Продюссер:"
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        label.textColor = UIColor(named: "4B5563")
+        
+        return label
+    }()
+    
+    lazy var producerNameLabel = {
+        let label = UILabel()
+        
+        label.text = movie?.director
+        label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
+        label.textColor = UIColor(named: "9CA3AF")
+        
+        return label
+    }()
+    
+    lazy var producerStackView = {
+        let stack = UIStackView()
+        
+        stack.axis = .horizontal
+        stack.spacing = 19
+        stack.alignment = .leading
+        stack.addArrangedSubview(producerLabel)
+        stack.addArrangedSubview(producerNameLabel)
+        
+        return stack
+    }()
+    
+    lazy var contentView = {
+        let view = UIView()
+        
+        view.backgroundColor = UIColor(named: "F9FAFB")
+        
+        return view
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -211,8 +312,8 @@ final class MovieViewController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        setupGradientForTopButtons()
-        setupGradientForMovieDescription()
+        gradientLayerForTopButtons.frame = gradientForTopButtonsView.bounds
+        gradientLayerForMovieDescription.frame = movieDescriptionView.bounds
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -221,31 +322,68 @@ final class MovieViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .clear
-        view.addSubviews(
-                posterImageView,
-                returnButton,
-                gradientForTopButtonsView,
-                scrollView,
-                topButtonsStackView
-            )
+        view.backgroundColor = UIColor(named: "F9FAFB")
+        view.addSubview(scrollView)
         
-        scrollView.addSubview(movieDescriptionViewMainContainer)
-        scrollView.addSubview(movieNameLabel)
-        scrollView.addSubview(movieShortDescriptionLabel)
-        scrollView.addSubview(lineMovieView)
-        scrollView.addSubview(movieDescriptionView)
+        scrollView.addSubview(contentView)
         
-        movieDescriptionView.addSubview(fullMovieDescriptionLabel)
+        contentView.addSubview(posterImageView)
+        contentView.addSubview(gradientForTopButtonsView)
+        contentView.addSubview(topButtonsStackView)
+        contentView.addSubview(returnButton)
+        contentView.addSubview(movieDescriptionViewMainContainer)
+        
+        movieDescriptionViewMainContainer.addSubview(movieNameLabel)
+        movieDescriptionViewMainContainer.addSubview(movieShortDescriptionLabel)
+        movieDescriptionViewMainContainer.addSubview(upperLineMovieDescriptionView)
+        movieDescriptionViewMainContainer.addSubview(movieDescriptionView)
+        movieDescriptionViewMainContainer.addSubview(moreDescriptionButton)
+        movieDescriptionViewMainContainer.addSubview(directorStackView)
+        movieDescriptionViewMainContainer.addSubview(producerStackView)
+        movieDescriptionViewMainContainer.addSubview(bottomLineMovieDescriptionView)
         
         setupPoster()
+        setupGradientForTopButtons()
         
-        movieDescriptionViewMainContainer.snp.makeConstraints { make in
-            make.leading.trailing.width.height.equalTo(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
-        fullMovieDescriptionLabel.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        contentView.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView.contentLayoutGuide)
+            make.width.equalTo(scrollView.frameLayoutGuide)
+        }
+        
+        posterImageView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(300)
+        }
+        
+        returnButton.snp.makeConstraints { make in
+            make.top.equalTo(posterImageView.snp.top).offset(50)
+            make.leading.equalToSuperview().offset(24)
+            make.height.width.equalTo(40)
+        }
+        
+        topButtonsStackView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.height.equalTo(70)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+            make.bottom.equalTo(posterImageView).inset(48)
+        }
+        
+        gradientForTopButtonsView.snp.makeConstraints { make in
+            make.width.equalTo(view.frame.width)
+            make.top.equalTo(topButtonsStackView.snp.top)
+            make.bottom.equalTo(posterImageView.snp.bottom)
+        }
+        
+        movieDescriptionViewMainContainer.snp.makeConstraints { make in
+            make.top.equalTo(posterImageView.snp.bottom).inset(20)
+            make.width.equalToSuperview()
+            make.bottom.equalToSuperview()
         }
         
         movieNameLabel.snp.makeConstraints { make in
@@ -260,7 +398,7 @@ final class MovieViewController: UIViewController {
             make.top.equalTo(movieNameLabel.snp.bottom).offset(8)
         }
         
-        lineMovieView.snp.makeConstraints { make in
+        upperLineMovieDescriptionView.snp.makeConstraints { make in
             make.top.equalTo(movieShortDescriptionLabel.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
@@ -268,41 +406,35 @@ final class MovieViewController: UIViewController {
         }
         
         movieDescriptionView.snp.makeConstraints { make in
-            make.top.equalTo(lineMovieView.snp.bottom).offset(24)
+            make.top.equalTo(upperLineMovieDescriptionView.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
         }
         
-        posterImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
-            make.width.equalTo(view.frame.width)
-            make.height.equalTo(view.frame.width * 0.80)
+        moreDescriptionButton.snp.makeConstraints { make in
+            make.top.equalTo(movieDescriptionView.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(24)
+            make.height.equalTo(22)
         }
         
-        topButtonsStackView.snp.makeConstraints { make in
-            make.bottom.equalTo(scrollView.snp.top).offset(-20)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(70)
+        directorStackView.snp.makeConstraints { make in
+            make.top.equalTo(moreDescriptionButton.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(24)
         }
         
-        returnButton.snp.makeConstraints { make in
-            make.top.equalTo(posterImageView.snp.top).offset(60)
-            make.leading.equalToSuperview().offset(25)
-            make.height.width.equalTo(40)
+        producerStackView.snp.makeConstraints { make in
+            make.top.equalTo(directorStackView.snp.bottom).offset(8)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(24)
         }
         
-        scrollView.snp.makeConstraints { make in
-            make.top.equalTo(posterImageView.snp.bottom).offset(-30)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
-        }
-        
-        gradientForTopButtonsView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(scrollView.snp.top).offset(30)
-            make.top.equalTo(topButtonsStackView.snp.top)
+        bottomLineMovieDescriptionView.snp.makeConstraints { make in
+            make.top.equalTo(producerStackView.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(24)
+            make.height.equalTo(1)
+            make.bottom.equalToSuperview().inset(24)
         }
     }
     
@@ -329,27 +461,33 @@ final class MovieViewController: UIViewController {
     }
     
     private func setupGradientForTopButtons() {
-        gradientLayerForTopButtons.frame = gradientForTopButtonsView.bounds
         gradientLayerForTopButtons.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
         gradientLayerForTopButtons.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayerForTopButtons.endPoint = CGPoint(x: 0.5, y: 1)
         gradientForTopButtonsView.layer.insertSublayer(gradientLayerForTopButtons, at: 0)
     }
     
-    private func setupGradientForMovieDescription() {
-        gradientLayerForMovieDescription.frame = movieDescriptionView.bounds
-        gradientLayerForMovieDescription.colors = [
-            UIColor(named: "F9FAFB")?.cgColor ?? UIColor.systemBackground.cgColor,
-            UIColor.clear.cgColor
-        ]
-        gradientLayerForMovieDescription.locations = [0.6, 1]
-        gradientLayerForMovieDescription.startPoint = CGPoint(x: 0.5, y: 0)
-        gradientLayerForMovieDescription.endPoint = CGPoint(x: 0.5, y: 1)
-        movieDescriptionView.layer.mask = gradientLayerForMovieDescription
-    }
-    
     @objc private func returnToMainVC() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func showMoreDescription() {
+        
+        if fullMovieDescriptionLabel.numberOfLines == 5 {
+            fullMovieDescriptionLabel.numberOfLines = 0
+            movieDescriptionView.layer.mask = nil
+            movieDescriptionView.setMaskEnabled(false)
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+        } else {
+            fullMovieDescriptionLabel.numberOfLines = 5
+            movieDescriptionView.layer.mask = gradientLayerForMovieDescription
+            movieDescriptionView.setMaskEnabled(true)
+            UIView.animate(withDuration: 0.1) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
 
 }

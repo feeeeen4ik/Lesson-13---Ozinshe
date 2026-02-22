@@ -88,6 +88,15 @@ final class MoviesByCategoryViewController: UITableViewController {
             }
         }
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedMovie = movies[indexPath.row]
+        
+        let VC = MovieViewController()
+        VC.movie = selectedMovie
+        
+        navigationController?.pushViewController(VC, animated: true)
+    }
 
 
 }
