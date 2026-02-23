@@ -10,6 +10,7 @@ import SVProgressHUD
 import Localize_Swift
 import SnapKit
 
+
 final class FavoritesTableViewController: UITableViewController {
     
     private let networkManager = NetworkManager.shared
@@ -20,6 +21,11 @@ final class FavoritesTableViewController: UITableViewController {
 
         registerCells()
         setupUI()
+        loadFavorites()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadFavorites()
     }
     
@@ -41,6 +47,14 @@ final class FavoritesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         153
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = movies[indexPath.row]
+        let vc = MovieViewController()
+        vc.movie = movie
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
         
     private func loadFavorites() {

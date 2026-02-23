@@ -1,16 +1,17 @@
 //
-//  HomeCollectionCell.swift
+//  MovieScreenshotCollectionViewCell.swift
 //  Lesson 13 - Ozinshe
 //
-//  Created by Феликс on 10.02.2026.
+//  Created by Феликс on 23.02.2026.
 //
 
 import UIKit
-import SnapKit
 import Kingfisher
+import SnapKit
 
-final class HomeAgesCollectionCell: UICollectionViewCell {
-    static let reuseIdentifier: String = "HomeAgesCollectionCell"
+class MovieScreenshotCollectionViewCell: UICollectionViewCell {
+    
+    static let reuseIdentifier: String = "MovieScreenshotCollectionViewCell"
     private let baseURLForImage = NetworkManager.baseURLForImage
     
     lazy var pictureImageView = {
@@ -21,17 +22,6 @@ final class HomeAgesCollectionCell: UICollectionViewCell {
         image.contentMode = .scaleAspectFill
         
         return image
-    }()
-    
-    lazy var ageNameLabel = {
-        let label = UILabel()
-        
-        label.font = UIFont(name: "SFProDisplay-Bold", size: 14)
-        label.textColor = .white
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        
-        return label
     }()
     
     required init?(coder: NSCoder) {
@@ -45,24 +35,15 @@ final class HomeAgesCollectionCell: UICollectionViewCell {
     
     private func setupUI() {
         contentView.addSubview(pictureImageView)
-        contentView.addSubview(ageNameLabel)
         
         pictureImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
-        ageNameLabel.snp.makeConstraints { make in
-            make.centerY.centerX.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-        }
     }
     
-    func configure(with age: Age) {
-        ageNameLabel.text = age.name
-        
-        let pictureID = age.fileId
-        let pictureURL = URL(string: "\(baseURLForImage)\(pictureID)")
+    func configure(with imageId: Any) {
+
+        let pictureURL = URL(string: "\(baseURLForImage)\(imageId)")
         let processor = DownsamplingImageProcessor(
             size: pictureImageView.bounds.size
         )
@@ -87,5 +68,6 @@ final class HomeAgesCollectionCell: UICollectionViewCell {
                 
             }
     }
+    
     
 }

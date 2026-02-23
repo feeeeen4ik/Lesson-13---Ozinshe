@@ -318,4 +318,13 @@ extension SearchViewController: UITableViewDataSource {
 
 extension SearchViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let movie = searchedMovies[indexPath.row]
+        
+        let VC = MovieViewController()
+        VC.movie = movie
+        
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
 }

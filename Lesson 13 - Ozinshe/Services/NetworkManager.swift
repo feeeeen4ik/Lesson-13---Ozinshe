@@ -100,6 +100,21 @@ final class NetworkManager: Sendable {
         }
     }
     
+    func addToFavoriteBy(id number: Int, completion: @escaping (AFError?) -> Void) {
+        let parameters: [String: Int] = ["movieId": number]
+        let url = baseURL + ResponseURL.favorites.rawValue
+        
+        AF.request(
+            url,
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).validate().response { response in
+            completion(response.error)
+        }
+    }
+    
     func getProfileData(completion: @escaping (Result<AccountData, AFError>) -> Void) {
         let url = baseURL + ResponseURL.profileData.rawValue
         AF.request(

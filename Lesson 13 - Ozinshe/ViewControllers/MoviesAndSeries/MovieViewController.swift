@@ -12,9 +12,32 @@ import Kingfisher
 final class MovieViewController: UIViewController {
     
     var movie: Movie?
+    
     let gradientLayerForTopButtons = CAGradientLayer()
     let gradientLayerForMovieDescription = CAGradientLayer()
     let baseURLForImage = NetworkManager.baseURLForImage
+    let networkManager = NetworkManager.shared
+    
+    
+    lazy var scrollView = {
+        let scrollView = UIScrollView()
+        
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.backgroundColor = .clear
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.delaysContentTouches = false
+        scrollView.canCancelContentTouches = true
+        
+        return scrollView
+    }()
+    
+    lazy var contentView = {
+        let view = UIView()
+        
+        view.backgroundColor = UIColor(named: "F9FAFB")
+        
+        return view
+    }()
     
     lazy var returnButton = {
         let button = UIButton()
@@ -38,7 +61,7 @@ final class MovieViewController: UIViewController {
         let button = UIButton()
         
         button.setImage(UIImage(named: "addToFavoriteButton"), for: .normal)
-        
+        button.addTarget(self, action: #selector(addToFavorite), for: .touchUpInside)
         return button
     }()
     
@@ -76,7 +99,7 @@ final class MovieViewController: UIViewController {
     
     lazy var shareLabel = {
         let label = UILabel()
-            
+        
         label.text = "Бөлісу"
         label.font = UIFont(name: "SFProDisplay-Medium", size: 12)
         label.textColor = UIColor(named: "9CA3AF")
@@ -130,18 +153,6 @@ final class MovieViewController: UIViewController {
         return view
     }()
     
-    lazy var scrollView = {
-        let scrollView = UIScrollView()
-        
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.backgroundColor = .clear
-        scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.delaysContentTouches = false
-        scrollView.canCancelContentTouches = true
-
-        return scrollView
-    }()
-    
     lazy var movieDescriptionViewMainContainer = {
         let view = UIView()
         
@@ -183,7 +194,7 @@ final class MovieViewController: UIViewController {
         view.backgroundColor = UIColor(named: "D1D5DB")
         return view
     }()
-
+    
     lazy var bottomLineMovieDescriptionView = {
         let view = UIView()
         
@@ -203,7 +214,7 @@ final class MovieViewController: UIViewController {
         
         return label
     }()
-        
+    
     lazy var movieDescriptionView = {
         let view = GradientMaskView()
         
@@ -292,12 +303,32 @@ final class MovieViewController: UIViewController {
         return stack
     }()
     
-    lazy var contentView = {
-        let view = UIView()
+    lazy var screenshotsLabel = {
+        let label = UILabel()
         
-        view.backgroundColor = UIColor(named: "F9FAFB")
+        label.text = "Скриншоттар"
+        label.font = UIFont(name: "SFProDisplay-Bold", size: 16)
+        label.textColor = UIColor(named: "111827")
+        label.textAlignment = .left
         
-        return view
+        return label
+    }()
+    
+    lazy var screenshotsCollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: 184, height: 112)
+        layout.minimumLineSpacing = 16
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collectionView.backgroundColor = .clear
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.dataSource = self
+        
+        collectionView.register(MovieScreenshotCollectionViewCell.self, forCellWithReuseIdentifier: "MovieScreenshotCollectionViewCell")
+        
+        return collectionView
     }()
     
     override func viewWillAppear(_ animated: Bool) {
@@ -341,6 +372,8 @@ final class MovieViewController: UIViewController {
         movieDescriptionViewMainContainer.addSubview(directorStackView)
         movieDescriptionViewMainContainer.addSubview(producerStackView)
         movieDescriptionViewMainContainer.addSubview(bottomLineMovieDescriptionView)
+        movieDescriptionViewMainContainer.addSubview(screenshotsLabel)
+        movieDescriptionViewMainContainer.addSubview(screenshotsCollectionView)
         
         setupPoster()
         setupGradientForTopButtons()
@@ -434,6 +467,19 @@ final class MovieViewController: UIViewController {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
             make.height.equalTo(1)
+        }
+        
+        screenshotsLabel.snp.makeConstraints { make in
+            make.top.equalTo(bottomLineMovieDescriptionView.snp.bottom).offset(24)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(24)
+        }
+        
+        screenshotsCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(screenshotsLabel.snp.bottom).offset(16)
+            make.height.equalTo(112)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(24)
         }
     }
@@ -489,5 +535,37 @@ final class MovieViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func addToFavorite() {
+        networkManager.addToFavoriteBy(id: movie!.id) { [weak self] error in
+            guard let self else { return }
+            
+            if let error {
+                print(error.localizedDescription)
+                return
+            }
+        }
+    }
 
+}
+
+
+extension MovieViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        movie?.screenshots.count ?? 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MovieScreenshotCollectionViewCell.reuseIdentifier,
+            for: indexPath
+        ) as! MovieScreenshotCollectionViewCell
+        let imageId = movie?.screenshots[indexPath.row].fileId
+        
+        cell.configure(with: imageId ?? "ImageNotFound")
+        
+        return cell
+    }
+
+    
 }
