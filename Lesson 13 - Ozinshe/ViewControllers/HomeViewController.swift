@@ -28,6 +28,7 @@ nonisolated enum Collectionitems: Hashable {
 
 final class HomeViewController: BaseViewController {
     
+    let networkManager = NetworkManager.shared
     private var dataSource: UICollectionViewDiffableDataSource<CollectionViewSections, Collectionitems>!
     private var mainCollectionView: UICollectionView!
     private var activeSections: [CollectionViewSections] = [.popular, .continueWatching, .genres, .ages]

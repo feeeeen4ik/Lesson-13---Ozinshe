@@ -20,6 +20,8 @@ final class ProfileInfoViewController: BaseViewController {
     var profileData: AccountData?
     weak var delegate: ProfileInfoViewControllerDelegate?
     
+    let networkManager = NetworkManager.shared
+    
     lazy var upperView = {
         let view = UIView()
         

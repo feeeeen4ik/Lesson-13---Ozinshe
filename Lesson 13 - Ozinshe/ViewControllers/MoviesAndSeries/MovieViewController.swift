@@ -34,7 +34,7 @@ final class MovieViewController: UIViewController {
     lazy var contentView = {
         let view = UIView()
         
-        view.backgroundColor = UIColor(named: "F9FAFB")
+        view.backgroundColor = .clear
         
         return view
     }()
@@ -140,6 +140,7 @@ final class MovieViewController: UIViewController {
         let image = UIImageView()
         
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = UIColor(named: "F9FAFB")
         image.clipsToBounds = true
         image.image = UIImage(named: "ImageNotFound")
         image.isUserInteractionEnabled = true
@@ -274,7 +275,7 @@ final class MovieViewController: UIViewController {
     lazy var producerLabel = {
         let label = UILabel()
         
-        label.text = "Продюссер:"
+        label.text = "Продюсер:"
         label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
         label.textColor = UIColor(named: "4B5563")
         
@@ -301,6 +302,66 @@ final class MovieViewController: UIViewController {
         stack.addArrangedSubview(producerNameLabel)
         
         return stack
+    }()
+    
+    lazy var sectionsButton = {
+        let button = UIButton()
+        
+        button.setTitle("Бөлімдер", for: .normal)
+        button.setTitleColor(UIColor(named: "111827"), for: .normal)
+        button.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
+        button.contentHorizontalAlignment = .left
+        button.addTarget(self, action: #selector(scetionsButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var sectionsSeasonsAndSeriesLabel = {
+        let label = UILabel()
+        
+        label.text = "\(movie?.seasonCount ?? 0) cезон, \(movie?.seriesCount ?? 0) серия"
+        label.font = UIFont(name: "SFProDisplay-Medium", size: 12)
+        label.textColor = UIColor(named: "9CA3AF")
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        return label
+    }()
+    
+    lazy var sectionsSymbolImage = {
+        let image = UIImageView()
+        
+        image.image = UIImage(named: "ChevronRight")
+        
+        return image
+    }()
+    
+    lazy var sectionsView = {
+        let view = UIView()
+        
+        view.backgroundColor = .clear
+        
+        view.addSubviews(sectionsButton, sectionsSeasonsAndSeriesLabel, sectionsSymbolImage)
+        
+        sectionsButton.snp.makeConstraints { make in
+            make.leading.top.trailing.bottom.equalToSuperview()
+        }
+        
+        sectionsSymbolImage.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.leading.equalTo(sectionsSeasonsAndSeriesLabel.snp.trailing).offset(8)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(16)
+            make.width.equalTo(16)
+        }
+        
+        sectionsSeasonsAndSeriesLabel.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(24)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(16)
+        }
+        
+        return view
     }()
     
     lazy var screenshotsLabel = {
@@ -338,6 +399,7 @@ final class MovieViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupUI()
     }
     
@@ -354,6 +416,7 @@ final class MovieViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "F9FAFB")
+        
         view.addSubview(scrollView)
         
         scrollView.addSubview(contentView)
@@ -372,6 +435,7 @@ final class MovieViewController: UIViewController {
         movieDescriptionViewMainContainer.addSubview(directorStackView)
         movieDescriptionViewMainContainer.addSubview(producerStackView)
         movieDescriptionViewMainContainer.addSubview(bottomLineMovieDescriptionView)
+        movieDescriptionViewMainContainer.addSubview(sectionsView)
         movieDescriptionViewMainContainer.addSubview(screenshotsLabel)
         movieDescriptionViewMainContainer.addSubview(screenshotsCollectionView)
         
@@ -385,6 +449,7 @@ final class MovieViewController: UIViewController {
         
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(scrollView.contentLayoutGuide)
+//            make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.width.equalTo(scrollView.frameLayoutGuide)
         }
         
@@ -408,7 +473,7 @@ final class MovieViewController: UIViewController {
         }
         
         gradientForTopButtonsView.snp.makeConstraints { make in
-            make.width.equalTo(view.frame.width)
+            make.width.equalToSuperview()
             make.top.equalTo(topButtonsStackView.snp.top)
             make.bottom.equalTo(posterImageView.snp.bottom)
         }
@@ -469,8 +534,14 @@ final class MovieViewController: UIViewController {
             make.height.equalTo(1)
         }
         
-        screenshotsLabel.snp.makeConstraints { make in
+        sectionsView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().inset(24)
             make.top.equalTo(bottomLineMovieDescriptionView.snp.bottom).offset(24)
+        }
+        
+        screenshotsLabel.snp.makeConstraints { make in
+            make.top.equalTo(sectionsView.snp.bottom).offset(32)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().inset(24)
         }
@@ -481,6 +552,15 @@ final class MovieViewController: UIViewController {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(24)
+        }
+        
+        if movie?.seasonCount == 0  && movie?.seriesCount == 0{
+            sectionsView.isHidden = true
+            
+            screenshotsLabel.snp.makeConstraints { make in
+                make.top.equalTo(bottomLineMovieDescriptionView.snp.bottom).offset(32)
+            }
+            
         }
     }
     
@@ -537,9 +617,7 @@ final class MovieViewController: UIViewController {
     }
     
     @objc private func addToFavorite() {
-        networkManager.addToFavoriteBy(id: movie!.id) { [weak self] error in
-            guard let self else { return }
-            
+        networkManager.addToFavoriteBy(id: movie!.id) { error in
             if let error {
                 print(error.localizedDescription)
                 return
@@ -547,6 +625,12 @@ final class MovieViewController: UIViewController {
         }
     }
 
+    @objc private func scetionsButtonTapped() {
+        let VC = SerialSeriesViewController()
+        VC.title = "Бөлімдер"
+        
+        navigationController?.pushViewController(VC, animated: true)
+    }
 }
 
 

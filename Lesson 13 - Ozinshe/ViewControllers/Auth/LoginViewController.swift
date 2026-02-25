@@ -13,6 +13,7 @@ import SVProgressHUD
 final class LoginViewController: BaseViewController {
     
     let profileStorage = ProfileStorage.shared
+    let networkManager = NetworkManager.shared
     
     lazy var titleLabel =  {
         let label = CustomLabel(

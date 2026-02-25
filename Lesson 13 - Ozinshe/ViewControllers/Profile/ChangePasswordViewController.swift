@@ -10,9 +10,11 @@ import SnapKit
 import Localize_Swift
 import SVProgressHUD
 
-class ChangePasswordViewController: BaseViewController {
+final class ChangePasswordViewController: BaseViewController {
     
     var buttonBottomConstraint: Constraint?
+    
+    let networkManager = NetworkManager.shared
     
     lazy var upperView = {
         let view = UIView()

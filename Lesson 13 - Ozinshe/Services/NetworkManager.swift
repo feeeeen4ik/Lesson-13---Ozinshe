@@ -34,7 +34,6 @@ final class NetworkManager: Sendable {
     private init() {}
     
     private let baseURL: String = "http://apiozinshe.mobydev.kz/"
-    private var headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
     
     func signIn(email: String, password: String, completion: @escaping (Result<SignInResponse, AFError>) -> Void) {
         let parameters: [String: String] = [
@@ -76,6 +75,8 @@ final class NetworkManager: Sendable {
         completion: @escaping (Result<[Movie], AFError>) -> Void
     ) {
         let url = baseURL + ResponseURL.favorites.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
+        
         AF.request(
             url,
             method: .get,
@@ -88,6 +89,7 @@ final class NetworkManager: Sendable {
     func deleteFavoriteBy(id number: Int, completion: @escaping (AFError?) -> Void) {
         let parameters: [String: Int] = ["movieId": number]
         let url = baseURL + ResponseURL.favorites.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -103,6 +105,7 @@ final class NetworkManager: Sendable {
     func addToFavoriteBy(id number: Int, completion: @escaping (AFError?) -> Void) {
         let parameters: [String: Int] = ["movieId": number]
         let url = baseURL + ResponseURL.favorites.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -117,6 +120,8 @@ final class NetworkManager: Sendable {
     
     func getProfileData(completion: @escaping (Result<AccountData, AFError>) -> Void) {
         let url = baseURL + ResponseURL.profileData.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
+        
         AF.request(
             url,
             method: .get,
@@ -129,6 +134,7 @@ final class NetworkManager: Sendable {
     func changeProfileData(userName: String, birthDate: String, phoneNumber: String, completion: @escaping(AFError?) -> Void) {
         let parameters: [String: String] = ["name": userName, "birthDate": birthDate, "phoneNumber": phoneNumber]
         let url = baseURL + ResponseURL.changeProfileData.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -144,6 +150,7 @@ final class NetworkManager: Sendable {
     func changePassword(to newPassword: String, completion: @escaping (AFError?) -> Void) {
         let parameters: [String: String] = ["password": newPassword]
         let url = baseURL + ResponseURL.changePassword.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -158,6 +165,8 @@ final class NetworkManager: Sendable {
     
     func getAllCategories(completion: @escaping (Result<[Categorie], AFError>) -> Void) {
         let url = baseURL + ResponseURL.getAllCategories.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
+        
         AF.request(
             url,
             method: .get,
@@ -176,7 +185,7 @@ final class NetworkManager: Sendable {
             "page": 0
         ]
         let url = baseURL + ResponseURL.getMoviesWithParameters.rawValue
-        
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -197,6 +206,7 @@ final class NetworkManager: Sendable {
     func getMoviesBySearch(query: String, completion: @escaping (Result<[Movie], AFError>) -> Void) {
         let parameters: [String: String] = ["search": query]
         let url = baseURL + ResponseURL.getMoviesBySearch.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -216,6 +226,7 @@ final class NetworkManager: Sendable {
     
     func getMoviesMain(completion: @escaping (Result<[MoviesWrapper], AFError>) -> Void) {
         let url = baseURL + ResponseURL.getMoviesMainPopular.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -230,6 +241,7 @@ final class NetworkManager: Sendable {
         completion: @escaping (Result<[Movie], AFError>) -> Void
     ) {
         let url = baseURL + ResponseURL.getUserWatchHistory.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -247,6 +259,7 @@ final class NetworkManager: Sendable {
     
     func getAllGenres(completion: @escaping (Result<[Genre], AFError>) -> Void) {
         let url = baseURL + ResponseURL.getAllGenres.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -259,6 +272,7 @@ final class NetworkManager: Sendable {
     
     func getCategoryAges(completion: @escaping (Result<[Age], AFError>) -> Void) {
         let url = baseURL + ResponseURL.getCategoryAges.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
         
         AF.request(
             url,
@@ -271,7 +285,8 @@ final class NetworkManager: Sendable {
     
     func getMainMoviesByCategory(completion: @escaping (Result<[MainMoviesByCategories], AFError>) -> Void) {
             let url = baseURL + ResponseURL.getMoviesMainByCategory.rawValue
-            
+            let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
+        
             AF.request(
                 url,
                 method: .get,

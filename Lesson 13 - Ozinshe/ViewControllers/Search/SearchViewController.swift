@@ -15,6 +15,8 @@ final class SearchViewController: BaseViewController {
     var categories: [Categorie] = []
     var searchedMovies: [Movie] = []
     
+    let networkManager = NetworkManager.shared
+    
     lazy var searchTextField = {
         let textField = CustomTextField()
         

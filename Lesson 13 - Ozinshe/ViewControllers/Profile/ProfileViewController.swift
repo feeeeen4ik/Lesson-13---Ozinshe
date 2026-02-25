@@ -13,6 +13,8 @@ final class ProfileViewController: BaseViewController, ProfileInfoViewController
 
     var profileData: AccountData?
     
+    let networkManager = NetworkManager.shared
+    
     lazy var topView = {
         let view = UIView()
         
@@ -52,13 +54,13 @@ final class ProfileViewController: BaseViewController, ProfileInfoViewController
     let themeStyleSwitch = UISwitch()
     let profileInfoButton = UIButton()
     let profileTextLabel = UILabel()
-    let changePasswordButton = UIButton()
-    let changeLanguageButton = UIButton()
     let themeStyleLabel = UILabel()
     let profileInfoView = UIView()
     let changePasswordView = UIView()
+    let changePasswordButton = UIButton()
     let changeLanguageView = UIView()
     let changeLanguageLabel = UILabel()
+    let changeLanguageButton = UIButton()
     
     lazy var settingsView = {
         let view = UIView()

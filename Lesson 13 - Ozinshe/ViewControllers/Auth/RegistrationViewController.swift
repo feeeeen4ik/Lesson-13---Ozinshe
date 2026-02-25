@@ -13,7 +13,8 @@ import SVProgressHUD
 final class RegistrationViewController: BaseViewController {
     
     private let profileStorage = ProfileStorage.shared
-
+    let networkManager = NetworkManager.shared
+    
     lazy var titleLabel: UILabel = CustomLabel(
         text: "regMainTitleLabel".localized(),
         fontName: "SFProDisplay-Bold",
