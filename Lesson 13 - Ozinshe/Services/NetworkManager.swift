@@ -25,6 +25,7 @@ enum ResponseURL: String {
     case getAllGenres = "core/V1/genres"
     case showResource = "core/public/V1/show/"
     case getCategoryAges = "core/V1/category-ages"
+    case getSeasonsAndSeries = "core/V1/seasons/"
 }
 
 final class NetworkManager: Sendable {
@@ -295,4 +296,13 @@ final class NetworkManager: Sendable {
                 completion(response.result)
             }
         }
+    
+    func getSeasonsAndSeriesOf(movieId: Int, completion: @escaping (Result<[Season], AFError>) -> Void ) {
+        let url = baseURL + ResponseURL.getSeasonsAndSeries.rawValue + "\(movieId)"
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
+        
+        AF.request(url, method: .get, headers: headers).validate().responseDecodable(of: [Season].self) { response in
+            completion(response.result)
+        }
+    }
 }

@@ -311,7 +311,7 @@ final class MovieViewController: UIViewController {
         button.setTitleColor(UIColor(named: "111827"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         button.contentHorizontalAlignment = .left
-        button.addTarget(self, action: #selector(scetionsButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(sectionsButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -625,9 +625,10 @@ final class MovieViewController: UIViewController {
         }
     }
 
-    @objc private func scetionsButtonTapped() {
+    @objc private func sectionsButtonTapped() {
         let VC = SerialSeriesViewController()
         VC.title = "Бөлімдер"
+        VC.movieId = movie?.id
         
         navigationController?.pushViewController(VC, animated: true)
     }
