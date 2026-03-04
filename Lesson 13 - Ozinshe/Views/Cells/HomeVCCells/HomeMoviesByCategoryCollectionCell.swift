@@ -63,6 +63,7 @@ class HomeMoviesByCategoryCollectionCell: UICollectionViewCell {
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
+            make.height.equalTo(155)
         }
         
         movieNameLabel.snp.makeConstraints { make in

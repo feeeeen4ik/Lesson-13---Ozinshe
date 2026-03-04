@@ -22,14 +22,11 @@ nonisolated enum CollectionItems: Hashable {
 
 final class SerialSeriesViewController: BaseViewController {
     
-    var movieId: Int?
-    private var movieSeasonsAndSeries: [Season] = []
+    var movieSeasonsAndSeries: [Season] = []
+    
     private var dataSource: UICollectionViewDiffableDataSource<Sections, CollectionItems>!
     private var mainCollectionView: UICollectionView!
     private var selectedSeasonIndex: Int = 0
-    
-    
-    let netvorkManager = NetworkManager.shared
     
     lazy var upperLineView = {
         let view = UIView()
@@ -42,7 +39,7 @@ final class SerialSeriesViewController: BaseViewController {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "F9FAFB")
-        getSeasonsAndSeries()
+        updateSnapshot(with: movieSeasonsAndSeries.first?.videos ?? [])
         
         registerCellsForCollectionView()
         setupUI()
@@ -168,24 +165,6 @@ final class SerialSeriesViewController: BaseViewController {
                 )
         }
     }
-    
-    private func getSeasonsAndSeries() {
-        netvorkManager.getSeasonsAndSeriesOf(movieId: movieId!) { [weak self] Result in
-            guard let self else { return }
-            
-            switch Result {
-            case .success(let data):
-                movieSeasonsAndSeries = data
-                if let firstSeasonSeries = data.first {
-                    updateSnapshot(with: firstSeasonSeries.videos)
-                }
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-            
-        }
-    }
-
 }
 
 
@@ -198,7 +177,13 @@ extension SerialSeriesViewController: UICollectionViewDelegate {
             selectedSeasonIndex = indexPath.row
             updateSnapshot(with: season.videos)
         case .series(let series):
-            print(2)
+            let VC = PlayerViewController()
+            VC.videoID = series.link
+            VC.modalPresentationStyle = .fullScreen
+            VC.modalTransitionStyle = .crossDissolve
+            
+            present(VC, animated: true)
+            
         }
     }
 }

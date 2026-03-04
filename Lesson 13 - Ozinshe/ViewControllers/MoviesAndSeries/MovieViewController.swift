@@ -13,11 +13,11 @@ final class MovieViewController: UIViewController {
     
     var movie: Movie?
     
-    let gradientLayerForTopButtons = CAGradientLayer()
-    let gradientLayerForMovieDescription = CAGradientLayer()
-    let baseURLForImage = NetworkManager.baseURLForImage
-    let networkManager = NetworkManager.shared
-    
+    private let gradientLayerForTopButtons = CAGradientLayer()
+    private let gradientLayerForMovieDescription = CAGradientLayer()
+    private let baseURLForImage = NetworkManager.baseURLForImage
+    private let networkManager = NetworkManager.shared
+    private var movieSeasonsAndSeries: [Season] = []
     
     lazy var scrollView = {
         let scrollView = UIScrollView()
@@ -53,6 +53,7 @@ final class MovieViewController: UIViewController {
         let button = UIButton()
         
         button.setImage(UIImage(named: "playButton"), for: .normal)
+        button.addTarget(self, action: #selector(playMovieAction), for: .touchUpInside)
         
         return button
     }()
@@ -93,6 +94,7 @@ final class MovieViewController: UIViewController {
         let button = UIButton()
         
         button.setImage(UIImage(named: "shareButton"), for: .normal)
+        button.addTarget(self, action: #selector(shareButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -397,10 +399,18 @@ final class MovieViewController: UIViewController {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
+        getSeasonsAndSeries()
     }
     
     override func viewWillLayoutSubviews() {
@@ -560,7 +570,10 @@ final class MovieViewController: UIViewController {
             screenshotsLabel.snp.makeConstraints { make in
                 make.top.equalTo(bottomLineMovieDescriptionView.snp.bottom).offset(32)
             }
-            
+        }
+        
+        if movie?.favorite == true {
+            addToFavoriteButton.setImage(UIImage(named: "addToFavoritButtonTupped"), for: .normal)
         }
     }
     
@@ -586,11 +599,37 @@ final class MovieViewController: UIViewController {
             }
     }
     
+    private func getSeasonsAndSeries() {
+        networkManager.getSeasonsAndSeriesOf(movieId: movie?.id ?? 0) { [weak self] Result in
+            guard let self else { return }
+            
+            switch Result {
+            case .success(let data):
+                movieSeasonsAndSeries = data
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            
+        }
+    }
+    
     private func setupGradientForTopButtons() {
         gradientLayerForTopButtons.colors = [UIColor.clear.cgColor, UIColor.black.cgColor]
         gradientLayerForTopButtons.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayerForTopButtons.endPoint = CGPoint(x: 0.5, y: 1)
         gradientForTopButtonsView.layer.insertSublayer(gradientLayerForTopButtons, at: 0)
+    }
+    
+    private func shareMovie(title: String, link: String) {
+        
+        let textToShare = title
+        guard let urlToShare = URL(string: "https://www.youtube.com/watch?v=\(link)") else { return }
+        
+        let items: [Any] = [textToShare, urlToShare]
+        
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+    
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     @objc private func returnToMainVC() {
@@ -617,20 +656,39 @@ final class MovieViewController: UIViewController {
     }
     
     @objc private func addToFavorite() {
-        networkManager.addToFavoriteBy(id: movie!.id) { error in
+        networkManager.addToFavoriteBy(id: movie!.id) { [ weak self ] error in
+            guard let self else { return }
             if let error {
                 print(error.localizedDescription)
                 return
             }
+            addToFavoriteButton.setImage(UIImage(named: "addToFavoritButtonTupped"), for: .normal)
         }
     }
 
     @objc private func sectionsButtonTapped() {
         let VC = SerialSeriesViewController()
         VC.title = "Бөлімдер"
-        VC.movieId = movie?.id
+        VC.movieSeasonsAndSeries = movieSeasonsAndSeries
         
         navigationController?.pushViewController(VC, animated: true)
+    }
+    
+    @objc private func playMovieAction() {
+        let VC = PlayerViewController()
+        if movie?.movieType == "MOVIE" {
+            VC.videoID = movie?.video?.link ?? ""
+        } else if movie?.movieType == "SERIAL" {
+            VC.videoID = movieSeasonsAndSeries.first?.videos.first?.link ?? ""
+        }
+        VC.modalPresentationStyle = .fullScreen
+        VC.modalTransitionStyle = .crossDissolve
+        
+        present(VC, animated: true)
+    }
+    
+    @objc private func shareButtonTapped() {
+        shareMovie(title: movie?.name ?? "", link: movie?.video?.link ?? "")
     }
 }
 
@@ -651,6 +709,10 @@ extension MovieViewController: UICollectionViewDataSource, UICollectionViewDeleg
         
         return cell
     }
+}
 
-    
+extension MovieViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        return (navigationController?.viewControllers.count ?? 0) > 1
+    }
 }

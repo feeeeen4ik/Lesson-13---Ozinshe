@@ -176,6 +176,8 @@ final class HomeViewController: BaseViewController {
                 }
                 
                 cell.configure(with: ContinueWatchMovie)
+                cell.setNeedsLayout()
+                cell.layoutIfNeeded()
                 
                 return cell
             case .genres(let genres):
@@ -201,6 +203,8 @@ final class HomeViewController: BaseViewController {
                 }
                 
                 cell.configure(with: categoryMovieItem)
+                cell.setNeedsLayout()
+                cell.layoutIfNeeded()
                 
                 return cell
             }
@@ -221,7 +225,7 @@ final class HomeViewController: BaseViewController {
             case .popular:
                 header.configure(title: "Танымал")
             case .continueWatching:
-                header.configure(title: "Көруді жалғастырыңыз")
+                header.configure(title: "Көруды жалғастырыңыз")
             case .genres:
                 header.configure(title: "Жанрды таңдаңыз")
             case .ages:
@@ -249,6 +253,7 @@ final class HomeViewController: BaseViewController {
         }
         
         snapshot.appendItems(items, toSection: section)
+        
         dataSource.apply(snapshot, animatingDifferences: true)
     }
     

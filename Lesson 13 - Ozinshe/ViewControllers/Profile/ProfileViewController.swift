@@ -96,11 +96,11 @@ final class ProfileViewController: BaseViewController, ProfileInfoViewController
         profileInfoButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.top.equalToSuperview().offset(20)
-            make.trailing.equalTo(profileTextLabel.snp.leading)
+            make.trailing.equalToSuperview().inset(24)
         }
         
         profileTextLabel.snp.makeConstraints { make in
-            make.leading.equalTo(profileInfoButton.snp.trailing).offset(145)
+            make.trailing.equalTo(profileButtonSymbolImage.snp.leading).offset(-8)
             make.centerY.equalTo(profileInfoButton)
         }
         
@@ -137,7 +137,7 @@ final class ProfileViewController: BaseViewController, ProfileInfoViewController
         changePasswordButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.top.equalTo(profileInfoView).offset(20)
-            make.trailing.equalTo(changePasswordSymbolImage.snp.leading)
+            make.trailing.equalToSuperview().inset(24)
         }
         
         changePasswordSymbolImage.snp.makeConstraints { make in
@@ -190,16 +190,16 @@ final class ProfileViewController: BaseViewController, ProfileInfoViewController
         changeLanguageButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(24)
             make.top.equalTo(changePasswordView.snp.bottom).offset(20)
-            make.trailing.equalTo(changeLanguageLabel.snp.leading)
+            make.trailing.equalToSuperview().inset(24)
         }
         
         changeLanguageLabel.snp.makeConstraints { make in
-            make.leading.equalTo(changeLanguageButton.snp.trailing).offset(145)
+            make.trailing.equalTo(changeLanguageSymbolImage.snp.leading).offset(-8)
             make.centerY.equalTo(changeLanguageButton)
         }
         
         changeLanguageSymbolImage.snp.makeConstraints { make in
-            make.leading.equalTo(changeLanguageLabel.snp.trailing).offset(8)
+//            make.leading.equalTo(changeLanguageButton.snp.trailing)
             make.height.width.equalTo(16)
             make.trailing.equalToSuperview().inset(24)
             make.centerY.equalTo(changeLanguageLabel)
