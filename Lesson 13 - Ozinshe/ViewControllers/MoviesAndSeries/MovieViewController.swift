@@ -681,6 +681,7 @@ final class MovieViewController: UIViewController {
         } else if movie?.movieType == "SERIAL" {
             VC.videoID = movieSeasonsAndSeries.first?.videos.first?.link ?? ""
         }
+        VC.movieId = movie?.id ?? 0
         VC.modalPresentationStyle = .fullScreen
         VC.modalTransitionStyle = .crossDissolve
         

@@ -22,6 +22,7 @@ enum ResponseURL: String {
     case getMoviesMainByCategory = "core/V1/movies/main"
     case getMoviesMainPopular = "core/V1/movies_main"
     case getUserWatchHistory = "core/V1/history/userHistory"
+    case addToHistory = "core/V1/history"
     case getAllGenres = "core/V1/genres"
     case showResource = "core/public/V1/show/"
     case getCategoryAges = "core/V1/category-ages"
@@ -303,6 +304,24 @@ final class NetworkManager: Sendable {
         
         AF.request(url, method: .get, headers: headers).validate().responseDecodable(of: [Season].self) { response in
             completion(response.result)
+        }
+    }
+    
+    func addToHistoryBy(id number: Int, completion: @escaping (AFError?) -> Void) {
+        let parameters: [String: Int] = ["movieId": number]
+//        let url = baseURL + ResponseURL.addToHistory.rawValue + "?authenticated=true"
+        let url = baseURL + ResponseURL.addToHistory.rawValue
+        let headers: HTTPHeaders = ["Authorization": "Bearer \(ProfileStorage.shared.accessToken)"]
+        
+        AF.request(
+            url,
+            method: .post,
+            parameters: parameters,
+            encoding: JSONEncoding.default,
+            headers: headers
+        ).validate().response { response in
+            debugPrint(response)
+            completion(response.error)
         }
     }
 }

@@ -12,7 +12,10 @@ import YouTubeiOSPlayerHelper
 class PlayerViewController: UIViewController {
 
     var videoID: String = ""
+    var movieId: Int = 0
   
+    let networkManager = NetworkManager.shared
+    
     lazy var webView = {
         let view = YTPlayerView()
         
@@ -46,6 +49,7 @@ class PlayerViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         loadYoutubeVideo()
+        addToHistory()
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -61,7 +65,7 @@ class PlayerViewController: UIViewController {
     }
     
     private func setupUI() {
-        view.backgroundColor = .black
+        view.backgroundColor = .clear
         
         view.addSubviews(webView, closeButton, activityIndicator)
         
@@ -84,13 +88,24 @@ class PlayerViewController: UIViewController {
     
     private func loadYoutubeVideo() {
         let vars: [String: Any] = [
-            "playsinline": 1,
+            "playsinline": 0,
             "autoplay": 1,
             "modestbranding": 1,
-            "rel": 1
+            "rel": 1,
+            "fullscreen": 1
         ]
         
         webView.load(withVideoId: videoID, playerVars: vars)
+    }
+    
+    private func addToHistory() {
+        networkManager.addToHistoryBy(id: movieId) { error in
+            print(self.movieId)
+            if let error {
+                print(error.localizedDescription)
+                return
+            }
+        }
     }
     
     @objc private func closePlayer() {

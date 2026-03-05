@@ -66,6 +66,11 @@ final class HomeViewController: BaseViewController {
         getMainMoviesByCategory()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        getContinueWatchMovies()
+    }
+    
     private func setupUI() {
         view.backgroundColor = UIColor(named: "FFFFFF")
         
@@ -470,7 +475,7 @@ final class HomeViewController: BaseViewController {
             
             switch result {
             case .success(let values):
-                let items = values.map { Collectionitems.continueWatching($0) }
+                let items = values.prefix(5).map { Collectionitems.continueWatching($0)}
                 applySnapshot(for: .continueWatching, items: items)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -521,7 +526,7 @@ final class HomeViewController: BaseViewController {
                         activeSections.insert(section, at: index + 1)
                     }
                     snapshot.insertSections([section], afterSection: .continueWatching)
-                    let items = categoriesMovie[0].movies.map{ Collectionitems.mainCategoryItem($0) }
+                    let items = categoriesMovie[0].movies.prefix(5).map{ Collectionitems.mainCategoryItem($0) }
                     snapshot.appendItems(items, toSection: section)
                 }
                 
@@ -531,7 +536,7 @@ final class HomeViewController: BaseViewController {
                         activeSections.insert(section, at: index + 1)
                     }
                     snapshot.insertSections([section], afterSection: .genres)
-                    let items = categoriesMovie[1].movies.map{ Collectionitems.mainCategoryItem($0) }
+                    let items = categoriesMovie[1].movies.prefix(5).map{ Collectionitems.mainCategoryItem($0) }
                     snapshot.appendItems(items, toSection: section)
                 }
                 
@@ -541,7 +546,7 @@ final class HomeViewController: BaseViewController {
                         activeSections.insert(section, at: index + 1)
                     }
                     snapshot.insertSections([section], afterSection: .ages)
-                    let items = categoriesMovie[2].movies.map{ Collectionitems.mainCategoryItem($0) }
+                    let items = categoriesMovie[2].movies.prefix(5).map{ Collectionitems.mainCategoryItem($0) }
                     snapshot.appendItems(items, toSection: section)
                 }
                 

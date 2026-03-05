@@ -179,6 +179,7 @@ extension SerialSeriesViewController: UICollectionViewDelegate {
         case .series(let series):
             let VC = PlayerViewController()
             VC.videoID = series.link
+            VC.movieId = movieSeasonsAndSeries[indexPath.row].movieId
             VC.modalPresentationStyle = .fullScreen
             VC.modalTransitionStyle = .crossDissolve
             

@@ -28,6 +28,7 @@ final class SearchViewController: BaseViewController {
         textField.backgroundColor = UIColor(named: "TextFields")
         textField.padding = UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14)
         textField.delegate = self
+        textField.addTarget(self, action: #selector(searchMovies), for: .editingChanged)
         
         return textField
     }()
