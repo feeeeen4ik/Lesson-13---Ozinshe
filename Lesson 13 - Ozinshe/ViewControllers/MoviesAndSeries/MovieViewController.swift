@@ -8,8 +8,9 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import Localize_Swift
 
-final class MovieViewController: UIViewController {
+final class MovieViewController: BaseViewController {
     
     var movie: Movie?
     
@@ -69,7 +70,7 @@ final class MovieViewController: UIViewController {
     lazy var addFavoriteLabel = {
         let label = UILabel()
         
-        label.text = "Тізімге қосу"
+        label.text = "addToFavoriteLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Medium", size: 12)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -102,7 +103,7 @@ final class MovieViewController: UIViewController {
     lazy var shareLabel = {
         let label = UILabel()
         
-        label.text = "Бөлісу"
+        label.text = "shareLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Medium", size: 12)
         label.textColor = UIColor(named: "9CA3AF")
         
@@ -233,7 +234,7 @@ final class MovieViewController: UIViewController {
     lazy var moreDescriptionButton = {
         let button = UIButton()
         
-        button.setTitle("Толығырақ", for: .normal)
+        button.setTitle("showMoreButton".localized(), for: .normal)
         button.setTitleColor(UIColor(named: "B376F7"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 14)
         button.backgroundColor = .clear
@@ -245,7 +246,7 @@ final class MovieViewController: UIViewController {
     lazy var directorLabel = {
         let label = UILabel()
         
-        label.text = "Режиссер:"
+        label.text = "\("directorLabel".localized()):"
         label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
         label.textColor = UIColor(named: "4B5563")
         
@@ -277,7 +278,7 @@ final class MovieViewController: UIViewController {
     lazy var producerLabel = {
         let label = UILabel()
         
-        label.text = "Продюсер:"
+        label.text = "\("producerLabel".localized()):"
         label.font = UIFont(name: "SFProDisplay-Regular", size: 14)
         label.textColor = UIColor(named: "4B5563")
         
@@ -309,7 +310,7 @@ final class MovieViewController: UIViewController {
     lazy var sectionsButton = {
         let button = UIButton()
         
-        button.setTitle("Бөлімдер", for: .normal)
+        button.setTitle("sectionLabel".localized(), for: .normal)
         button.setTitleColor(UIColor(named: "111827"), for: .normal)
         button.titleLabel?.font = UIFont(name: "SFProDisplay-Medium", size: 16)
         button.contentHorizontalAlignment = .left
@@ -369,7 +370,7 @@ final class MovieViewController: UIViewController {
     lazy var screenshotsLabel = {
         let label = UILabel()
         
-        label.text = "Скриншоттар"
+        label.text = "screenshotsLabel".localized()
         label.font = UIFont(name: "SFProDisplay-Bold", size: 16)
         label.textColor = UIColor(named: "111827")
         label.textAlignment = .left
@@ -642,6 +643,7 @@ final class MovieViewController: UIViewController {
             fullMovieDescriptionLabel.numberOfLines = 0
             movieDescriptionView.layer.mask = nil
             movieDescriptionView.setMaskEnabled(false)
+            moreDescriptionButton.setTitle("showLessButton".localized(), for: .normal)
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
             }
@@ -649,6 +651,7 @@ final class MovieViewController: UIViewController {
             fullMovieDescriptionLabel.numberOfLines = 5
             movieDescriptionView.layer.mask = gradientLayerForMovieDescription
             movieDescriptionView.setMaskEnabled(true)
+            moreDescriptionButton.setTitle("showMoreButton".localized(), for: .normal)
             UIView.animate(withDuration: 0.1) {
                 self.view.layoutIfNeeded()
             }
@@ -691,6 +694,17 @@ final class MovieViewController: UIViewController {
     @objc private func shareButtonTapped() {
         shareMovie(title: movie?.name ?? "", link: movie?.video?.link ?? "")
     }
+    
+    override func updateLanguage() {
+        addFavoriteLabel.text = "addToFavoriteLabel".localized()
+        shareLabel.text = "shareLabel".localized()
+        moreDescriptionButton.setTitle("showMoreButton".localized(), for: .normal)
+        directorLabel.text = "directorLabel".localized()
+        producerLabel.text = "producerLabel".localized()
+        sectionsButton.setTitle("sectionLabel".localized(), for: .normal)
+        screenshotsLabel.text = "screenshotsLabel".localized()
+        
+    }
 }
 
 
@@ -711,6 +725,8 @@ extension MovieViewController: UICollectionViewDataSource, UICollectionViewDeleg
         return cell
     }
 }
+
+
 
 extension MovieViewController: UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {

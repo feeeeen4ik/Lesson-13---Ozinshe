@@ -76,3 +76,13 @@
 "regPasswordIsDifferentMassage" = "Please enter the same password in both fields";
 "passwordsTextFieldsNotEqual" = "Passwords do not match";
 "oneOfpassTextFieldsisEmpty" = "One of the password fields is empty";
+
+//movieVC
+"showMoreButton" = "Show more";
+"showLessButton" = "Hide";
+"directorLabel" = "Director";
+"producerLabel" = "Producer";
+"sectionLabel" = "Series";
+"screenshotsLabel" = "Screenshots";
+"addToFavoriteLabel" = "Favorite";
+"shareLabel" = "Share";

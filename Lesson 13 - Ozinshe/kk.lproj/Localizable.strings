@@ -77,3 +77,13 @@
 "regPasswordIsDifferentMassage" = "Екі өріске де бірдей құпиясөз енгізіңіз";
 "passwordsTextFieldsNotEqual" = "Құпиясөздер сәйкес келмейді";
 "oneOfpassTextFieldsisEmpty" = "Құпиясөз өрістерінің біреуі бос";
+
+//movieVC
+"showMoreButton" = "Толығырақ";
+"showLessButton" = "Жию";
+"directorLabel" = "Режиссер";
+"producerLabel" = "Продюсер";
+"sectionLabel" = "Бөлімдер";
+"screenshotsLabel" = "Скриншоттар";
+"addToFavoriteLabel" = "Тізімге қосу";
+"shareLabel" = "Бөлісу";

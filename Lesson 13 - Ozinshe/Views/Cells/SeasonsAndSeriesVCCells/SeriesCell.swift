@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class SeriesCell: UICollectionViewCell {
     
@@ -73,7 +74,32 @@ class SeriesCell: UICollectionViewCell {
         }
     }
     
-    func configureWith(seasonNumber: Int)  {
+    func configureWith(seasonNumber: Int, movieImageId: String)  {
         seriesTitleLabel.text = "\(seasonNumber) серия"
+        
+        let pictureURL = URL(string: "https://img.youtube.com/vi/\(movieImageId)/maxresdefault.jpg")
+        let processor = DownsamplingImageProcessor(
+            size: pictureImageView.bounds.size
+        )
+        pictureImageView.kf.indicatorType = .activity
+        pictureImageView.kf
+            .setImage(
+                with: pictureURL,
+                options: [
+                    .processor(processor),
+                    .transition(.fade(1)),
+                    .cacheOriginalImage
+                ]
+            ) { [weak self] result in
+                guard let self else { return }
+                
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    pictureImageView.image = UIImage(named: "ImageNotFound")
+                }
+                
+            }
     }
 }

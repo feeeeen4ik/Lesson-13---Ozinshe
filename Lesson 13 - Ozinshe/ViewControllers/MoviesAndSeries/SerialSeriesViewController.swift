@@ -80,7 +80,7 @@ final class SerialSeriesViewController: BaseViewController {
                     withReuseIdentifier: SeriesCell.reuseIdentifier,
                     for: indexPath
                 ) as! SeriesCell
-                cell.configureWith(seasonNumber: series.number)
+                cell.configureWith(seasonNumber: series.number, movieImageId: series.link)
                 
                 return cell
             }
@@ -137,12 +137,7 @@ final class SerialSeriesViewController: BaseViewController {
         mainCollectionView.backgroundColor = .clear
         mainCollectionView.delegate = self
         
-        mainCollectionView
-            .register(
-                SeasonCell.self,
-                forCellWithReuseIdentifier: SeasonCell.reuseIdentifier
-            )
-        
+        mainCollectionView.register(SeasonCell.self,forCellWithReuseIdentifier: SeasonCell.reuseIdentifier)
         mainCollectionView.register(SeriesCell.self, forCellWithReuseIdentifier: SeriesCell.reuseIdentifier)
     }
     

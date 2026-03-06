@@ -76,3 +76,13 @@
 "regPasswordIsDifferentMassage" = "Введите одинаковые пароли в оба поля";
 "passwordsTextFieldsNotEqual" = "Пароли не совпадают";
 "oneOfpassTextFieldsisEmpty" = "Одно из полей пароля пустое";
+
+//movieVC
+"showMoreButton" = "Развернуть";
+"showLessButton" = "Свернуть";
+"directorLabel" = "Режиссер";
+"producerLabel" = "Продюсер";
+"sectionLabel" = "Серии";
+"screenshotsLabel" = "Скриншоты";
+"addToFavoriteLabel" = "Избранное";
+"shareLabel" = "Поделиться";

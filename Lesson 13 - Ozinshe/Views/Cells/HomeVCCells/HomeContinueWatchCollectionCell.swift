@@ -62,6 +62,7 @@ class HomeContinueWatchCollectionCell: UICollectionViewCell {
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
+            make.height.equalTo(100)
         }
         
         movieNameLabel.snp.makeConstraints { make in
