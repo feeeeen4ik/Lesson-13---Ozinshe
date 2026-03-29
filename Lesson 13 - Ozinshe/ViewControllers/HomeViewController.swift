@@ -237,7 +237,15 @@ final class HomeViewController: BaseViewController {
                 header.configure(title: "Жасына сәйкес")
             case .mainCategoryItem(let id):
                 let name = mainCategoryItems.first(where: {$0.categoryId == id})?.categoryName ?? ""
-                header.configure(title: name)
+                header.configure(title: name, isButtonHiden: false)
+                
+                header.tapHandler = {
+                    let VC = MoviesByCategoryViewController()
+                    let categoryMovie = Categorie(id: id, name: "", fileId: 0, link: "", movieCount: 0)
+                    VC.movieCategory = categoryMovie
+                    VC.title = name
+                    self.navigationController?.pushViewController(VC, animated: true)
+                }
             }
             
             return header

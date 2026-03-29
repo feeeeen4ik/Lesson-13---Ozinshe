@@ -113,7 +113,7 @@ final class SerialSeriesViewController: BaseViewController {
             case .series:
                 let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
                 let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                item.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0)
+                item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 64, trailing: 0)
                 
                 let groupSize = NSCollectionLayoutSize(
                     widthDimension: .absolute(327),
@@ -174,7 +174,7 @@ extension SerialSeriesViewController: UICollectionViewDelegate {
         case .series(let series):
             let VC = PlayerViewController()
             VC.videoID = series.link
-            VC.movieId = movieSeasonsAndSeries[indexPath.row].movieId
+            VC.movieId = movieSeasonsAndSeries[selectedSeasonIndex].videos[indexPath.row].id
             VC.modalPresentationStyle = .fullScreen
             VC.modalTransitionStyle = .crossDissolve
             

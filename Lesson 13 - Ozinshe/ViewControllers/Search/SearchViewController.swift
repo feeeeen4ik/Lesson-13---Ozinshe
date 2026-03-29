@@ -59,6 +59,13 @@ final class SearchViewController: BaseViewController {
         
         searchTextField.snp.makeConstraints { make in
             make.height.equalTo(56)
+            make.width.equalTo(280)
+            make.leading.equalToSuperview()
+        }
+        
+        searchButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.leading.equalTo(searchTextField.snp.trailing).offset(16)
         }
         
         return stackView
@@ -253,9 +260,7 @@ final class SearchViewController: BaseViewController {
 }
 
 
-
-
-
+//MARK: Extensions
 extension SearchViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

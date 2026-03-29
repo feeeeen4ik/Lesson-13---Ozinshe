@@ -18,7 +18,7 @@ class SeriesCell: UICollectionViewCell {
         
         image.layer.cornerRadius = 16
         image.clipsToBounds = true
-        image.contentMode = .scaleAspectFit
+        image.contentMode = .scaleAspectFill
         image.image = UIImage(named: "ImageNotFound")
         
         return image

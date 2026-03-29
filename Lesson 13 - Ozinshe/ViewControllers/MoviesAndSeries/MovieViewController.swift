@@ -13,12 +13,19 @@ import Localize_Swift
 final class MovieViewController: BaseViewController {
     
     var movie: Movie?
+    var isFavorite: Bool = false {
+        didSet {
+            let imageName = isFavorite ? "addToFavoritButtonTupped" : "addToFavoriteButton"
+            addToFavoriteButton.setImage(UIImage(named: imageName), for: .normal)
+        }
+    }
     
     private let gradientLayerForTopButtons = CAGradientLayer()
     private let gradientLayerForMovieDescription = CAGradientLayer()
     private let baseURLForImage = NetworkManager.baseURLForImage
     private let networkManager = NetworkManager.shared
     private var movieSeasonsAndSeries: [Season] = []
+    
     
     lazy var scrollView = {
         let scrollView = UIScrollView()
@@ -574,7 +581,8 @@ final class MovieViewController: BaseViewController {
         }
         
         if movie?.favorite == true {
-            addToFavoriteButton.setImage(UIImage(named: "addToFavoritButtonTupped"), for: .normal)
+//            addToFavoriteButton.setImage(UIImage(named: "addToFavoritButtonTupped"), for: .normal)
+            isFavorite = true
         }
     }
     
@@ -659,13 +667,26 @@ final class MovieViewController: BaseViewController {
     }
     
     @objc private func addToFavorite() {
-        networkManager.addToFavoriteBy(id: movie!.id) { [ weak self ] error in
-            guard let self else { return }
-            if let error {
-                print(error.localizedDescription)
-                return
+        if isFavorite {
+            networkManager.deleteFavoriteBy(id: movie!.id) { [weak self] error in
+                guard let self else { return }
+                if let error {
+                    print(error.localizedDescription)
+                    return
+                }
+
+                isFavorite.toggle()
             }
-            addToFavoriteButton.setImage(UIImage(named: "addToFavoritButtonTupped"), for: .normal)
+        } else {
+            networkManager.addToFavoriteBy(id: movie!.id) { [ weak self ] error in
+                guard let self else { return }
+                if let error {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                isFavorite.toggle()
+            }
         }
     }
 

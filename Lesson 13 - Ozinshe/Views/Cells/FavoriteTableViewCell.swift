@@ -16,7 +16,7 @@ final class FavoriteTableViewCell: UITableViewCell {
     
     lazy var pictureImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
         
@@ -127,7 +127,6 @@ final class FavoriteTableViewCell: UITableViewCell {
         
         pictureImageView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().inset(280)
             make.height.equalTo(104)
             make.width.equalTo(71)
         }
@@ -147,7 +146,6 @@ final class FavoriteTableViewCell: UITableViewCell {
         playView.snp.makeConstraints { make in
             make.leading.equalTo(pictureImageView.snp.trailing).offset(17)
             make.top.equalTo(subtitleLable.snp.bottom).offset(24)
-            make.trailing.equalToSuperview().inset(182)
         }
         
         bottomView.snp.makeConstraints { make in
